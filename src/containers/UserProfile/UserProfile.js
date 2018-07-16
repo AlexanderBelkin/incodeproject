@@ -23,7 +23,11 @@ class UserProfile extends Component {
     } = this.props;
 
     if (userLoading) {
-      return <CircularProgress size={50} />;
+      return (
+        <div style={{ margin: '100px auto', textAlign: 'center' }}>
+          <CircularProgress size={50} />
+        </div>
+      );
     }
 
     return !isEditing ? (
@@ -31,7 +35,7 @@ class UserProfile extends Component {
     ) : (
       <ProfileEdit
         user={user}
-        onEditSuccess={onEditSuccess}
+        onEditSuccess={user => onEditSuccess(user)}
         onEditCancel={onEditCancel}
       />
     );
@@ -47,7 +51,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onFetchUser: () => dispatch(actions.fetchUser()),
   onEditUser: () => dispatch(actions.editUser()),
-  onEditSuccess: () => dispatch(actions.editUserSuccess()),
+  onEditSuccess: user => dispatch(actions.editUserSuccess(user)),
   onEditCancel: () => dispatch(actions.editUserCancel()),
 });
 

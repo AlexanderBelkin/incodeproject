@@ -31,8 +31,9 @@ export const editUser = () => ({
   type: actionTypes.EDIT_USER,
 });
 
-export const editUserSuccess = () => ({
+export const editUserSuccess = user => ({
   type: actionTypes.EDIT_USER_SUCCESS,
+  user,
 });
 
 export const editUserCancel = () => ({
