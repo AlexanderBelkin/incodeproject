@@ -1,6 +1,14 @@
-import React from 'react';
-import UserProfile from './containers/UserProfile/UserProfile';
+import React, { Fragment } from 'react';
+import { Route } from 'react-router-dom';
 
-const App = () => <UserProfile />;
+import UserProfile from './containers/UserProfile/UserProfile';
+import Header from './components/Header/Header';
+
+const App = () => (
+  <Fragment>
+    <Header />
+    <Route path="/profile" component={UserProfile} />
+  </Fragment>
+);
 
 export default App;
