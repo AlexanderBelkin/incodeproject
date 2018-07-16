@@ -1,0 +1,7 @@
+{
+  "id": "0",
+  "name": "John Doe",
+  "email": "email@gmail.com",
+  "birthDate": "07-07-1990",
+  "skills": ["HTML", "CSS", "Javascript", "React"]
+}
