@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { CircularProgress } from '@material-ui/core';
 
 import * as actions from '../../store/actions/index';
-import TaskView from '../../components/Tasks/TaskView';
+import TasksView from '../../components/Tasks/TasksView';
 
 class Tasks extends Component {
   componentDidMount = () => {
@@ -18,7 +18,7 @@ class Tasks extends Component {
       item.status = newStatus;
     }
     onChangeTaskStatus(tasks);
-    this.forceUpdate(); // Normalin?
+    this.forceUpdate(); // TODO: исправить, когда будет бекэнд
   };
 
   render() {
@@ -33,7 +33,7 @@ class Tasks extends Component {
     }
 
     return (
-      <TaskView
+      <TasksView
         onTaskStatusChange={(taskId, newStatus) =>
           this.handleTaskStatusChange(taskId, newStatus)
         }

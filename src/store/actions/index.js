@@ -1,3 +1,3 @@
 export { fetchUser, editUser, editUserCancel, editUserSuccess } from './user';
-export { fetchTasks, changeTaskStatus } from './tasks';
+export { fetchTasks, changeTaskStatus, setCurrentTask } from './tasks';
 export { auth } from './auth';

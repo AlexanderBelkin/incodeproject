@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   tasks: [],
   loading: false,
+  currentTask: {},
 };
 
 const fetchTasksStart = state => ({
@@ -26,6 +27,11 @@ const changeTaskStatus = (state, action) => ({
   tasks: action.tasks,
 });
 
+const setCurrentTask = (state, action) => ({
+  ...state,
+  currentTask: action.currentTask,
+});
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_TASKS_START: {
@@ -39,6 +45,9 @@ const reducer = (state = initialState, action) => {
     }
     case actionTypes.CHANGE_TASK_STATUS: {
       return changeTaskStatus(state, action);
+    }
+    case actionTypes.SET_CURRENT_TASK: {
+      return setCurrentTask(state, action);
     }
     default:
       return state;

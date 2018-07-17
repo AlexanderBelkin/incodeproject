@@ -27,7 +27,23 @@ export const fetchTasks = () => dispatch => {
     });
 };
 
+export const changeTaskStatusSuccess = tasks => ({
+  type: actionTypes.CHANGE_TASK_STATUS_SUCCESS,
+  tasks,
+});
+
+export const changeTaskStatusFail = error => ({
+  type: actionTypes.CHANGE_TASK_STATUS_SUCCESS,
+  error,
+});
+
+// TODO
 export const changeTaskStatus = tasks => ({
   type: actionTypes.CHANGE_TASK_STATUS,
   tasks,
+});
+
+export const setCurrentTask = currentTask => ({
+  type: actionTypes.SET_CURRENT_TASK,
+  currentTask,
 });
