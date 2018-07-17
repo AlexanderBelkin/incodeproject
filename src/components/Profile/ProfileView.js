@@ -25,6 +25,7 @@ const style = {
     zIndex: '100',
   },
 };
+const reformat = skills => (skills ? skills.join(', ') : '');
 
 const ProfileView = ({ classes, onEditUser, user }) => (
   <Card className={classes.card}>
@@ -58,7 +59,7 @@ const ProfileView = ({ classes, onEditUser, user }) => (
             <School />
           </ListItemIcon>
           <ListItemText
-            primary={user.skills} // TODO: не работает join
+            primary={reformat(user.skills)} // TODO: не работает join
             secondary="List of skills"
           />
         </ListItem>

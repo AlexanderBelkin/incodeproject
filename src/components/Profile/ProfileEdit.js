@@ -1,5 +1,7 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
+import isEmail from 'isemail';
+import { connect } from 'react-redux';
 import {
   Card,
   CardContent,
@@ -19,7 +21,6 @@ import {
 } from '@material-ui/icons';
 
 import Input from '../form/Input';
-import { validateProfile } from '../../utils/validateProfile';
 
 const style = {
   card: {
@@ -33,6 +34,30 @@ const style = {
     right: '10px',
     zIndex: '100',
   },
+};
+
+const birthMask = /\d{2}-\d{2}-\d{4}/;
+
+const validateProfile = ({ name, email, birthDate }) => {
+  const errors = {};
+
+  if (!name) {
+    errors.name = 'Name is required';
+  }
+
+  if (!email) {
+    errors.email = 'Email is required';
+  } else if (!isEmail.validate(email)) {
+    errors.email = 'Please, write your email properly.';
+  }
+
+  if (!birthDate) {
+    errors.birthDate = 'Please, provide your date of birth';
+  } else if (!birthMask.test(birthDate)) {
+    errors.birthDate = 'Please, write your date of birth properly';
+  }
+
+  return errors;
 };
 
 const ProfileEdit = ({
@@ -84,6 +109,15 @@ const ProfileEdit = ({
               Icon={DateRange}
             />
           </ListItem>
+          <ListItem>
+            <Field
+              name="skills"
+              value={user.skills ? user.skills.join(', ') : ''}
+              component={Input}
+              label="Enter your skills"
+              Icon={School}
+            />
+          </ListItem>
         </List>
       </CardContent>
     </form>
@@ -94,7 +128,19 @@ ProfileEdit.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default reduxForm({
-  form: 'editProfile',
-  validate: validateProfile,
-})(withStyles(style)(ProfileEdit));
+const mapStateToProps = (state, ownProps) => ({
+  initialValues: {
+    name: ownProps.user.name,
+    email: ownProps.user.email,
+    birthDate: ownProps.user.birthDate,
+    skills: ownProps.user.skills ? ownProps.user.skills.join(', ') : '',
+  },
+});
+
+export default connect(mapStateToProps)(
+  reduxForm({
+    form: 'editProfile',
+    enableReinitialize: true,
+    validate: validateProfile,
+  })(withStyles(style)(ProfileEdit)),
+);

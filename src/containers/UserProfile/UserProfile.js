@@ -1,3 +1,5 @@
+/* eslint no-param-reassign: ["error", { "props": false }] */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CircularProgress } from '@material-ui/core';
@@ -12,13 +14,22 @@ class UserProfile extends Component {
     onFetchUser();
   };
 
+  handleEditSuccess = editedUser => {
+    const { onEditSuccess, user } = this.props;
+
+    editedUser.id = user.id;
+
+    editedUser.skills = editedUser.skills.split(', ');
+
+    onEditSuccess(editedUser);
+  };
+
   render() {
     const {
       user,
       userLoading,
       isEditing,
       onEditUser,
-      onEditSuccess,
       onEditCancel,
     } = this.props;
 
@@ -35,7 +46,7 @@ class UserProfile extends Component {
     ) : (
       <ProfileEdit
         user={user}
-        onEditSuccess={user => onEditSuccess(user)}
+        onEditSuccess={editedUser => this.handleEditSuccess(editedUser)}
         onEditCancel={onEditCancel}
       />
     );
