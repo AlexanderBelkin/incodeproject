@@ -8,9 +8,23 @@ import {
   withStyles,
   Button,
 } from '@material-ui/core';
-import AccountIcon from '@material-ui/icons/AccountCircle';
+import { Person, List } from '@material-ui/icons';
 
-import styles from './styles';
+const style = {
+  toolbar: {
+    display: 'flex',
+  },
+  brand: {
+    flexGrow: 1,
+    textDecoration: 'none',
+  },
+  title: {
+    color: '#fff',
+  },
+  linkBtn: {
+    color: '#fff',
+  },
+};
 
 const Header = ({ classes }) => (
   <div>
@@ -25,7 +39,12 @@ const Header = ({ classes }) => (
         </Link>
         <Link to="/profile">
           <IconButton>
-            <AccountIcon className={classes.profileBtn} />
+            <Person className={classes.linkBtn} />
+          </IconButton>
+        </Link>
+        <Link to="/tasks">
+          <IconButton>
+            <List className={classes.linkBtn} />
           </IconButton>
         </Link>
       </Toolbar>
@@ -33,4 +52,4 @@ const Header = ({ classes }) => (
   </div>
 );
 
-export default withStyles(styles)(Header);
+export default withStyles(style)(Header);
