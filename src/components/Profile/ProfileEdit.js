@@ -10,7 +10,6 @@ import {
   List,
   withStyles,
 } from '@material-ui/core';
-import PropTypes from 'prop-types';
 import {
   Mail,
   Person,
@@ -123,10 +122,6 @@ const ProfileEdit = ({
     </form>
   </Card>
 );
-
-ProfileEdit.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = (state, ownProps) => ({
   initialValues: {

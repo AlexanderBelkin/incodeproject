@@ -9,7 +9,6 @@ import {
   ListItemText,
   withStyles,
 } from '@material-ui/core';
-import PropTypes from 'prop-types';
 import { Mail, Edit, Person, DateRange, School } from '@material-ui/icons';
 
 const style = {
@@ -25,6 +24,7 @@ const style = {
     zIndex: '100',
   },
 };
+
 const reformat = skills => (skills ? skills.join(', ') : '');
 
 const ProfileView = ({ classes, onEditUser, user }) => (
@@ -67,9 +67,5 @@ const ProfileView = ({ classes, onEditUser, user }) => (
     </CardContent>
   </Card>
 );
-
-ProfileView.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(style)(ProfileView);
