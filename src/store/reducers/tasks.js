@@ -21,6 +21,11 @@ const fetchTasksSuccess = (state, action) => ({
   tasks: action.tasks,
 });
 
+const changeTaskStatus = (state, action) => ({
+  ...state,
+  tasks: action.tasks,
+});
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_TASKS_START: {
@@ -31,6 +36,9 @@ const reducer = (state = initialState, action) => {
     }
     case actionTypes.FETCH_TASKS_FAIL: {
       return fetchTasksFail(state, action);
+    }
+    case actionTypes.CHANGE_TASK_STATUS: {
+      return changeTaskStatus(state, action);
     }
     default:
       return state;

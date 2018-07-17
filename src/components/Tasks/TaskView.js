@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   Card,
   CardContent,
@@ -29,23 +30,7 @@ const style = {
 
 const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
-const typeColor = type => {
-  switch (type) {
-    case 'To Do':
-      return 'default';
-    case 'In Progress':
-      return 'primary';
-    case 'Peer Review':
-      return 'secondary';
-    case 'Done':
-      return 'default';
-
-    default:
-      return null;
-  }
-};
-
-const TaskView = ({ tasks, classes }) => (
+const TaskView = ({ classes, tasks, isAdmin, onTaskStatusChange }) => (
   <Grid container justify="center" className={classes.container}>
     <Grid item xs={12}>
       <Typography color="primary" variant="headline" className={classes.header}>
@@ -57,13 +42,17 @@ const TaskView = ({ tasks, classes }) => (
         <Card key={task.id} className={classes.card}>
           <CardContent>
             <Typography variant="title">{task.title}</Typography>
-            <Typography variant="subheading">{task.description}</Typography>
+            <Typography variant="subheading">
+              {task.description.length > 100
+                ? `${task.description.slice(0, 100)}...`
+                : task.description}
+            </Typography>
             <CardActions>
               {statusTypes.map(type => (
                 <Button
-                  disabled
+                  disabled={!isAdmin}
+                  onClick={() => onTaskStatusChange(task.id, type)}
                   variant={type === task.status ? 'contained' : 'text'}
-                  color={typeColor(type)}
                   key={type}>
                   {type}
                 </Button>
@@ -76,4 +65,8 @@ const TaskView = ({ tasks, classes }) => (
   </Grid>
 );
 
-export default withStyles(style)(TaskView);
+const mapStateToProps = state => ({
+  isAdmin: state.auth.isAdmin,
+});
+
+export default connect(mapStateToProps)(withStyles(style)(TaskView));

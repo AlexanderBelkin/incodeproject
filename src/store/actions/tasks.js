@@ -26,3 +26,8 @@ export const fetchTasks = () => dispatch => {
       dispatch(fetchTasksFail(error));
     });
 };
+
+export const changeTaskStatus = tasks => ({
+  type: actionTypes.CHANGE_TASK_STATUS,
+  tasks,
+});

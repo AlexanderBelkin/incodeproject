@@ -11,6 +11,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import userReducer from './store/reducers/user';
 import tasksReducer from './store/reducers/tasks';
+import authReducer from './store/reducers/auth';
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers =
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   form: formReducer,
   tasks: tasksReducer,
+  auth: authReducer,
 });
 
 const store = createStore(

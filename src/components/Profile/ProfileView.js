@@ -24,6 +24,7 @@ const style = {
     zIndex: '100',
   },
 };
+
 const reformat = skills => (skills ? skills.join(', ') : '');
 
 const ProfileView = ({ classes, onEditUser, user }) => (
