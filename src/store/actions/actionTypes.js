@@ -1,0 +1,7 @@
+export const FETCH_USER_START = 'FETCH_USER_START';
+export const FETCH_USER_FAIL = 'FETCH_USER_FAIL';
+export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
+export const FETCH_USER = 'FETCH_USER';
+export const EDIT_USER = 'EDIT_USER';
+export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';
+export const EDIT_USER_CANCEL = 'EDIT_USER_CANCEL';

@@ -1,21 +1,14 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment } from 'react';
+import { Route } from 'react-router-dom';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+import UserProfile from './containers/UserProfile/UserProfile';
+import Header from './components/Header/Header';
+
+const App = () => (
+  <Fragment>
+    <Header />
+    <Route path="/profile" component={UserProfile} />
+  </Fragment>
+);
 
 export default App;
