@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import UserProfile from './containers/UserProfile/UserProfile';
 import Header from './components/Header/Header';
 import Tasks from './containers/Tasks/Tasks';
+import TaskDetailed from './containers/TaskDetailed/TaskDetailed';
 import * as actions from './store/actions/index';
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
         <Switch>
           <Route path="/profile" component={UserProfile} />
           <Route path="/tasks" component={Tasks} />
+          <Route path="/task/:id" component={TaskDetailed} />
         </Switch>
       </Fragment>
     );

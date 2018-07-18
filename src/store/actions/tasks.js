@@ -27,7 +27,13 @@ export const fetchTasks = () => dispatch => {
     });
 };
 
-export const changeTaskStatus = tasks => ({
+export const changeTaskStatus = (taskId, newStatus) => ({
   type: actionTypes.CHANGE_TASK_STATUS,
-  tasks,
+  taskId,
+  newStatus,
+});
+
+export const setCurrentTask = currentTask => ({
+  type: actionTypes.SET_CURRENT_TASK,
+  currentTask,
 });
