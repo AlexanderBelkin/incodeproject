@@ -13,6 +13,7 @@ import userReducer from './store/reducers/user';
 import tasksReducer from './store/reducers/tasks';
 import authReducer from './store/reducers/auth';
 import usersReducer from './store/reducers/users';
+import chatReducer from './store/reducers/chat';
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers =
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   form: formReducer,
   tasks: tasksReducer,
   auth: authReducer,
+  chat: chatReducer,
 });
 
 const store = createStore(

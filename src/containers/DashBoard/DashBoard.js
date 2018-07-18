@@ -1,9 +1,19 @@
-import React, { Component } from 'react';
-import { Tabs, Tab, Grid, withStyles } from '@material-ui/core';
-import { Phone, Person } from '@material-ui/icons';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import {
+  Tabs,
+  Tab,
+  Grid,
+  withStyles,
+  Dialog,
+  DialogTitle,
+} from '@material-ui/core';
+import { List, Person } from '@material-ui/icons';
 
 import Tasks from '../Tasks/Tasks';
 import Users from '../Users/Users';
+import Chat from '../Chat/Chat';
+import * as actions from '../../store/actions/index';
 
 const style = {
   container: {
@@ -26,27 +36,45 @@ class DashBoard extends Component {
 
   render() {
     const { value } = this.state;
-    const { classes } = this.props;
+    const { classes, isChatOpened, onCloseChat, chatUser } = this.props;
     return (
-      <Grid container justify="center" className={classes.container}>
-        <Grid item xs={12}>
-          <Tabs
-            className={classes.tabs}
-            value={value}
-            onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="primary">
-            <Tab value="tasks" icon={<Phone />} label="TASKS LIST" />
-            <Tab value="users" icon={<Person />} label="USERS" />
-          </Tabs>
+      <Fragment>
+        <Grid container justify="center" className={classes.container}>
+          <Grid item xs={12}>
+            <Tabs
+              className={classes.tabs}
+              value={value}
+              onChange={this.handleChange}
+              indicatorColor="primary"
+              textColor="primary">
+              <Tab value="tasks" icon={<List />} label="TASKS LIST" />
+              <Tab value="users" icon={<Person />} label="USERS" />
+            </Tabs>
+          </Grid>
+          <Grid item xs={12}>
+            {value === 'tasks' && <Tasks showAll />}
+            {value === 'users' && <Users />}
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          {value === 'tasks' && <Tasks showAll />}
-          {value === 'users' && <Users />}
-        </Grid>
-      </Grid>
+        <Dialog open={isChatOpened} onClose={onCloseChat}>
+          <DialogTitle>{chatUser.name}</DialogTitle>
+          <Chat chatUser={chatUser} />
+        </Dialog>
+      </Fragment>
     );
   }
 }
 
-export default withStyles(style)(DashBoard);
+const mapStateToProps = state => ({
+  isChatOpened: state.chat.isOpened,
+  chatUser: state.chat.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onCloseChat: () => dispatch(actions.closeChat()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(style)(DashBoard));
