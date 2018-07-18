@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Grid, Typography, withStyles } from '@material-ui/core';
 
 import TaskItem from './TaskItem';
@@ -17,13 +16,7 @@ const style = {
   },
 };
 
-const TaskView = ({
-  classes,
-  tasks,
-  isAdmin,
-  onTaskStatusChange,
-  onSetCurrentTask,
-}) => (
+const TaskView = ({ classes, tasks, userId }) => (
   <Grid container justify="center" className={classes.container}>
     <Grid item xs={12}>
       <Typography color="primary" variant="headline" className={classes.header}>
@@ -31,21 +24,14 @@ const TaskView = ({
       </Typography>
     </Grid>
     <Grid item xs={12}>
-      {tasks.map(task => (
-        <TaskItem
-          key={task.id}
-          onSetCurrentTask={onSetCurrentTask}
-          onTaskStatusChange={onTaskStatusChange}
-          isAdmin={isAdmin}
-          task={task}
-        />
-      ))}
+      {tasks.map(
+        task =>
+          userId === task.userId ? (
+            <TaskItem key={task.id} task={task} />
+          ) : null,
+      )}
     </Grid>
   </Grid>
 );
 
-const mapStateToProps = state => ({
-  isAdmin: state.auth.isAdmin,
-});
-
-export default connect(mapStateToProps)(withStyles(style)(TaskView));
+export default withStyles(style)(TaskView);

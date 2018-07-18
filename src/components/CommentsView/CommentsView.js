@@ -19,23 +19,17 @@ const style = {
   },
 };
 
-const CommentsView = ({ classes }) => (
+const CommentsView = ({ classes, comments }) => (
   <div className={classes.comments}>
     <Typography color="primary" variant="headline" className={classes.header}>
       Comments
     </Typography>
-    <Card>
-      <CardHeader
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
-      />
-      <CardContent>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi
-        repudiandae nobis architecto quidem quod molestias ducimus ab aliquid
-        vero quo voluptatem, assumenda non deleniti, vitae eligendi laudantium
-        dolores ratione repellat?
-      </CardContent>
-    </Card>
+    {comments.map(comment => (
+      <Card key={comment.date}>
+        <CardHeader title={comment.userName} subheader={comment.date} />
+        <CardContent>{comment.text}</CardContent>
+      </Card>
+    ))}
   </div>
 );
 

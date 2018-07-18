@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import UserProfile from './containers/UserProfile/UserProfile';
 import Header from './components/Header/Header';
 import Tasks from './containers/Tasks/Tasks';
-import TaskDetailed from './components/Tasks/TaskDetailed/TaskDetailed';
+import TaskDetailed from './containers/TaskDetailed/TaskDetailed';
 import * as actions from './store/actions/index';
 
 class App extends Component {

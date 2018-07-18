@@ -28,11 +28,11 @@ const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 const TaskItem = ({
   task,
   classes,
-  onTaskStatusChange,
+  onChangeTaskStatus,
   onSetCurrentTask,
   isAdmin,
 }) => (
-  <Card key={task.id} className={classes.card}>
+  <Card className={classes.card}>
     <CardContent>
       <Typography variant="title">
         <Link
@@ -51,7 +51,7 @@ const TaskItem = ({
         {statusTypes.map(type => (
           <Button
             disabled={!isAdmin}
-            onClick={() => onTaskStatusChange(task.id, type)}
+            onClick={() => onChangeTaskStatus(task.id, type)}
             variant={type === task.status ? 'contained' : 'text'}
             key={type}>
             {type}
@@ -62,11 +62,17 @@ const TaskItem = ({
   </Card>
 );
 
+const mapStateToProps = state => ({
+  isAdmin: state.auth.isAdmin,
+});
+
 const mapDispatchToProps = dispatch => ({
   onSetCurrentTask: task => dispatch(actions.setCurrentTask(task)),
+  onChangeTaskStatus: (taskId, newStatus) =>
+    dispatch(actions.changeTaskStatus(taskId, newStatus)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(withStyles(style)(TaskItem));

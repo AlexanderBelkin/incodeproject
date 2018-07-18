@@ -11,18 +11,8 @@ class Tasks extends Component {
     onFetchTasks();
   };
 
-  handleTaskStatusChange = (taskId, newStatus) => {
-    const { tasks, onChangeTaskStatus } = this.props;
-    const item = tasks.find(task => task.id === taskId);
-    if (item) {
-      item.status = newStatus;
-    }
-    onChangeTaskStatus(tasks);
-    this.forceUpdate(); // TODO: исправить, когда будет бекэнд
-  };
-
   render() {
-    const { tasks, tasksLoading } = this.props;
+    const { tasks, tasksLoading, userId } = this.props;
 
     if (tasksLoading) {
       return (
@@ -32,25 +22,18 @@ class Tasks extends Component {
       );
     }
 
-    return (
-      <TasksView
-        onTaskStatusChange={(taskId, newStatus) =>
-          this.handleTaskStatusChange(taskId, newStatus)
-        }
-        tasks={tasks}
-      />
-    );
+    return <TasksView userId={userId} tasks={tasks} />;
   }
 }
 
 const mapStateToProps = state => ({
+  userId: state.auth.userId,
   tasks: state.tasks.tasks,
   tasksLoading: state.tasks.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
   onFetchTasks: () => dispatch(actions.fetchTasks()),
-  onChangeTaskStatus: tasks => dispatch(actions.changeTaskStatus(tasks)),
 });
 
 export default connect(
