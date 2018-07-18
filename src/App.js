@@ -7,6 +7,7 @@ import Header from './components/Header/Header';
 import Tasks from './containers/Tasks/Tasks';
 import TaskDetailed from './containers/TaskDetailed/TaskDetailed';
 import * as actions from './store/actions/index';
+import DashBoard from './containers/DashBoard/DashBoard';
 
 class App extends Component {
   componentDidMount = () => {
@@ -19,6 +20,7 @@ class App extends Component {
       <Fragment>
         <Header />
         <Switch>
+          <Route exact path="/" component={DashBoard} />
           <Route path="/profile" component={UserProfile} />
           <Route path="/tasks" component={Tasks} />
           <Route path="/task/:id" component={TaskDetailed} />

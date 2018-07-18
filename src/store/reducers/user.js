@@ -6,17 +6,17 @@ const initialState = {
   isEditing: false,
 };
 
-const fetchUsersStart = state => ({
+const fetchUserStart = state => ({
   ...state,
   loading: true,
 });
 
-const fetchUsersFail = state => ({
+const fetchUserFail = state => ({
   ...state,
   loading: false,
 });
 
-const fetchUsersSuccess = (state, action) => ({
+const fetchUserSuccess = (state, action) => ({
   ...state,
   loading: false,
   user: action.user,
@@ -41,13 +41,13 @@ const editUserCancel = state => ({
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_USER_START: {
-      return fetchUsersStart(state, action);
+      return fetchUserStart(state, action);
     }
     case actionTypes.FETCH_USER_SUCCESS: {
-      return fetchUsersSuccess(state, action);
+      return fetchUserSuccess(state, action);
     }
     case actionTypes.FETCH_USER_FAIL: {
-      return fetchUsersFail(state, action);
+      return fetchUserFail(state, action);
     }
     case actionTypes.EDIT_USER: {
       return editUser(state, action);

@@ -12,6 +12,7 @@ import registerServiceWorker from './registerServiceWorker';
 import userReducer from './store/reducers/user';
 import tasksReducer from './store/reducers/tasks';
 import authReducer from './store/reducers/auth';
+import usersReducer from './store/reducers/users';
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers =
@@ -22,6 +23,7 @@ const composeEnhancers =
 
 const rootReducer = combineReducers({
   user: userReducer,
+  users: usersReducer,
   form: formReducer,
   tasks: tasksReducer,
   auth: authReducer,

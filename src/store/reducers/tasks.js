@@ -3,33 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   tasks: [],
   loading: false,
-  currentTask: {
-    id: '0',
-    title: 'Task 1',
-    description: 'Description for task 1',
-    status: 'To Do',
-    userId: '0',
-    comments: [
-      {
-        userName: 'Harry Potter',
-        date: '12-08-2018 15:30',
-        text:
-          'Description for task 4 Lorem ipsum dolor sit amet, vivendo voluptatum per an. Quod fabellas phaedrum et nam, usu et quas graeci. Te eum nemore saperet ceteros, no labore admodum ius. Adhuc minimum adipisci ea mea, ut sed debet tamquam definiebas. Ius et iudicabit accommodare. Lorem ipsum dolor sit amet, vivendo voluptatum per an. Quod fabellas phaedrum et nam, usu et quas graeci. Te eum nemore saperet ceteros, no labore admodum ius. Adhuc minimum adipisci ea mea, ut sed debet tamquam definiebas. Ius et iudicabit accommodare',
-      },
-      {
-        userName: 'Hermione Granger',
-        date: '12-08-2018 15:31',
-        text:
-          'Description for task 4 Lorem ipsum dolor sit amet, vivendo voluptatum per an. Quod fabellas phaedrum et nam, usu et quas graeci. Te eum nemore saperet ceteros, no labore admodum ius. Adhuc minimum adipisci ea mea, ut sed debet tamquam definiebas. Ius et iudicabit accommodare. Lorem ipsum dolor sit amet, vivendo voluptatum per an. Quod fabellas phaedrum et nam, usu et quas graeci. Te eum nemore saperet ceteros, no labore admodum ius. Adhuc minimum adipisci ea mea, ut sed debet tamquam definiebas. Ius et iudicabit accommodare',
-      },
-      {
-        userName: 'Ron Weasley',
-        date: '12-08-2018 15:32',
-        text:
-          'Description for task 4 Lorem ipsum dolor sit amet, vivendo voluptatum per an. Quod fabellas phaedrum et nam, usu et quas graeci. Te eum nemore saperet ceteros, no labore admodum ius. Adhuc minimum adipisci ea mea, ut sed debet tamquam definiebas. Ius et iudicabit accommodare. Lorem ipsum dolor sit amet, vivendo voluptatum per an. Quod fabellas phaedrum et nam, usu et quas graeci. Te eum nemore saperet ceteros, no labore admodum ius. Adhuc minimum adipisci ea mea, ut sed debet tamquam definiebas. Ius et iudicabit accommodare',
-      },
-    ],
-  },
+  currentTask: {},
 };
 
 const fetchTasksStart = state => ({

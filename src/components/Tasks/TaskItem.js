@@ -50,7 +50,7 @@ const TaskItem = ({
       <CardActions>
         {statusTypes.map(type => (
           <Button
-            disabled={!isAdmin && type === 'Done'}
+            disabled={!isAdmin && type === 'Done'} // TODO: disabled if isn't user task
             onClick={() => onChangeTaskStatus(task.id, type)}
             variant={type === task.status ? 'contained' : 'text'}
             key={type}>
@@ -64,6 +64,7 @@ const TaskItem = ({
 
 const mapStateToProps = state => ({
   isAdmin: state.auth.isAdmin,
+  userId: state.auth.userId,
 });
 
 const mapDispatchToProps = dispatch => ({

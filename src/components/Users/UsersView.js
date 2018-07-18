@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, Typography, withStyles } from '@material-ui/core';
-
-import TaskItem from './TaskItem';
+import UserItem from './UserItem';
 
 const style = {
   container: {
@@ -16,26 +15,21 @@ const style = {
   },
 };
 
-const TaskView = ({ classes, tasks, userId }) => (
+const UsersView = ({ classes, users }) => (
   <Grid container justify="center" className={classes.container}>
     <Grid item xs={12}>
       <Typography color="primary" variant="headline" className={classes.header}>
-        Task List
+        Users
       </Typography>
     </Grid>
     <Grid item xs={12}>
-      {tasks.map(
-        task =>
-          userId ? (
-            userId === task.userId ? (
-              <TaskItem key={task.id} task={task} />
-            ) : null
-          ) : (
-            <TaskItem key={task.id} task={task} />
-          ),
-      )}
+      {users.map(user => (
+        <UserItem key={user.id} user={user}>
+          {user.name}
+        </UserItem>
+      ))}
     </Grid>
   </Grid>
 );
 
-export default withStyles(style)(TaskView);
+export default withStyles(style)(UsersView);

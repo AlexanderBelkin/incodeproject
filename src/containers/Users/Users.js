@@ -3,18 +3,17 @@ import { connect } from 'react-redux';
 import { CircularProgress } from '@material-ui/core';
 
 import * as actions from '../../store/actions/index';
-import TasksView from '../../components/Tasks/TasksView';
+import UsersView from '../../components/Users/UsersView';
 
-class Tasks extends Component {
+class Users extends Component {
   componentDidMount = () => {
-    const { onFetchTasks } = this.props;
-    onFetchTasks();
+    const { onFetchUsers } = this.props;
+    onFetchUsers();
   };
 
   render() {
-    const { tasks, tasksLoading, userId, showAll } = this.props;
-
-    if (tasksLoading) {
+    const { users, usersLoading } = this.props;
+    if (usersLoading) {
       return (
         <div style={{ margin: '100px auto', textAlign: 'center' }}>
           <CircularProgress size={50} />
@@ -22,21 +21,20 @@ class Tasks extends Component {
       );
     }
 
-    return <TasksView userId={showAll ? null : userId} tasks={tasks} />;
+    return <UsersView users={users} />;
   }
 }
 
 const mapStateToProps = state => ({
-  userId: state.auth.userId,
-  tasks: state.tasks.tasks,
-  tasksLoading: state.tasks.loading,
+  users: state.users.users,
+  usersLoading: state.users.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchTasks: () => dispatch(actions.fetchTasks()),
+  onFetchUsers: () => dispatch(actions.fetchUsers()),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Tasks);
+)(Users);
