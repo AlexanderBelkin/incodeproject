@@ -7,10 +7,6 @@ import MessageItem from '../../components/MessageItem/MessageItem';
 import Input from '../../components/form/Input';
 
 class Chat extends Component {
-  state = {
-    lel: 'lel',
-  };
-
   render() {
     return (
       <div

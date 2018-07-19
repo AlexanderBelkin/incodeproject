@@ -22,18 +22,11 @@ const style = {
 
 const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
-const TaskItem = ({
-  task,
-  classes,
-  onChangeTaskStatus,
-  onSetCurrentTask,
-  isAdmin,
-}) => (
+const TaskItem = ({ task, classes, onChangeTaskStatus, isAdmin }) => (
   <Card className={classes.card}>
     <CardContent>
       <Typography variant="title">
         <Link
-          onClick={() => onSetCurrentTask(task)}
           style={{ textDecoration: 'none', color: '#222' }}
           to={`/task/${task.id}`}>
           {task.title}

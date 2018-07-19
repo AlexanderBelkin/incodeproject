@@ -18,7 +18,6 @@ class Tasks extends Component {
       userId,
       showAll,
       isAdmin,
-      onSetCurrentTask,
       onChangeTaskStatus,
     } = this.props;
 
@@ -34,7 +33,6 @@ class Tasks extends Component {
       <TasksView
         isAdmin={isAdmin}
         onChangeTaskStatus={onChangeTaskStatus}
-        onSetCurrentTask={onSetCurrentTask}
         userId={showAll ? null : userId}
         tasks={tasks}
       />
@@ -51,7 +49,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onFetchTasks: () => dispatch(actions.fetchTasks()),
-  onSetCurrentTask: task => dispatch(actions.setCurrentTask(task)),
   onChangeTaskStatus: (taskId, newStatus) =>
     dispatch(actions.changeTaskStatus(taskId, newStatus)),
 });

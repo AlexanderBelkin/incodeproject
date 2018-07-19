@@ -1,4 +1,9 @@
-export { fetchTasks, changeTaskStatus, setCurrentTask } from './tasks';
+export {
+  fetchTasks,
+  fetchTask,
+  changeTaskStatus,
+  addTaskComment,
+} from './tasks';
 export { auth } from './auth';
 export {
   fetchUser,
