@@ -27,13 +27,39 @@ export const fetchTasks = () => dispatch => {
     });
 };
 
+export const fetchTaskSuccess = currentTask => ({
+  type: actionTypes.FETCH_TASK_SUCCESS,
+  currentTask,
+});
+
+export const fetchTaskFail = error => ({
+  type: actionTypes.FETCH_TASK_FAIL,
+  error,
+});
+
+export const fetchTaskStart = () => ({
+  type: actionTypes.FETCH_TASK_START,
+});
+
+export const fetchTask = () => dispatch => {
+  dispatch(fetchTaskStart());
+  axios
+    .get('/Task.json')
+    .then(res => {
+      dispatch(fetchTaskSuccess(res.data));
+    })
+    .catch(error => {
+      dispatch(fetchTaskFail(error));
+    });
+};
+
 export const changeTaskStatus = (taskId, newStatus) => ({
   type: actionTypes.CHANGE_TASK_STATUS,
   taskId,
   newStatus,
 });
 
-export const setCurrentTask = currentTask => ({
-  type: actionTypes.SET_CURRENT_TASK,
-  currentTask,
+export const addTaskComment = comment => ({
+  type: actionTypes.ADD_TASK_COMMENT,
+  comment,
 });

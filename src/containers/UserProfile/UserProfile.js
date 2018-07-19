@@ -6,7 +6,7 @@ import { CircularProgress } from '@material-ui/core';
 
 import * as actions from '../../store/actions/index';
 import ProfileView from '../../components/Profile/ProfileView';
-import ProfileEdit from '../../components/Profile/ProfileEdit';
+import ProfileEdit from './ProfileEdit/ProfileEdit';
 
 class UserProfile extends Component {
   componentDidMount = () => {
@@ -54,9 +54,9 @@ class UserProfile extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user.user,
-  userLoading: state.user.loading,
-  isEditing: state.user.isEditing,
+  user: state.users.user,
+  userLoading: state.users.loading,
+  isEditing: state.users.isEditing,
 });
 
 const mapDispatchToProps = dispatch => ({

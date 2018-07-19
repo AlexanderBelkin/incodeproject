@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   Grid,
@@ -7,10 +7,11 @@ import {
   CardContent,
   CardActions,
   Button,
+  CircularProgress,
   withStyles,
 } from '@material-ui/core';
 import * as actions from '../../store/actions/index';
-import CommentsView from '../../components/CommentsView/CommentsView';
+import Comments from '../Comments/Comments';
 
 const style = {
   container: {
@@ -31,42 +32,73 @@ const style = {
 
 const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
-const TaskDetailed = ({ classes, task, isAdmin, onChangeTaskStatus }) => (
-  <Grid container justify="center" className={classes.container}>
-    <Grid item xs={12}>
-      <Typography color="primary" variant="headline" className={classes.header}>
-        {task.title}
-      </Typography>
-    </Grid>
-    <Grid item xs={12}>
-      <Card key={task.id} className={classes.card}>
-        <CardContent>
-          <Typography variant="headline">{task.description}</Typography>
-          <CardActions>
-            {statusTypes.map(type => (
-              <Button
-                disabled={!isAdmin}
-                onClick={() => onChangeTaskStatus(task.id, type)}
-                variant={type === task.status ? 'contained' : 'text'}
-                key={type}>
-                {type}
-              </Button>
-            ))}
-          </CardActions>
-        </CardContent>
-      </Card>
-    </Grid>
-    <Grid item xs={12}>
-      <CommentsView comments={task.comments} />
-    </Grid>
-  </Grid>
-);
+class TaskDetailed extends Component {
+  componentDidMount = () => {
+    const { onFetchTask } = this.props;
+    onFetchTask();
+  };
+
+  render() {
+    const {
+      classes,
+      task,
+      isAdmin,
+      onChangeTaskStatus,
+      taskLoading,
+    } = this.props;
+
+    if (taskLoading) {
+      return (
+        <div style={{ margin: '100px auto', textAlign: 'center' }}>
+          <CircularProgress size={50} />
+        </div>
+      );
+    }
+
+    return (
+      <Grid container justify="center" className={classes.container}>
+        <Grid item xs={12}>
+          <Typography
+            color="primary"
+            variant="headline"
+            className={classes.header}>
+            {task.title}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Card key={task.id} className={classes.card}>
+            <CardContent>
+              <Typography variant="headline">{task.description}</Typography>
+              <CardActions>
+                {statusTypes.map(type => (
+                  <Button
+                    disabled={!isAdmin && type === 'Done'}
+                    onClick={() => onChangeTaskStatus(task.id, type)}
+                    variant={type === task.status ? 'contained' : 'text'}
+                    key={type}>
+                    {type}
+                  </Button>
+                ))}
+              </CardActions>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
+          <Comments comments={task.comments} />
+        </Grid>
+      </Grid>
+    );
+  }
+}
+
 const mapStateToProps = state => ({
   isAdmin: state.auth.isAdmin,
   task: state.tasks.currentTask,
+  taskLoading: state.tasks.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
+  onFetchTask: () => dispatch(actions.fetchTask()),
   onChangeTaskStatus: (taskId, newStatus) =>
     dispatch(actions.changeTaskStatus(taskId, newStatus)),
 });

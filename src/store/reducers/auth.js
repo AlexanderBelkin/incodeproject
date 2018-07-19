@@ -14,7 +14,6 @@ const authSuccess = (state, action) => ({
   userId: action.userId,
   error: null,
   loading: false,
-  isAdmin: action.isAdmin,
 });
 
 const authFail = (state, action) => ({

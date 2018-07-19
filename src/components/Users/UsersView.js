@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, Typography, withStyles } from '@material-ui/core';
-
-import TaskItem from './TaskItem';
+import UserItem from './UserItem';
 
 const style = {
   container: {
@@ -16,28 +15,25 @@ const style = {
   },
 };
 
-const TaskView = ({ classes, tasks, userId, isAdmin, onChangeTaskStatus }) => (
+const UsersView = ({ classes, users, isChatOpened, onOpenChat }) => (
   <Grid container justify="center" className={classes.container}>
     <Grid item xs={12}>
       <Typography color="primary" variant="headline" className={classes.header}>
-        Task List
+        Users
       </Typography>
     </Grid>
     <Grid item xs={12}>
-      {tasks.map(
-        task =>
-          // output all tasks if userId isn't passed
-          !userId || userId === task.userId ? (
-            <TaskItem
-              isAdmin={isAdmin}
-              onChangeTaskStatus={onChangeTaskStatus}
-              key={task.id}
-              task={task}
-            />
-          ) : null,
-      )}
+      {users.map(user => (
+        <UserItem
+          key={user.id}
+          user={user}
+          isChatOpened={isChatOpened}
+          onOpenChat={onOpenChat}>
+          {user.name}
+        </UserItem>
+      ))}
     </Grid>
   </Grid>
 );
 
-export default withStyles(style)(TaskView);
+export default withStyles(style)(UsersView);

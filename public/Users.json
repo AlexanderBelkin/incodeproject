@@ -1,0 +1,37 @@
+[
+  {
+    "id": "0",
+    "name": "John Doe",
+    "email": "email@gmail.com",
+    "birthDate": "07-07-1990",
+    "skills": ["HTML", "CSS", "Javascript", "React"]
+  },
+  {
+    "id": "1",
+    "name": "Lionel Messi",
+    "email": "email@gmail.com",
+    "birthDate": "07-07-1990",
+    "skills": ["HTML", "CSS", "Javascript", "React"]
+  },
+  {
+    "id": "2",
+    "name": "Cristiano Ronaldo",
+    "email": "email@gmail.com",
+    "birthDate": "07-07-1990",
+    "skills": ["HTML", "CSS", "Javascript", "React"]
+  },
+  {
+    "id": "3",
+    "name": "Kylyan Mbappe",
+    "email": "email@gmail.com",
+    "birthDate": "07-07-1990",
+    "skills": ["HTML", "CSS", "Javascript", "React"]
+  },
+  {
+    "id": "4",
+    "name": "Harry Kane",
+    "email": "email@gmail.com",
+    "birthDate": "07-07-1990",
+    "skills": ["HTML", "CSS", "Javascript", "React"]
+  }
+]

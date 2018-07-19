@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import {
   Card,
   CardContent,
@@ -9,8 +8,6 @@ import {
   Button,
   withStyles,
 } from '@material-ui/core';
-
-import * as actions from '../../store/actions/index';
 
 const style = {
   card: {
@@ -25,18 +22,11 @@ const style = {
 
 const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
-const TaskItem = ({
-  task,
-  classes,
-  onChangeTaskStatus,
-  onSetCurrentTask,
-  isAdmin,
-}) => (
+const TaskItem = ({ task, classes, onChangeTaskStatus, isAdmin }) => (
   <Card className={classes.card}>
     <CardContent>
       <Typography variant="title">
         <Link
-          onClick={() => onSetCurrentTask(task)}
           style={{ textDecoration: 'none', color: '#222' }}
           to={`/task/${task.id}`}>
           {task.title}
@@ -50,7 +40,7 @@ const TaskItem = ({
       <CardActions>
         {statusTypes.map(type => (
           <Button
-            disabled={!isAdmin}
+            disabled={!isAdmin && type === 'Done'} // TODO: disabled if isn't user task
             onClick={() => onChangeTaskStatus(task.id, type)}
             variant={type === task.status ? 'contained' : 'text'}
             key={type}>
@@ -62,17 +52,4 @@ const TaskItem = ({
   </Card>
 );
 
-const mapStateToProps = state => ({
-  isAdmin: state.auth.isAdmin,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onSetCurrentTask: task => dispatch(actions.setCurrentTask(task)),
-  onChangeTaskStatus: (taskId, newStatus) =>
-    dispatch(actions.changeTaskStatus(taskId, newStatus)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withStyles(style)(TaskItem));
+export default withStyles(style)(TaskItem);
