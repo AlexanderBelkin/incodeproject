@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
+  token: 'token',
   userId: null,
   isAdmin: false,
   loading: null,
