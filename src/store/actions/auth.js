@@ -24,7 +24,7 @@ export const logoutSucceed = () => ({
 export const auth = () => dispatch => {
   dispatch(authStart());
 
-  const isAdmin = false;
+  const isAdmin = true;
   const userId = '0';
 
   if (true) {

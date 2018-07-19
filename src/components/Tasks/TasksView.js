@@ -16,7 +16,14 @@ const style = {
   },
 };
 
-const TaskView = ({ classes, tasks, userId }) => (
+const TaskView = ({
+  classes,
+  tasks,
+  userId,
+  isAdmin,
+  onSetCurrentTask,
+  onChangeTaskStatus,
+}) => (
   <Grid container justify="center" className={classes.container}>
     <Grid item xs={12}>
       <Typography color="primary" variant="headline" className={classes.header}>
@@ -26,13 +33,16 @@ const TaskView = ({ classes, tasks, userId }) => (
     <Grid item xs={12}>
       {tasks.map(
         task =>
-          userId ? (
-            userId === task.userId ? (
-              <TaskItem key={task.id} task={task} />
-            ) : null
-          ) : (
-            <TaskItem key={task.id} task={task} />
-          ),
+          // output all tasks if userId isn't passed
+          !userId || userId === task.userId ? (
+            <TaskItem
+              isAdmin={isAdmin}
+              onChangeTaskStatus={onChangeTaskStatus}
+              onSetCurrentTask={onSetCurrentTask}
+              key={task.id}
+              task={task}
+            />
+          ) : null,
       )}
     </Grid>
   </Grid>

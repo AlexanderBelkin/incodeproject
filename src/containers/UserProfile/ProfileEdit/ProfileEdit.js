@@ -19,7 +19,7 @@ import {
   School,
 } from '@material-ui/icons';
 
-import Input from '../form/Input';
+import Input from '../../../components/form/Input';
 
 const style = {
   card: {

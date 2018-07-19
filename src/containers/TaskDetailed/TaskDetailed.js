@@ -45,7 +45,7 @@ const TaskDetailed = ({ classes, task, isAdmin, onChangeTaskStatus }) => (
           <CardActions>
             {statusTypes.map(type => (
               <Button
-                disabled={!isAdmin}
+                disabled={!isAdmin && type === 'Done'}
                 onClick={() => onChangeTaskStatus(task.id, type)}
                 variant={type === task.status ? 'contained' : 'text'}
                 key={type}>

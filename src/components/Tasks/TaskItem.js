@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import {
   Card,
   CardContent,
@@ -9,8 +8,6 @@ import {
   Button,
   withStyles,
 } from '@material-ui/core';
-
-import * as actions from '../../store/actions/index';
 
 const style = {
   card: {
@@ -62,18 +59,4 @@ const TaskItem = ({
   </Card>
 );
 
-const mapStateToProps = state => ({
-  isAdmin: state.auth.isAdmin,
-  userId: state.auth.userId,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onSetCurrentTask: task => dispatch(actions.setCurrentTask(task)),
-  onChangeTaskStatus: (taskId, newStatus) =>
-    dispatch(actions.changeTaskStatus(taskId, newStatus)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withStyles(style)(TaskItem));
+export default withStyles(style)(TaskItem);

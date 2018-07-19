@@ -59,7 +59,7 @@ const ProfileView = ({ classes, onEditUser, user }) => (
             <School />
           </ListItemIcon>
           <ListItemText
-            primary={reformat(user.skills)} // TODO: не работает join
+            primary={reformat(user.skills)}
             secondary="List of skills"
           />
         </ListItem>

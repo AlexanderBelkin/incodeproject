@@ -1,0 +1,13 @@
+.message-container {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  word-break: break-all;
+  text-align: left;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}

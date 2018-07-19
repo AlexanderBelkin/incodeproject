@@ -12,7 +12,7 @@ class Users extends Component {
   };
 
   render() {
-    const { users, usersLoading } = this.props;
+    const { users, usersLoading, isChatOpened, onOpenChat } = this.props;
     if (usersLoading) {
       return (
         <div style={{ margin: '100px auto', textAlign: 'center' }}>
@@ -21,17 +21,25 @@ class Users extends Component {
       );
     }
 
-    return <UsersView users={users} />;
+    return (
+      <UsersView
+        isChatOpened={isChatOpened}
+        onOpenChat={onOpenChat}
+        users={users}
+      />
+    );
   }
 }
 
 const mapStateToProps = state => ({
   users: state.users.users,
   usersLoading: state.users.loading,
+  isChatOpened: state.chat.isOpened,
 });
 
 const mapDispatchToProps = dispatch => ({
   onFetchUsers: () => dispatch(actions.fetchUsers()),
+  onOpenChat: user => dispatch(actions.openChat(user)),
 });
 
 export default connect(

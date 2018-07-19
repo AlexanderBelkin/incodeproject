@@ -57,7 +57,7 @@ class DashBoard extends Component {
           </Grid>
         </Grid>
         <Dialog open={isChatOpened} onClose={onCloseChat}>
-          <DialogTitle>{chatUser.name}</DialogTitle>
+          <DialogTitle>Chat with {chatUser.name}</DialogTitle>
           <Chat chatUser={chatUser} />
         </Dialog>
       </Fragment>

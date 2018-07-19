@@ -12,7 +12,15 @@ class Tasks extends Component {
   };
 
   render() {
-    const { tasks, tasksLoading, userId, showAll } = this.props;
+    const {
+      tasks,
+      tasksLoading,
+      userId,
+      showAll,
+      isAdmin,
+      onSetCurrentTask,
+      onChangeTaskStatus,
+    } = this.props;
 
     if (tasksLoading) {
       return (
@@ -22,7 +30,15 @@ class Tasks extends Component {
       );
     }
 
-    return <TasksView userId={showAll ? null : userId} tasks={tasks} />;
+    return (
+      <TasksView
+        isAdmin={isAdmin}
+        onChangeTaskStatus={onChangeTaskStatus}
+        onSetCurrentTask={onSetCurrentTask}
+        userId={showAll ? null : userId}
+        tasks={tasks}
+      />
+    );
   }
 }
 
@@ -30,10 +46,14 @@ const mapStateToProps = state => ({
   userId: state.auth.userId,
   tasks: state.tasks.tasks,
   tasksLoading: state.tasks.loading,
+  isAdmin: state.auth.isAdmin,
 });
 
 const mapDispatchToProps = dispatch => ({
   onFetchTasks: () => dispatch(actions.fetchTasks()),
+  onSetCurrentTask: task => dispatch(actions.setCurrentTask(task)),
+  onChangeTaskStatus: (taskId, newStatus) =>
+    dispatch(actions.changeTaskStatus(taskId, newStatus)),
 });
 
 export default connect(

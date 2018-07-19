@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import {
   Card,
   CardContent,
@@ -7,8 +6,6 @@ import {
   CardHeader,
   withStyles,
 } from '@material-ui/core';
-
-import * as actions from '../../store/actions/index';
 
 const style = {
   card: {
@@ -37,15 +34,4 @@ const UserItem = ({ user, classes, onOpenChat }) => (
   </Card>
 );
 
-const mapStateToProps = state => ({
-  isChatOpened: state.chat.isOpened,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onOpenChat: user => dispatch(actions.openChat(user)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withStyles(style)(UserItem));
+export default withStyles(style)(UserItem);

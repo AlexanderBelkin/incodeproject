@@ -6,7 +6,7 @@ import { CircularProgress } from '@material-ui/core';
 
 import * as actions from '../../store/actions/index';
 import ProfileView from '../../components/Profile/ProfileView';
-import ProfileEdit from '../../components/Profile/ProfileEdit';
+import ProfileEdit from './ProfileEdit/ProfileEdit';
 
 class UserProfile extends Component {
   componentDidMount = () => {
