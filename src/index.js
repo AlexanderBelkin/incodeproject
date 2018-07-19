@@ -9,7 +9,6 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import userReducer from './store/reducers/user';
 import tasksReducer from './store/reducers/tasks';
 import authReducer from './store/reducers/auth';
 import usersReducer from './store/reducers/users';
@@ -23,7 +22,6 @@ const composeEnhancers =
 /* eslint-enable */
 
 const rootReducer = combineReducers({
-  user: userReducer,
   users: usersReducer,
   form: formReducer,
   tasks: tasksReducer,

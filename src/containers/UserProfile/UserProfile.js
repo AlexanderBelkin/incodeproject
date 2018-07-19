@@ -54,9 +54,9 @@ class UserProfile extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user.user,
-  userLoading: state.user.loading,
-  isEditing: state.user.isEditing,
+  user: state.users.user,
+  userLoading: state.users.loading,
+  isEditing: state.users.isEditing,
 });
 
 const mapDispatchToProps = dispatch => ({

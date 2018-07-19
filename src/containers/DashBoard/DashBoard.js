@@ -27,7 +27,7 @@ const style = {
 
 class DashBoard extends Component {
   state = {
-    value: 'users',
+    value: 'tasks',
   };
 
   handleChange = (event, value) => {
