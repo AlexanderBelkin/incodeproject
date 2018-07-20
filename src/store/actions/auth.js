@@ -62,11 +62,6 @@ export const auth = (login, email, password) => dispatch => {
     });
 };
 
-export const setAuthRedirectPath = path => ({
-  type: actionTypes.SET_AUTH_REDIRECT_PATH,
-  path,
-});
-
 export const authToggle = () => ({
   type: actionTypes.AUTH_TOGGLE,
 });

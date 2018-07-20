@@ -7,7 +7,6 @@ const initialState = {
   isAdmin: false,
   loading: null,
   error: null,
-  authRedirectPath: '/',
 };
 
 const authStart = state => ({ ...state, error: null, loading: true });
@@ -33,11 +32,6 @@ const authToggle = state => ({
 
 const authLogout = state => ({ ...state, token: null, userId: null });
 
-const setAuthRedirectPath = (state, action) => ({
-  ...state,
-  setAuthRedirectPath: action.path,
-});
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START: {
@@ -54,9 +48,6 @@ const reducer = (state = initialState, action) => {
     }
     case actionTypes.AUTH_TOGGLE: {
       return authToggle(state, action);
-    }
-    case actionTypes.SET_AUTH_REDIRECT_PATH: {
-      return setAuthRedirectPath(state, action);
     }
     default:
       return state;
