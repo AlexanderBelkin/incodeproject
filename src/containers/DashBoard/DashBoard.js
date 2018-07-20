@@ -37,7 +37,13 @@ class DashBoard extends Component {
 
   render() {
     const { value } = this.state;
-    const { classes, isChatOpened, onCloseChat, fullScreen } = this.props;
+    const {
+      classes,
+      isChatOpened,
+      onCloseChat,
+      fullScreen,
+      chatUser,
+    } = this.props;
     return (
       <Fragment>
         <Grid container justify="center" className={classes.container}>
@@ -61,7 +67,7 @@ class DashBoard extends Component {
           open={isChatOpened}
           onClose={onCloseChat}
           fullScreen={fullScreen}>
-          <DialogTitle>Chat with </DialogTitle>
+          <DialogTitle>Chat with {chatUser.name}</DialogTitle>
           <Chat />
         </Dialog>
       </Fragment>
@@ -71,6 +77,7 @@ class DashBoard extends Component {
 
 const mapStateToProps = state => ({
   isChatOpened: state.chat.isOpened,
+  chatUser: state.chat.user,
 });
 
 const mapDispatchToProps = dispatch => ({

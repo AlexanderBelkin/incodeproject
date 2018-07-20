@@ -12,4 +12,4 @@ export {
   editUserSuccess,
   fetchUsers,
 } from './users';
-export { openChat, closeChat, fetchChatRoom } from './chat';
+export { openChat, closeChat, fetchChatRoom, sendMessage } from './chat';

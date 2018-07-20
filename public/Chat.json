@@ -20,25 +20,25 @@
       "id": "0",
       "authorId": "0",
       "text": "Message from Alan",
-      "createdAt": "12:30:45"
+      "date": "12:30:45"
     },
     {
       "id": "1",
       "authorId": "1",
       "text": "Message from Sarah",
-      "createdAt": "05:30:45"
+      "date": "05:30:45"
     },
     {
       "id": "2",
       "authorId": "0",
       "text": "Another message from Alan",
-      "createdAt": "05:30:45"
+      "date": "05:30:45"
     },
     {
       "id": "3",
       "authorId": "1",
       "text": "Another message from Sarah",
-      "createdAt": "05:30:45"
+      "date": "05:30:45"
     }
   ]
 }

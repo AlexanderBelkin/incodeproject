@@ -5,11 +5,13 @@ const initialState = {
   chatRoom: {},
   error: null,
   loading: false,
+  user: {},
 };
 
-const openChat = state => ({
+const openChat = (state, action) => ({
   ...state,
   isOpened: true,
+  user: action.user,
 });
 
 const closeChat = state => ({
@@ -35,6 +37,17 @@ const fetchChatRoomFail = (state, action) => ({
   error: action.error,
 });
 
+const sendMessage = (state, action) => {
+  // immutable copiyng current object
+  const newChatRoom = JSON.parse(JSON.stringify(state.chatRoom));
+  newChatRoom.messages.push(action.message);
+
+  return {
+    ...state,
+    chatRoom: newChatRoom,
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.OPEN_CHAT: {
@@ -51,6 +64,9 @@ const reducer = (state = initialState, action) => {
     }
     case actionTypes.FETCH_CHATROOM_FAIL: {
       return fetchChatRoomFail(state, action);
+    }
+    case actionTypes.SEND_MESSAGE: {
+      return sendMessage(state, action);
     }
     default:
       return state;

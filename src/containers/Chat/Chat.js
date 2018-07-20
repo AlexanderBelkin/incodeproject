@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+import { reset, reduxForm, Field } from 'redux-form';
 import { Paper, IconButton, CircularProgress } from '@material-ui/core';
 import { Message, Send } from '@material-ui/icons';
 
@@ -15,8 +15,20 @@ class Chat extends Component {
     onFetchChatRoom();
   };
 
+  handleSendMessage = message => {
+    const { onSendMessage, userId } = this.props;
+    const newMessage = {};
+    const date = new Date();
+
+    newMessage.id = Date.now();
+    newMessage.authorId = userId;
+    newMessage.text = message.message;
+    newMessage.date = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    onSendMessage(newMessage);
+  };
+
   render() {
-    const { chatRoom, chatLoading, userId } = this.props;
+    const { chatRoom, chatLoading, userId, handleSubmit } = this.props;
 
     if (chatLoading) {
       return (
@@ -50,6 +62,7 @@ class Chat extends Component {
             : ''}
         </Paper>
         <form
+          onSubmit={handleSubmit(this.handleSendMessage)}
           style={{
             width: '90%',
             marginBottom: '15px',
@@ -75,6 +88,8 @@ class Chat extends Component {
   }
 }
 
+const afterSubmit = (result, dispatch) => dispatch(reset('chatForm'));
+
 const mapStateToProps = state => ({
   chatLoading: state.chat.loading,
   chatRoom: state.chat.chatRoom,
@@ -83,9 +98,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onFetchChatRoom: () => dispatch(actions.fetchChatRoom()),
+  onSendMessage: message => dispatch(actions.sendMessage(message)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(reduxForm({ form: 'chatForm' })(Chat));
+)(reduxForm({ form: 'chatForm', onSubmitSuccess: afterSubmit })(Chat));

@@ -9,20 +9,21 @@ const style = {
     backgroundColor: '#2196f3',
     color: '#fff',
     padding: '10px',
-    width: '90%',
+    maxWidth: '90%',
   },
   partnerMessage: {
     float: 'left',
     backgroundColor: '#fff',
     padding: '10px',
-    width: '90%',
+    maxWidth: '90%',
   },
 };
 
 const Message = ({ ownMessage, classes, message }) => (
   <div className="message-container clearfix">
     <Paper className={ownMessage ? classes.ownMessage : classes.partnerMessage}>
-      {message.text}
+      <p>{message.text}</p>
+      <span style={{ float: 'right', fontSize: '12px' }}>{message.date}</span>
     </Paper>
   </div>
 );

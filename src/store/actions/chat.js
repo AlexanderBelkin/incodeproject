@@ -1,8 +1,9 @@
 import axios from 'axios';
 import * as actionTypes from './actionTypes';
 
-export const openChat = () => ({
+export const openChat = user => ({
   type: actionTypes.OPEN_CHAT,
+  user,
 });
 
 export const closeChat = () => ({
@@ -34,3 +35,8 @@ export const fetchChatRoom = () => dispatch => {
       dispatch(fetchChatRoomFail(error));
     });
 };
+
+export const sendMessage = message => ({
+  type: actionTypes.SEND_MESSAGE,
+  message,
+});

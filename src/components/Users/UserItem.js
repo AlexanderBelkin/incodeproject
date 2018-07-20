@@ -23,7 +23,7 @@ const style = {
 };
 
 const UserItem = ({ user, classes, onOpenChat }) => (
-  <Card className={classes.card} onClick={onOpenChat}>
+  <Card className={classes.card} onClick={() => onOpenChat(user)}>
     <CardHeader title={user.name} subheader={user.birthDate} />
     <CardContent>
       <Typography variant="subheading">Email: {user.email}</Typography>
