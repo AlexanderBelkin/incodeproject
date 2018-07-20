@@ -4,7 +4,7 @@ export {
   changeTaskStatus,
   addTaskComment,
 } from './tasks';
-export { auth, authToggle } from './auth';
+export { auth, authToggle, setAuthRedirectPath } from './auth';
 export {
   fetchUser,
   editUser,

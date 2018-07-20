@@ -25,8 +25,8 @@ const validateLogin = ({ login, password }) => {
   return errors;
 };
 
-const LoginForm = ({ onAuthToggle, invalid }) => (
-  <form>
+const LoginForm = ({ onAuthToggle, invalid, onFormSubmit, handleSubmit }) => (
+  <form onSubmit={handleSubmit(onFormSubmit)}>
     <CardContent>
       <List>
         <ListItem>
@@ -62,6 +62,5 @@ const LoginForm = ({ onAuthToggle, invalid }) => (
 
 export default reduxForm({
   form: 'loginForm',
-  enableReinitialize: true,
   validate: validateLogin,
 })(LoginForm);

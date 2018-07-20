@@ -35,8 +35,13 @@ const validateRegister = ({ login, email, password, confirmPassword }) => {
   return errors;
 };
 
-const RegisterForm = ({ onAuthToggle, invalid }) => (
-  <form>
+const RegisterForm = ({
+  onAuthToggle,
+  invalid,
+  onFormSubmit,
+  handleSubmit,
+}) => (
+  <form onSubmit={handleSubmit(onFormSubmit)}>
     <CardContent>
       <List>
         <ListItem>

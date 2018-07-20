@@ -30,13 +30,19 @@ const Header = ({ classes, isAuthenticated }) => (
   <div>
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
-        <Link to="/" className={classes.brand}>
-          <Button>
-            <Typography variant="title" className={classes.title}>
-              Task Manager
-            </Typography>
-          </Button>
-        </Link>
+        {isAuthenticated ? (
+          <Link to="/" className={classes.brand}>
+            <Button>
+              <Typography variant="title" className={classes.title}>
+                Task Manager
+              </Typography>
+            </Button>
+          </Link>
+        ) : (
+          <Typography variant="title" className={classes.title}>
+            Task Manager
+          </Typography>
+        )}
         {isAuthenticated ? (
           <Fragment>
             <Link to="/profile">
@@ -49,19 +55,11 @@ const Header = ({ classes, isAuthenticated }) => (
                 <List className={classes.linkBtn} />
               </IconButton>
             </Link>
-            <Link to="/auth">
-              <IconButton>
-                <Reply className={classes.linkBtn} />
-              </IconButton>
-            </Link>
-          </Fragment>
-        ) : (
-          <Link to="/auth">
             <IconButton>
-              <Redo className={classes.linkBtn} />
+              <Reply className={classes.linkBtn} />
             </IconButton>
-          </Link>
-        )}
+          </Fragment>
+        ) : null}
       </Toolbar>
     </AppBar>
   </div>

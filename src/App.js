@@ -11,10 +11,10 @@ import DashBoard from './containers/DashBoard/DashBoard';
 import Auth from './containers/Auth/Auth';
 
 class App extends Component {
-  componentDidMount = () => {
-    const { onSignIn } = this.props;
-    onSignIn();
-  };
+  // componentDidMount = () => {
+  //   const { onSignIn } = this.props;
+  //   onSignIn();
+  // };
 
   render() {
     const { isAuthenticated } = this.props;
@@ -28,11 +28,11 @@ class App extends Component {
     if (isAuthenticated) {
       routes = (
         <Switch>
-          <Route exact path="/" component={DashBoard} />
           <Route path="/profile" component={UserProfile} />
           <Route path="/tasks" component={Tasks} />
           <Route path="/task/:id" component={TaskDetailed} />
-          <Route path="/auth" component={Auth} />
+          <Route exact path="/" component={DashBoard} />
+          <Redirect to="/" />
         </Switch>
       );
     }
@@ -47,7 +47,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.token === null,
+  isAuthenticated: state.auth.token !== null,
 });
 
 const mapDispatchToProps = dispatch => ({
