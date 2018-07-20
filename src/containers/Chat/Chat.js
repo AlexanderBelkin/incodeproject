@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reset, reduxForm, Field } from 'redux-form';
 import { Paper, IconButton, CircularProgress } from '@material-ui/core';
@@ -13,6 +13,17 @@ class Chat extends Component {
   componentDidMount = () => {
     const { onFetchChatRoom } = this.props;
     onFetchChatRoom();
+    this.scrollToBottom();
+  };
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom = () => {
+    if (this.messagesEnd) {
+      this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   handleSendMessage = message => {
@@ -60,6 +71,12 @@ class Chat extends Component {
                 />
               ))
             : ''}
+          <div
+            style={{ float: 'left', clear: 'both' }}
+            ref={el => {
+              this.messagesEnd = el;
+            }}
+          />
         </Paper>
         <form
           onSubmit={handleSubmit(this.handleSendMessage)}
@@ -73,6 +90,7 @@ class Chat extends Component {
             component={Input}
             label="Enter message"
             Icon={Message}
+            multiline
           />
           <IconButton
             style={{ position: 'absolute', top: '0', right: '0' }}

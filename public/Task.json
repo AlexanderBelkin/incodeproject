@@ -6,18 +6,21 @@
   "userId": "0",
   "comments": [
     {
+      "id": "12123",
       "userName": "Harry Potter",
       "date": "12-08-2018 15:30",
       "text":
         "Description for task 4 Lorem ipsum dolor sit amet, vivendo voluptatum per an. Quod fabellas phaedrum et nam, usu et quas graeci. Te eum nemore saperet ceteros, no labore admodum ius. Adhuc minimum adipisci ea mea, ut sed debet tamquam definiebas. Ius et iudicabit accommodare. Lorem ipsum dolor sit amet, vivendo voluptatum per an. Quod fabellas phaedrum et nam, usu et quas graeci. Te eum nemore saperet ceteros, no labore admodum ius. Adhuc minimum adipisci ea mea, ut sed debet tamquam definiebas. Ius et iudicabit accommodare"
     },
     {
+      "id": "1212",
       "userName": "Hermione Granger",
       "date": "12-08-2018 15:31",
       "text":
         "Description for task 4 Lorem ipsum dolor sit amet, vivendo voluptatum per an. Quod fabellas phaedrum et nam, usu et quas graeci. Te eum nemore saperet ceteros, no labore admodum ius. Adhuc minimum adipisci ea mea, ut sed debet tamquam definiebas. Ius et iudicabit accommodare. Lorem ipsum dolor sit amet, vivendo voluptatum per an. Quod fabellas phaedrum et nam, usu et quas graeci. Te eum nemore saperet ceteros, no labore admodum ius. Adhuc minimum adipisci ea mea, ut sed debet tamquam definiebas. Ius et iudicabit accommodare"
     },
     {
+      "id": "1231214",
       "userName": "Ron Weasley",
       "date": "12-08-2018 15:32",
       "text":

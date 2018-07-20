@@ -7,9 +7,10 @@ import {
   withStyles,
   Dialog,
   DialogTitle,
+  IconButton,
   withMobileDialog,
 } from '@material-ui/core';
-import { List, Person } from '@material-ui/icons';
+import { List, Person, Close } from '@material-ui/icons';
 
 import Tasks from '../Tasks/Tasks';
 import Users from '../Users/Users';
@@ -68,6 +69,11 @@ class DashBoard extends Component {
           onClose={onCloseChat}
           fullScreen={fullScreen}>
           <DialogTitle>Chat with {chatUser.name}</DialogTitle>
+          {fullScreen ? (
+            <IconButton onClick={onCloseChat} component="span">
+              <Close />
+            </IconButton>
+          ) : null}
           <Chat />
         </Dialog>
       </Fragment>
