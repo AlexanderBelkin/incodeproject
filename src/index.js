@@ -15,10 +15,7 @@ import usersReducer from './store/reducers/users';
 import chatReducer from './store/reducers/chat';
 
 /* eslint-disable no-underscore-dangle */
-const composeEnhancers =
-  process.env.NODE_ENV === 'development'
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : null || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* eslint-enable */
 
 const rootReducer = combineReducers({
