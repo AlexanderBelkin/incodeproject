@@ -11,10 +11,10 @@ import DashBoard from './containers/DashBoard/DashBoard';
 import Auth from './containers/Auth/Auth';
 
 class App extends Component {
-  // componentDidMount = () => {
-  //   const { onSignIn } = this.props;
-  //   onSignIn();
-  // };
+  componentDidUpdate = () => {
+    const { onTryToAutoSignin } = this.props;
+    onTryToAutoSignin();
+  };
 
   render() {
     const { isAuthenticated } = this.props;
@@ -51,7 +51,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSignIn: () => dispatch(actions.auth()),
+  onTryToAutoSignin: () => dispatch(actions.authCheckState()),
 });
 
 export default withRouter(
