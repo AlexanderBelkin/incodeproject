@@ -13,8 +13,9 @@ const authStart = state => ({ ...state, error: null, loading: true });
 
 const authSuccess = (state, action) => ({
   ...state,
-  token: action.token,
   userId: action.userId,
+  token: action.token,
+  isAdmin: action.isAdmin,
   error: null,
   loading: false,
 });

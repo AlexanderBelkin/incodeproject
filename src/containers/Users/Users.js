@@ -39,7 +39,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onFetchUsers: () => dispatch(actions.fetchUsers()),
-  onOpenChat: user => dispatch(actions.openChat(user)),
+  onOpenChat: () => dispatch(actions.openChat()),
 });
 
 export default connect(

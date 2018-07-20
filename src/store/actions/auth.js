@@ -27,20 +27,20 @@ export const logout = () => {
 export const auth = (login, email, password) => dispatch => {
   dispatch(authStart());
 
-  let authData = {
-    login,
-    password,
-  };
-  let url = 'url for loging';
+  // let authData = {
+  //   login,
+  //   password,
+  // };
+  // let url = 'url for loging';
 
-  if (email) {
-    authData = {
-      login,
-      email,
-      password,
-    };
-    url = 'url for register';
-  }
+  // if (email) {
+  //   authData = {
+  //     login,
+  //     email,
+  //     password,
+  //   };
+  //   url = 'url for register';
+  // }
 
   // axios.post(URL, authData)
   axios
@@ -73,6 +73,6 @@ export const authCheckState = () => dispatch => {
   } else {
     const userId = localStorage.getItem('userId');
     const isAdmin = localStorage.getItem('isAdmin');
-    dispatch(authSuccess(token, userId, isAdmin));
+    dispatch(authSuccess(userId, token, isAdmin));
   }
 };

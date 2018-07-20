@@ -19,10 +19,10 @@ const style = {
   },
 };
 
-const Message = ({ ownMessage, classes }) => (
+const Message = ({ ownMessage, classes, message }) => (
   <div className="message-container clearfix">
     <Paper className={ownMessage ? classes.ownMessage : classes.partnerMessage}>
-      Message Message Message Messag eMessag eMessage Message Message Message
+      {message.text}
     </Paper>
   </div>
 );

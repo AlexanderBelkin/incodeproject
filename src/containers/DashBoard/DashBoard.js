@@ -7,6 +7,7 @@ import {
   withStyles,
   Dialog,
   DialogTitle,
+  withMobileDialog,
 } from '@material-ui/core';
 import { List, Person } from '@material-ui/icons';
 
@@ -36,7 +37,7 @@ class DashBoard extends Component {
 
   render() {
     const { value } = this.state;
-    const { classes, isChatOpened, onCloseChat, chatUser } = this.props;
+    const { classes, isChatOpened, onCloseChat, fullScreen } = this.props;
     return (
       <Fragment>
         <Grid container justify="center" className={classes.container}>
@@ -56,9 +57,12 @@ class DashBoard extends Component {
             {value === 'users' && <Users />}
           </Grid>
         </Grid>
-        <Dialog open={isChatOpened} onClose={onCloseChat}>
-          <DialogTitle>Chat with {chatUser.name}</DialogTitle>
-          <Chat chatUser={chatUser} />
+        <Dialog
+          open={isChatOpened}
+          onClose={onCloseChat}
+          fullScreen={fullScreen}>
+          <DialogTitle>Chat with </DialogTitle>
+          <Chat />
         </Dialog>
       </Fragment>
     );
@@ -67,7 +71,6 @@ class DashBoard extends Component {
 
 const mapStateToProps = state => ({
   isChatOpened: state.chat.isOpened,
-  chatUser: state.chat.user,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -77,4 +80,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withStyles(style)(DashBoard));
+)(withMobileDialog()(withStyles(style)(DashBoard)));

@@ -1,0 +1,13 @@
+.chatContaier {
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+
+@media (max-width: 959px) {
+  .chatContaier {
+    width: 100%;
+  }
+}
