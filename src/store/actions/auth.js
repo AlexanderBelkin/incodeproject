@@ -33,3 +33,7 @@ export const auth = () => dispatch => {
     dispatch(authFail('Error'));
   }
 };
+
+export const authToggle = () => ({
+  type: actionTypes.AUTH_TOGGLE,
+});

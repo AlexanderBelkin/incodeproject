@@ -30,6 +30,7 @@ export const AUTH_FAIL = 'AUTH_FAIL';
 export const AUTH_USER = 'AUTH_USER';
 export const AUTH_INITIATE_LOGOUT = 'AUTH_INITIATE_LOGOUT';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+export const AUTH_TOGGLE = 'AUTH_TOGGLE';
 
 export const OPEN_CHAT = 'OPEN_CHAT';
 export const CLOSE_CHAT = 'CLOSE_CHAT';

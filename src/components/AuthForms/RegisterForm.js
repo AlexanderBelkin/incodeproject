@@ -5,7 +5,7 @@ import { CardContent, ListItem, List, Button } from '@material-ui/core';
 
 import Input from '../form/Input';
 
-const validateRegister = ({ login, email }) => {
+const validateRegister = ({ login, email, password, confirmPassword }) => {
   const errors = {};
 
   if (!login) {
@@ -20,10 +20,22 @@ const validateRegister = ({ login, email }) => {
     errors.email = 'Please, write your email properly.';
   }
 
+  if (!password) {
+    errors.password = 'Password is required';
+  } else if (password.length < 6) {
+    errors.password = 'Password must contain at least 6 charackters';
+  }
+
+  if (!confirmPassword) {
+    errors.confirmPassword = 'Please confirm your password';
+  } else if (confirmPassword !== password) {
+    errors.confirmPassword = 'Passwords must be coincide';
+  }
+
   return errors;
 };
 
-const RegisterForm = () => (
+const RegisterForm = ({ onAuthToggle, invalid }) => (
   <form>
     <CardContent>
       <List>
@@ -51,13 +63,19 @@ const RegisterForm = () => (
         </ListItem>
       </List>
       <div style={{ textAlign: 'center' }}>
-        <Button type="submit" variant="contained" color="primary">
+        <Button
+          disabled={invalid}
+          type="submit"
+          variant="contained"
+          color="primary">
           Register
         </Button>
         <div style={{ margin: '20px', color: 'rgba(0, 0, 0, 0.6)' }}>
           Already has account?
         </div>
-        <Button color="default">Switch to login</Button>
+        <Button onClick={onAuthToggle} color="default">
+          Switch to login
+        </Button>
       </div>
     </CardContent>
   </form>

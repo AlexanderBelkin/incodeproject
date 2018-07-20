@@ -5,7 +5,7 @@ import { CardContent, ListItem, List, Button } from '@material-ui/core';
 
 import Input from '../form/Input';
 
-const validateLogin = ({ login, email }) => {
+const validateLogin = ({ login, password }) => {
   const errors = {};
 
   if (!login) {
@@ -18,10 +18,14 @@ const validateLogin = ({ login, email }) => {
     }
   }
 
+  if (!password) {
+    errors.password = 'Password is required';
+  }
+
   return errors;
 };
 
-const LoginForm = () => (
+const LoginForm = ({ onAuthToggle, invalid }) => (
   <form>
     <CardContent>
       <List>
@@ -38,13 +42,19 @@ const LoginForm = () => (
         </ListItem>
       </List>
       <div style={{ textAlign: 'center' }}>
-        <Button type="submit" variant="contained" color="primary">
+        <Button
+          disabled={invalid}
+          type="submit"
+          variant="contained"
+          color="primary">
           Log In
         </Button>
         <div style={{ margin: '20px', color: 'rgba(0, 0, 0, 0.6)' }}>
           Create new account?
         </div>
-        <Button color="default">Switch to Register</Button>
+        <Button onClick={onAuthToggle} color="default">
+          Switch to Register
+        </Button>
       </div>
     </CardContent>
   </form>

@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
+  authToggle: false,
   token: 'token',
   userId: null,
   isAdmin: false,
@@ -23,6 +24,11 @@ const authFail = (state, action) => ({
   loading: false,
 });
 
+const authToggle = state => ({
+  ...state,
+  authToggle: !state.authToggle,
+});
+
 const authLogout = state => ({ ...state, userId: null });
 
 const reducer = (state = initialState, action) => {
@@ -38,6 +44,9 @@ const reducer = (state = initialState, action) => {
     }
     case actionTypes.AUTH_LOGOUT: {
       return authLogout(state, action);
+    }
+    case actionTypes.AUTH_TOGGLE: {
+      return authToggle(state, action);
     }
     default:
       return state;

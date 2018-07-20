@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Card, withStyles } from '@material-ui/core';
 
+import * as actions from '../../store/actions/index';
 import RegisterForm from '../../components/AuthForms/RegisterForm';
 import LoginForm from '../../components/AuthForms/LoginForm';
 
@@ -19,12 +20,25 @@ const style = {
   },
 };
 
-const Auth = ({ classes }) => (
+const Auth = ({ classes, authToggle, onAuthToggle }) => (
   <Card className={classes.card}>
-    <LoginForm />
+    {authToggle ? (
+      <LoginForm onAuthToggle={onAuthToggle} />
+    ) : (
+      <RegisterForm onAuthToggle={onAuthToggle} />
+    )}
   </Card>
 );
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  authToggle: state.auth.authToggle,
+});
 
-export default connect(mapStateToProps)(withStyles(style)(Auth));
+const mapDispatchToProps = dispatch => ({
+  onAuthToggle: () => dispatch(actions.authToggle()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(style)(Auth));
