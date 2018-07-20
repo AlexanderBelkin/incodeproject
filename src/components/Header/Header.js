@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import {
   AppBar,
@@ -8,7 +8,7 @@ import {
   withStyles,
   Button,
 } from '@material-ui/core';
-import { Person, List } from '@material-ui/icons';
+import { Person, List, Redo, Reply } from '@material-ui/icons';
 
 const style = {
   toolbar: {
@@ -26,27 +26,40 @@ const style = {
   },
 };
 
-const Header = ({ classes }) => (
+const Header = ({ classes, isAuthenticated }) => (
   <div>
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
-        <Link to="/" className={classes.brand}>
-          <Button>
-            <Typography variant="title" className={classes.title}>
-              Task Manager
-            </Typography>
-          </Button>
-        </Link>
-        <Link to="/profile">
-          <IconButton>
-            <Person className={classes.linkBtn} />
-          </IconButton>
-        </Link>
-        <Link to="/tasks">
-          <IconButton>
-            <List className={classes.linkBtn} />
-          </IconButton>
-        </Link>
+        {isAuthenticated ? (
+          <Link to="/" className={classes.brand}>
+            <Button>
+              <Typography variant="title" className={classes.title}>
+                Task Manager
+              </Typography>
+            </Button>
+          </Link>
+        ) : (
+          <Typography variant="title" className={classes.title}>
+            Task Manager
+          </Typography>
+        )}
+        {isAuthenticated ? (
+          <Fragment>
+            <Link to="/profile">
+              <IconButton>
+                <Person className={classes.linkBtn} />
+              </IconButton>
+            </Link>
+            <Link to="/tasks">
+              <IconButton>
+                <List className={classes.linkBtn} />
+              </IconButton>
+            </Link>
+            <IconButton>
+              <Reply className={classes.linkBtn} />
+            </IconButton>
+          </Fragment>
+        ) : null}
       </Toolbar>
     </AppBar>
   </div>

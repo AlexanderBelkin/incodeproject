@@ -46,7 +46,7 @@ class UserProfile extends Component {
     ) : (
       <ProfileEdit
         user={user}
-        onEditSuccess={editedUser => this.handleEditSuccess(editedUser)}
+        onEditSuccess={this.handleEditSuccess}
         onEditCancel={onEditCancel}
       />
     );
