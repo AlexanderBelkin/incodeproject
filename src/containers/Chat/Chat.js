@@ -58,9 +58,9 @@ class Chat extends Component {
         <Paper
           style={{
             width: '90%',
-            minHeight: '300px',
+            height: '300px',
             marginBottom: '25px',
-            overflowY: 'scroll',
+            overflowY: 'auto',
           }}>
           {chatRoom.messages
             ? chatRoom.messages.map(message => (
@@ -72,7 +72,6 @@ class Chat extends Component {
               ))
             : ''}
           <div
-            style={{ float: 'left', clear: 'both' }}
             ref={el => {
               this.messagesEnd = el;
             }}
@@ -90,7 +89,6 @@ class Chat extends Component {
             component={Input}
             label="Enter message"
             Icon={Message}
-            multiline
           />
           <IconButton
             style={{ position: 'absolute', top: '0', right: '0' }}

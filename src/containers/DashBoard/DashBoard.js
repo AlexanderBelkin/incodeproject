@@ -70,7 +70,10 @@ class DashBoard extends Component {
           fullScreen={fullScreen}>
           <DialogTitle>Chat with {chatUser.name}</DialogTitle>
           {fullScreen ? (
-            <IconButton onClick={onCloseChat} component="span">
+            <IconButton
+              onClick={onCloseChat}
+              component="span"
+              style={{ position: 'absolute', top: '5px', right: '5px' }}>
               <Close />
             </IconButton>
           ) : null}

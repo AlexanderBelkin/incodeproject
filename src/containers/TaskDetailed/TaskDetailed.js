@@ -68,10 +68,13 @@ class TaskDetailed extends Component {
         <Grid item xs={12}>
           <Card key={task.id} className={classes.card}>
             <CardContent>
-              <Typography variant="headline">{task.description}</Typography>
+              <Typography variant="headline" className="mb-15">
+                {task.description}
+              </Typography>
               <CardActions>
                 {statusTypes.map(type => (
                   <Button
+                    className="button"
                     disabled={!isAdmin && type === 'Done'}
                     onClick={() => onChangeTaskStatus(task.id, type)}
                     variant={type === task.status ? 'contained' : 'text'}
