@@ -28,7 +28,7 @@ const UserItem = ({ user, classes, onOpenChat }) => (
     <CardContent>
       <Typography variant="subheading">Email: {user.email}</Typography>
       <Typography variant="subheading">
-        Skills: {user.skills.join(', ')}
+        Skills: {user.skills ? user.skills.join(', ') : ''}
       </Typography>
     </CardContent>
   </Card>

@@ -17,7 +17,7 @@ class App extends Component {
   };
 
   render() {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, onLogout } = this.props;
     let routes = (
       <Switch>
         <Route path="/auth" component={Auth} />
@@ -39,7 +39,7 @@ class App extends Component {
 
     return (
       <Fragment>
-        <Header isAuthenticated={isAuthenticated} />
+        <Header isAuthenticated={isAuthenticated} onLogout={onLogout} />
         {routes}
       </Fragment>
     );
@@ -52,6 +52,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onTryToAutoSignin: () => dispatch(actions.authCheckState()),
+  onLogout: () => dispatch(actions.logout()),
 });
 
 export default withRouter(

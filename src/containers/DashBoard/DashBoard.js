@@ -7,8 +7,10 @@ import {
   withStyles,
   Dialog,
   DialogTitle,
+  IconButton,
+  withMobileDialog,
 } from '@material-ui/core';
-import { List, Person } from '@material-ui/icons';
+import { List, Person, Close } from '@material-ui/icons';
 
 import Tasks from '../Tasks/Tasks';
 import Users from '../Users/Users';
@@ -36,7 +38,13 @@ class DashBoard extends Component {
 
   render() {
     const { value } = this.state;
-    const { classes, isChatOpened, onCloseChat, chatUser } = this.props;
+    const {
+      classes,
+      isChatOpened,
+      onCloseChat,
+      fullScreen,
+      chatUser,
+    } = this.props;
     return (
       <Fragment>
         <Grid container justify="center" className={classes.container}>
@@ -56,9 +64,20 @@ class DashBoard extends Component {
             {value === 'users' && <Users />}
           </Grid>
         </Grid>
-        <Dialog open={isChatOpened} onClose={onCloseChat}>
+        <Dialog
+          open={isChatOpened}
+          onClose={onCloseChat}
+          fullScreen={fullScreen}>
           <DialogTitle>Chat with {chatUser.name}</DialogTitle>
-          <Chat chatUser={chatUser} />
+          {fullScreen ? (
+            <IconButton
+              onClick={onCloseChat}
+              component="span"
+              style={{ position: 'absolute', top: '5px', right: '5px' }}>
+              <Close />
+            </IconButton>
+          ) : null}
+          <Chat />
         </Dialog>
       </Fragment>
     );
@@ -77,4 +96,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withStyles(style)(DashBoard));
+)(withMobileDialog()(withStyles(style)(DashBoard)));

@@ -8,7 +8,7 @@ import {
   withStyles,
   Button,
 } from '@material-ui/core';
-import { Person, List, Redo, Reply } from '@material-ui/icons';
+import { Person, List, Reply } from '@material-ui/icons';
 
 const style = {
   toolbar: {
@@ -26,7 +26,7 @@ const style = {
   },
 };
 
-const Header = ({ classes, isAuthenticated }) => (
+const Header = ({ classes, isAuthenticated, onLogout }) => (
   <div>
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
@@ -55,7 +55,7 @@ const Header = ({ classes, isAuthenticated }) => (
                 <List className={classes.linkBtn} />
               </IconButton>
             </Link>
-            <IconButton>
+            <IconButton onClick={onLogout}>
               <Reply className={classes.linkBtn} />
             </IconButton>
           </Fragment>

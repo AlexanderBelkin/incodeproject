@@ -4,7 +4,7 @@ export {
   changeTaskStatus,
   addTaskComment,
 } from './tasks';
-export { auth, authToggle, setAuthRedirectPath, authCheckState } from './auth';
+export { auth, authToggle, authCheckState, logout } from './auth';
 export {
   fetchUser,
   editUser,
@@ -12,4 +12,4 @@ export {
   editUserSuccess,
   fetchUsers,
 } from './users';
-export { openChat, closeChat } from './chat';
+export { openChat, closeChat, fetchChatRoom, sendMessage } from './chat';

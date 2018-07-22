@@ -25,14 +25,14 @@ const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 const TaskItem = ({ task, classes, onChangeTaskStatus, isAdmin }) => (
   <Card className={classes.card}>
     <CardContent>
-      <Typography variant="title">
+      <Typography variant="title" className="mb-15">
         <Link
           style={{ textDecoration: 'none', color: '#222' }}
           to={`/task/${task.id}`}>
           {task.title}
         </Link>
       </Typography>
-      <Typography variant="subheading">
+      <Typography variant="subheading" className="mb-15">
         {task.description.length > 100
           ? `${task.description.slice(0, 100)}...`
           : task.description}
@@ -40,6 +40,7 @@ const TaskItem = ({ task, classes, onChangeTaskStatus, isAdmin }) => (
       <CardActions>
         {statusTypes.map(type => (
           <Button
+            className="button"
             disabled={!isAdmin && type === 'Done'} // TODO: disabled if isn't user task
             onClick={() => onChangeTaskStatus(task.id, type)}
             variant={type === task.status ? 'contained' : 'text'}

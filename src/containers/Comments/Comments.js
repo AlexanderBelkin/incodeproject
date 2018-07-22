@@ -68,6 +68,7 @@ class Comments extends Component {
             component={Input}
             label="Enter Comment Text"
             Icon={Message}
+            multiline
           />
           <IconButton
             style={{ position: 'absolute', top: '0', right: '0' }}

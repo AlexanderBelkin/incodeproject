@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { Card, CircularProgress, withStyles } from '@material-ui/core';
 
 import * as actions from '../../store/actions/index';
@@ -64,13 +63,11 @@ const mapStateToProps = state => ({
   authLoading: state.auth.loading,
   authError: state.auth.error,
   isAuthenticated: state.auth.token !== null,
-  authRedirectPath: state.auth.authRedirectPath,
   authToggle: state.auth.authToggle,
 });
 
 const mapDispatchToProps = dispatch => ({
   onAuth: (login, password) => dispatch(actions.auth(login, password)),
-  onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/')),
   onAuthToggle: () => dispatch(actions.authToggle()),
 });
 
