@@ -1,15 +1,13 @@
-import axios from 'axios';
+import axios from '../../custom-axios';
 import * as actionTypes from './actionTypes';
 
 export const authStart = () => ({
   type: actionTypes.AUTH_START,
 });
 
-export const authSuccess = (userId, token, isAdmin) => ({
+export const authSuccess = token => ({
   type: actionTypes.AUTH_SUCCESS,
-  userId,
   token,
-  isAdmin,
 });
 
 export const authFail = error => ({
@@ -19,46 +17,27 @@ export const authFail = error => ({
 
 export const logout = () => {
   localStorage.removeItem('token');
-  localStorage.removeItem('userId');
-  localStorage.removeItem('isAdmin');
   return { type: actionTypes.AUTH_LOGOUT };
 };
 
-export const auth = (login, email, password) => dispatch => {
+export const auth = (authData, isRegister) => dispatch => {
   dispatch(authStart());
 
-  // let authData = {
-  //   login,
-  //   password,
-  // };
-  // let url = 'url for loging';
+  let url = 'users/login';
 
-  // if (email) {
-  //   authData = {
-  //     login,
-  //     email,
-  //     password,
-  //   };
-  //   url = 'url for register';
-  // }
+  if (!isRegister) {
+    url = 'users/register';
+  }
 
-  // axios.post(URL, authData)
+  axios.post(URL, authData);
   axios
-    .get('/Auth.json')
+    .post(url, authData)
     .then(response => {
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('userId', response.data.userId);
-      localStorage.setItem('isAdmin', response.data.isAdmin);
-      dispatch(
-        authSuccess(
-          response.data.userId,
-          response.data.token,
-          response.data.isAdmin,
-        ),
-      );
+      dispatch(authSuccess(response.data.token));
     })
     .catch(error => {
-      dispatch(authFail(error));
+      dispatch(authFail(error.response.data));
     });
 };
 
@@ -71,8 +50,6 @@ export const authCheckState = () => dispatch => {
   if (!token) {
     dispatch(logout());
   } else {
-    const userId = localStorage.getItem('userId');
-    const isAdmin = localStorage.getItem('isAdmin');
-    dispatch(authSuccess(userId, token, isAdmin));
+    dispatch(authSuccess(token));
   }
 };

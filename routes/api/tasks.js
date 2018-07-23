@@ -4,8 +4,6 @@ const passport = require('passport');
 const router = express.Router();
 // Load Task model
 const Task = require('../../models/Task');
-// Load Profile model
-const Profile = require('../../models/Profile');
 
 // validation
 const validateTaskInput = require('../../validation/task');

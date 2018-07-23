@@ -88,6 +88,5 @@ const RegisterForm = ({
 
 export default reduxForm({
   form: 'registerForm',
-  enableReinitialize: true,
   validate: validateRegister,
 })(RegisterForm);

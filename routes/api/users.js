@@ -39,7 +39,7 @@ router.post('/register', (req, res) => {
     }
 
     const newUser = new User({
-      name: req.body.name,
+      login: req.body.login,
       email: req.body.email,
       password: req.body.password,
     });
@@ -50,7 +50,25 @@ router.post('/register', (req, res) => {
         newUser.password = hash;
         newUser
           .save()
-          .then(resUser => res.json(resUser))
+          .then(resUser => {
+            // create jwt payload
+            const payload = { id: resUser.id, login: resUser.login };
+
+            // sign token
+            jwt.sign(
+              payload,
+              keys.secretOrKey,
+              { expiresIn: 3600 },
+              (err, token) => {
+                res.json({
+                  success: true,
+                  token: `Bearer ${token}`,
+                });
+              },
+            );
+
+            return null;
+          })
           .catch(e => console.log(e));
       });
     });
@@ -68,14 +86,50 @@ router.post('/login', (req, res) => {
     return res.status(400).json(errors);
   }
 
-  // Find user by email
-  User.findOne({ email: req.body.email }).then(user => {
+  // Find user by login
+  User.findOne({ login: req.body.login }).then(user => {
     // check for user
     if (!user) {
-      errors.email = 'User not found';
-      return res.status(404).json(errors);
-    }
+      // Find user by email
+      User.findOne({ email: req.body.login }).then(user => {
+        // check for user
+        if (!user) {
+          errors.login = 'User not found';
+          return res.status(404).json(errors);
+        }
 
+        // check password
+        bcrypt.compare(req.body.password, user.password).then(isMatch => {
+          if (isMatch) {
+            // User matched
+
+            // create jwt payload
+            const payload = { id: user.id, name: user.name };
+
+            // sign token
+            jwt.sign(
+              payload,
+              keys.secretOrKey,
+              { expiresIn: 3600 },
+              (err, token) => {
+                res.json({
+                  success: true,
+                  token: `Bearer ${token}`,
+                });
+              },
+            );
+
+            return null;
+          }
+
+          errors.password = 'Password incorrect';
+          return res.status(400).json(errors);
+        });
+        return null;
+      });
+
+      return null;
+    }
     // check password
     bcrypt.compare(req.body.password, user.password).then(isMatch => {
       if (isMatch) {
@@ -105,6 +159,7 @@ router.post('/login', (req, res) => {
     });
     return null;
   });
+
   return null;
 });
 
@@ -117,7 +172,7 @@ router.get(
   (req, res) => {
     res.json({
       id: req.user.id,
-      name: req.user.name,
+      login: req.user.login,
       email: req.user.email,
       isAdmin: req.user.isAdmin,
     });

@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 // Create User Schema
 const UserSchema = new Schema({
-  name: {
+  login: {
     type: String,
     required: true,
   },

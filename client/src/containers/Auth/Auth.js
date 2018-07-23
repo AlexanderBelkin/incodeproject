@@ -23,11 +23,7 @@ const style = {
 class Auth extends Component {
   handleSubmit = authData => {
     const { onAuth } = this.props;
-    if (!authData.email) {
-      onAuth(authData.login, authData.email, authData.password);
-    } else {
-      onAuth(authData.login, authData.password);
-    }
+    onAuth(authData, !authData.email);
   };
 
   render() {
@@ -67,7 +63,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onAuth: (login, password) => dispatch(actions.auth(login, password)),
+  onAuth: (authData, isRegister) =>
+    dispatch(actions.auth(authData, isRegister)),
   onAuthToggle: () => dispatch(actions.authToggle()),
 });
 

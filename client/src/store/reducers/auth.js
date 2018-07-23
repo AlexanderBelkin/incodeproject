@@ -13,9 +13,7 @@ const authStart = state => ({ ...state, error: null, loading: true });
 
 const authSuccess = (state, action) => ({
   ...state,
-  userId: action.userId,
   token: action.token,
-  isAdmin: action.isAdmin,
   error: null,
   loading: false,
 });
@@ -31,7 +29,12 @@ const authToggle = state => ({
   authToggle: !state.authToggle,
 });
 
-const authLogout = state => ({ ...state, token: null, userId: null });
+const authLogout = state => ({
+  ...state,
+  token: null,
+  userId: null,
+  isAdmin: false,
+});
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
