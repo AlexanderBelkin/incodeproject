@@ -7,9 +7,9 @@ export {
 export { auth, authToggle, authCheckState, logout } from './auth';
 export {
   fetchUser,
-  editUser,
+  editUserInit,
   editUserCancel,
-  editUserSuccess,
+  editUser,
   fetchUsers,
 } from './users';
 export { openChat, closeChat, fetchChatRoom, sendMessage } from './chat';

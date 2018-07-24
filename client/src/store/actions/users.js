@@ -19,12 +19,12 @@ export const fetchUsersStart = () => ({
 export const fetchUsers = () => dispatch => {
   dispatch(fetchUsersStart());
   axios
-    .get('profile')
+    .get('profile/all')
     .then(res => {
       dispatch(fetchUsersSuccess(res.data));
     })
     .catch(error => {
-      dispatch(fetchUsersFail(error));
+      dispatch(fetchUsersFail(error.response.data));
     });
 };
 
@@ -51,12 +51,25 @@ export const fetchUser = () => dispatch => {
       dispatch(fetchUserSuccess(res.data));
     })
     .catch(error => {
-      dispatch(fetchUserFail(error));
+      dispatch(fetchUserFail(error.response.data));
     });
 };
 
-export const editUser = () => ({
-  type: actionTypes.EDIT_USER,
+export const editUserInit = () => ({
+  type: actionTypes.EDIT_USER_INIT,
+});
+
+export const editUserCancel = () => ({
+  type: actionTypes.EDIT_USER_CANCEL,
+});
+
+export const editUserFail = error => ({
+  type: actionTypes.EDIT_USER_FAIL,
+  error,
+});
+
+export const editUserStart = () => ({
+  type: actionTypes.EDIT_USER_START,
 });
 
 export const editUserSuccess = user => ({
@@ -64,6 +77,14 @@ export const editUserSuccess = user => ({
   user,
 });
 
-export const editUserCancel = () => ({
-  type: actionTypes.EDIT_USER_CANCEL,
-});
+export const editUser = userData => dispatch => {
+  dispatch(editUserStart());
+  axios
+    .post('/profile', userData)
+    .then(res => {
+      dispatch(editUserSuccess(res.data));
+    })
+    .catch(error => {
+      dispatch(editUserFail(error.response.data));
+    });
+};

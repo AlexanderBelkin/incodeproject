@@ -7,9 +7,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Button,
   withStyles,
 } from '@material-ui/core';
 import { Mail, Edit, Person, DateRange, School } from '@material-ui/icons';
+
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const style = {
   card: {
@@ -27,45 +30,69 @@ const style = {
 
 const reformat = skills => (skills ? skills.join(', ') : '');
 
-const ProfileView = ({ classes, onEditUser, user }) => (
-  <Card className={classes.card}>
-    <div className={classes.controls}>
-      <IconButton aria-label="Edit" onClick={onEditUser}>
-        <Edit />
-      </IconButton>
-    </div>
-    <CardContent>
-      <List>
-        <ListItem>
-          <ListItemIcon>
-            <Person />
-          </ListItemIcon>
-          <ListItemText primary={user.name} secondary="Name" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <Mail />
-          </ListItemIcon>
-          <ListItemText primary={user.email} secondary="Email" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <DateRange />
-          </ListItemIcon>
-          <ListItemText primary={user.birthDate} secondary="Date of birth" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <School />
-          </ListItemIcon>
-          <ListItemText
-            primary={reformat(user.skills)}
-            secondary="List of skills"
-          />
-        </ListItem>
-      </List>
-    </CardContent>
-  </Card>
-);
+const ProfileView = ({ classes, onEditUserInit, user, userError }) => {
+  let output;
+
+  if (userError) {
+    output = (
+      <Card className={classes.card} style={{ textAlign: 'center' }}>
+        <ErrorMessage error={userError.text} />
+        <Button
+          onClick={onEditUserInit}
+          variant="contained"
+          color="primary"
+          style={{ margin: '25px 0' }}>
+          Create profile
+        </Button>
+      </Card>
+    );
+  } else {
+    output = (
+      <Card className={classes.card}>
+        <div className={classes.controls}>
+          <IconButton aria-label="Edit" onClick={onEditUserInit}>
+            <Edit />
+          </IconButton>
+        </div>
+        <CardContent>
+          <List>
+            <ListItem>
+              <ListItemIcon>
+                <Person />
+              </ListItemIcon>
+              <ListItemText primary={user.name} secondary="Name" />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <Mail />
+              </ListItemIcon>
+              <ListItemText primary={user.email} secondary="Email" />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <DateRange />
+              </ListItemIcon>
+              <ListItemText
+                primary={user.birthDate}
+                secondary="Date of birth"
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <School />
+              </ListItemIcon>
+              <ListItemText
+                primary={reformat(user.skills)}
+                secondary="List of skills"
+              />
+            </ListItem>
+          </List>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return output;
+};
 
 export default withStyles(style)(ProfileView);

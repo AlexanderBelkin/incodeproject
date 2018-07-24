@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   user: {},
   isEditing: false,
+  error: null,
 };
 
 // Multiple users
@@ -13,9 +14,10 @@ const fetchUsersStart = state => ({
   loading: true,
 });
 
-const fetchUsersFail = state => ({
+const fetchUsersFail = (state, action) => ({
   ...state,
   loading: false,
+  error: action.error,
 });
 
 const fetchUsersSuccess = (state, action) => ({
@@ -30,9 +32,10 @@ const fetchUserStart = state => ({
   loading: true,
 });
 
-const fetchUserFail = state => ({
+const fetchUserFail = (state, action) => ({
   ...state,
   loading: false,
+  error: action.error,
 });
 
 const fetchUserSuccess = (state, action) => ({
@@ -41,20 +44,33 @@ const fetchUserSuccess = (state, action) => ({
   user: action.user,
 });
 
-const editUser = state => ({
+const editUserInit = state => ({
   ...state,
   isEditing: true,
+});
+
+const editUserCancel = state => ({
+  ...state,
+  isEditing: false,
+});
+
+const editUserFail = (state, action) => ({
+  ...state,
+  loading: false,
+  error: action.error,
+});
+
+const editUserStart = state => ({
+  ...state,
+  loading: true,
 });
 
 const editUserSuccess = (state, action) => ({
   ...state,
   isEditing: false,
   user: action.user,
-});
-
-const editUserCancel = state => ({
-  ...state,
-  isEditing: false,
+  error: false,
+  loading: false,
 });
 
 const reducer = (state = initialState, action) => {
@@ -77,14 +93,20 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_USER_FAIL: {
       return fetchUserFail(state, action);
     }
-    case actionTypes.EDIT_USER: {
-      return editUser(state, action);
+    case actionTypes.EDIT_USER_INIT: {
+      return editUserInit(state, action);
     }
     case actionTypes.EDIT_USER_SUCCESS: {
       return editUserSuccess(state, action);
     }
     case actionTypes.EDIT_USER_CANCEL: {
       return editUserCancel(state, action);
+    }
+    case actionTypes.EDIT_USER_FAIL: {
+      return editUserFail(state, action);
+    }
+    case actionTypes.EDIT_USER_START: {
+      return editUserStart(state, action);
     }
     default:
       return state;

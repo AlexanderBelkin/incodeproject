@@ -14,14 +14,10 @@ class UserProfile extends Component {
     onFetchUser();
   };
 
-  handleEditSuccess = editedUser => {
-    const { onEditSuccess, user } = this.props;
+  handleEditUser = editedUser => {
+    const { onEditUser } = this.props;
 
-    editedUser.id = user.id;
-
-    editedUser.skills = editedUser.skills.split(', ');
-
-    onEditSuccess(editedUser);
+    onEditUser(editedUser);
   };
 
   render() {
@@ -29,8 +25,9 @@ class UserProfile extends Component {
       user,
       userLoading,
       isEditing,
-      onEditUser,
+      onEditUserInit,
       onEditCancel,
+      userError,
     } = this.props;
 
     if (userLoading) {
@@ -42,11 +39,15 @@ class UserProfile extends Component {
     }
 
     return !isEditing ? (
-      <ProfileView user={user} onEditUser={onEditUser} />
+      <ProfileView
+        userError={userError}
+        user={user}
+        onEditUserInit={onEditUserInit}
+      />
     ) : (
       <ProfileEdit
         user={user}
-        onEditSuccess={this.handleEditSuccess}
+        onEditUser={this.handleEditUser}
         onEditCancel={onEditCancel}
       />
     );
@@ -57,12 +58,13 @@ const mapStateToProps = state => ({
   user: state.users.user,
   userLoading: state.users.loading,
   isEditing: state.users.isEditing,
+  userError: state.users.error,
 });
 
 const mapDispatchToProps = dispatch => ({
   onFetchUser: () => dispatch(actions.fetchUser()),
-  onEditUser: () => dispatch(actions.editUser()),
-  onEditSuccess: user => dispatch(actions.editUserSuccess(user)),
+  onEditUserInit: () => dispatch(actions.editUserInit()),
+  onEditUser: user => dispatch(actions.editUser(user)),
   onEditCancel: () => dispatch(actions.editUserCancel()),
 });
 

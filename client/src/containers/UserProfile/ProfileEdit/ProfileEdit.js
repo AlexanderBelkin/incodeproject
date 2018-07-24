@@ -63,11 +63,11 @@ const ProfileEdit = ({
   classes,
   user,
   onEditCancel,
-  onEditSuccess,
+  onEditUser,
   handleSubmit,
 }) => (
   <Card className={classes.card}>
-    <form onSubmit={handleSubmit(onEditSuccess)}>
+    <form onSubmit={handleSubmit(onEditUser)}>
       <div className={classes.controls}>
         <IconButton
           aria-label="Cancel"

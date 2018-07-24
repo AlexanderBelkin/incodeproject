@@ -2,9 +2,13 @@ export const FETCH_USER_START = 'FETCH_USER_START';
 export const FETCH_USER_FAIL = 'FETCH_USER_FAIL';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const FETCH_USER = 'FETCH_USER';
-export const EDIT_USER = 'EDIT_USER';
+
+export const EDIT_USER_INIT = 'EDIT_USER_INIT';
 export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';
 export const EDIT_USER_CANCEL = 'EDIT_USER_CANCEL';
+export const EDIT_USER_FAIL = 'EDIT_USER_FAIL';
+export const EDIT_USER_START = 'EDIT_USER_START';
+export const EDIT_USER = 'EDIT_USER';
 
 export const FETCH_USERS_START = 'FETCH_USERS_START';
 export const FETCH_USERS_FAIL = 'FETCH_USERS_FAIL';
