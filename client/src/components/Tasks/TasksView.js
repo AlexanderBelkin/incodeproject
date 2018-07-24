@@ -16,7 +16,7 @@ const style = {
   },
 };
 
-const TaskView = ({ classes, tasks, userId, isAdmin, onChangeTaskStatus }) => (
+const TaskView = ({ classes, tasks, userId, isAdmin, onChangeTask }) => (
   <Grid container justify="center" className={classes.container}>
     <Grid item xs={12}>
       <Typography color="primary" variant="headline" className={classes.header}>
@@ -30,7 +30,7 @@ const TaskView = ({ classes, tasks, userId, isAdmin, onChangeTaskStatus }) => (
           !userId || userId === task.userId ? (
             <TaskItem
               isAdmin={isAdmin}
-              onChangeTaskStatus={onChangeTaskStatus}
+              onChangeTask={onChangeTask}
               key={task._id}
               task={task}
             />

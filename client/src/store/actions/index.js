@@ -1,8 +1,9 @@
 export {
   fetchTasks,
   fetchTask,
-  changeTaskStatus,
+  changeTask,
   addTaskComment,
+  changeTaskStatus,
 } from './tasks';
 export { auth, authToggle, authCheckState, logout } from './auth';
 export {

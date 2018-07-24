@@ -83,18 +83,16 @@ router.post(
   },
 );
 
-// @route POST api/tasks/:id
+// @route PUT api/tasks/:id
 // @desc Update task
 // @access Private
 router.put(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Task.findByIdAndUpdate(
-      req.params.id,
-      { status: req.body.status },
-      { new: true },
-    ).then(task => res.json(task));
+    Task.findByIdAndUpdate(req.params.id, req.body, { new: true })
+      .then(task => res.json(task))
+      .catch(() => res.status(404).json({ text: 'Task not found' }));
   },
 );
 
@@ -117,7 +115,7 @@ router.post(
       .then(task => {
         const newComment = {
           text: req.body.text,
-          login: req.body.login,
+          login: req.user.login,
           user: req.user.id,
         };
 

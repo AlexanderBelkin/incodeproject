@@ -29,7 +29,7 @@ const TaskSchema = new Schema({
         type: String,
         required: true,
       },
-      name: {
+      login: {
         type: String,
       },
       date: {

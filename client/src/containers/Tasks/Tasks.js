@@ -11,15 +11,17 @@ class Tasks extends Component {
     onFetchTasks();
   };
 
+  handleChangeTask = (task, type) => {
+    const { onChangeTask } = this.props;
+
+    const newTask = { ...task };
+    newTask.status = type;
+
+    onChangeTask(newTask);
+  };
+
   render() {
-    const {
-      tasks,
-      tasksLoading,
-      userId,
-      showAll,
-      isAdmin,
-      onChangeTaskStatus,
-    } = this.props;
+    const { tasks, tasksLoading, userId, showAll, isAdmin } = this.props;
 
     if (tasksLoading) {
       return (
@@ -32,7 +34,7 @@ class Tasks extends Component {
     return (
       <TasksView
         isAdmin={isAdmin}
-        onChangeTaskStatus={onChangeTaskStatus}
+        onChangeTask={this.handleChangeTask}
         userId={showAll ? null : userId}
         tasks={tasks}
       />
@@ -49,8 +51,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onFetchTasks: () => dispatch(actions.fetchTasks()),
-  onChangeTaskStatus: (taskId, newStatus) =>
-    dispatch(actions.changeTaskStatus(taskId, newStatus)),
+  onChangeTask: task => dispatch(actions.changeTask(task)),
 });
 
 export default connect(

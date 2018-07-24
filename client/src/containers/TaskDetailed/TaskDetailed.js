@@ -38,14 +38,17 @@ class TaskDetailed extends Component {
     onFetchTask(match.params.id);
   };
 
+  handleChangeTask = type => {
+    const { task, onChangeTask } = this.props;
+
+    const newTask = { ...task };
+    newTask.status = type;
+
+    onChangeTask(newTask);
+  };
+
   render() {
-    const {
-      classes,
-      task,
-      isAdmin,
-      onChangeTaskStatus,
-      taskLoading,
-    } = this.props;
+    const { classes, task, isAdmin, taskLoading, match } = this.props;
 
     if (taskLoading) {
       return (
@@ -66,7 +69,7 @@ class TaskDetailed extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Card key={task.id} className={classes.card}>
+          <Card className={classes.card}>
             <CardContent>
               <Typography variant="headline" className="mb-15">
                 {task.description}
@@ -76,7 +79,7 @@ class TaskDetailed extends Component {
                   <Button
                     className="button"
                     disabled={!isAdmin && type === 'Done'}
-                    onClick={() => onChangeTaskStatus(task.id, type)}
+                    onClick={() => this.handleChangeTask(type)}
                     variant={type === task.status ? 'contained' : 'text'}
                     key={type}>
                     {type}
@@ -87,7 +90,7 @@ class TaskDetailed extends Component {
           </Card>
         </Grid>
         <Grid item xs={12}>
-          <Comments comments={task.comments} />
+          <Comments match={match} comments={task.comments} />
         </Grid>
       </Grid>
     );
@@ -102,8 +105,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onFetchTask: id => dispatch(actions.fetchTask(id)),
-  onChangeTaskStatus: (taskId, newStatus) =>
-    dispatch(actions.changeTaskStatus(taskId, newStatus)),
+  onChangeTask: task => dispatch(actions.changeTask(task)),
 });
 
 export default connect(

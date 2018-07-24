@@ -22,7 +22,7 @@ const style = {
 
 const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
-const TaskItem = ({ task, classes, onChangeTaskStatus, isAdmin }) => (
+const TaskItem = ({ task, classes, onChangeTask, isAdmin }) => (
   <Card className={classes.card}>
     <CardContent>
       <Typography variant="title" className="mb-15">
@@ -42,7 +42,7 @@ const TaskItem = ({ task, classes, onChangeTaskStatus, isAdmin }) => (
           <Button
             className="button"
             disabled={!isAdmin && type === 'Done'} // TODO: disabled if isn't user task
-            onClick={() => onChangeTaskStatus(task._id, type)}
+            onClick={() => onChangeTask(task, type)}
             variant={type === task.status ? 'contained' : 'text'}
             key={type}>
             {type}

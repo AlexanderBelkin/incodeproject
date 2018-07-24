@@ -4,6 +4,7 @@ const initialState = {
   tasks: [],
   loading: false,
   currentTask: {},
+  error: null,
 };
 
 const fetchTasksStart = state => ({
@@ -21,6 +22,28 @@ const fetchTasksSuccess = (state, action) => ({
   loading: false,
   tasks: action.tasks,
 });
+
+const changeTaskStart = state => ({
+  ...state,
+});
+
+const changeTaskFail = (state, action) => ({
+  ...state,
+  error: action.error,
+});
+
+const changeTaskSuccess = (state, action) => {
+  const newTasks = state.tasks.map(task => {
+    if (task._id === action.task._id) return action.task;
+    return task;
+  });
+
+  return {
+    ...state,
+    tasks: newTasks,
+    currentTask: action.task,
+  };
+};
 
 // TODO: change the way of changing task status
 const changeTaskStatus = (state, action) => {
@@ -60,15 +83,19 @@ const fetchTaskSuccess = (state, action) => ({
   currentTask: action.currentTask,
 });
 
-const addTaskComment = (state, action) => {
-  // immutable copiyng current object
-  const newCurrentTask = JSON.parse(JSON.stringify(state.currentTask));
-  newCurrentTask.comments.push(action.comment);
-  return {
-    ...state,
-    currentTask: newCurrentTask,
-  };
-};
+const addTaskCommentStart = state => ({
+  ...state,
+});
+
+const addTaskCommentFail = (state, action) => ({
+  ...state,
+  error: action.error,
+});
+
+const addTaskCommentSuccess = (state, action) => ({
+  ...state,
+  currentTask: action.currentTask,
+});
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -80,6 +107,15 @@ const reducer = (state = initialState, action) => {
     }
     case actionTypes.FETCH_TASKS_FAIL: {
       return fetchTasksFail(state, action);
+    }
+    case actionTypes.CHANGE_TASK_START: {
+      return changeTaskStart(state, action);
+    }
+    case actionTypes.CHANGE_TASK_FAIL: {
+      return changeTaskFail(state, action);
+    }
+    case actionTypes.CHANGE_TASK_SUCCESS: {
+      return changeTaskSuccess(state, action);
     }
     case actionTypes.FETCH_TASK_START: {
       return fetchTaskStart(state, action);
@@ -93,8 +129,14 @@ const reducer = (state = initialState, action) => {
     case actionTypes.CHANGE_TASK_STATUS: {
       return changeTaskStatus(state, action);
     }
-    case actionTypes.ADD_TASK_COMMENT: {
-      return addTaskComment(state, action);
+    case actionTypes.ADD_TASK_COMMENT_START: {
+      return addTaskCommentStart(state, action);
+    }
+    case actionTypes.ADD_TASK_COMMENT_FAIL: {
+      return addTaskCommentFail(state, action);
+    }
+    case actionTypes.ADD_TASK_COMMENT_SUCCESS: {
+      return addTaskCommentSuccess(state, action);
     }
     default:
       return state;
