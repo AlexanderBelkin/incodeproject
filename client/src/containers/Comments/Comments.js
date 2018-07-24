@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { reset, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import {
   Card,
   CardHeader,
@@ -51,7 +52,10 @@ class Comments extends Component {
         {comments
           ? comments.map(comment => (
               <Card key={comment.date}>
-                <CardHeader title={comment.login} subheader={comment.date} />
+                <CardHeader
+                  title={comment.login}
+                  subheader={moment(comment.date).format('MMMM Do YYYY')}
+                />
                 <CardContent>{comment.text}</CardContent>
               </Card>
             ))
