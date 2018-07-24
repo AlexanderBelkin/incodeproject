@@ -1,15 +1,19 @@
-import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+
+import axios from '../../custom-axios';
 import * as actionTypes from './actionTypes';
+import setAuthToken from '../../utils/setAuthToken';
 
 export const authStart = () => ({
   type: actionTypes.AUTH_START,
 });
 
-export const authSuccess = (userId, token, isAdmin) => ({
+export const authSuccess = (token, isAdmin, login, userId) => ({
   type: actionTypes.AUTH_SUCCESS,
-  userId,
   token,
   isAdmin,
+  login,
+  userId,
 });
 
 export const authFail = error => ({
@@ -19,46 +23,38 @@ export const authFail = error => ({
 
 export const logout = () => {
   localStorage.removeItem('token');
-  localStorage.removeItem('userId');
-  localStorage.removeItem('isAdmin');
+  // remove auth header for future requests
+  setAuthToken(false);
   return { type: actionTypes.AUTH_LOGOUT };
 };
 
-export const auth = (login, email, password) => dispatch => {
+export const auth = (authData, isRegister) => dispatch => {
   dispatch(authStart());
 
-  // let authData = {
-  //   login,
-  //   password,
-  // };
-  // let url = 'url for loging';
+  let url = 'users/login';
 
-  // if (email) {
-  //   authData = {
-  //     login,
-  //     email,
-  //     password,
-  //   };
-  //   url = 'url for register';
-  // }
+  if (!isRegister) {
+    url = 'users/register';
+  }
 
-  // axios.post(URL, authData)
+  axios.post(URL, authData);
   axios
-    .get('/Auth.json')
+    .post(url, authData)
     .then(response => {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('userId', response.data.userId);
-      localStorage.setItem('isAdmin', response.data.isAdmin);
-      dispatch(
-        authSuccess(
-          response.data.userId,
-          response.data.token,
-          response.data.isAdmin,
-        ),
-      );
+      const { token } = response.data;
+
+      // save token to local storage
+      localStorage.setItem('token', token);
+      // set token to Auth header
+      setAuthToken(token);
+
+      // decode token to get user data
+      const decoded = jwtDecode(token);
+
+      dispatch(authSuccess(token, decoded.isAdmin, decoded.login, decoded.id));
     })
     .catch(error => {
-      dispatch(authFail(error));
+      dispatch(authFail(error.response.data));
     });
 };
 
@@ -71,8 +67,22 @@ export const authCheckState = () => dispatch => {
   if (!token) {
     dispatch(logout());
   } else {
-    const userId = localStorage.getItem('userId');
-    const isAdmin = localStorage.getItem('isAdmin');
-    dispatch(authSuccess(userId, token, isAdmin));
+    // save token to local storage
+    localStorage.setItem('token', token);
+
+    // decode token to get user data
+    const decoded = jwtDecode(token);
+
+    // check for expired token
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      // lougout user
+      dispatch(logout());
+    } else {
+      // set token to Auth header
+      setAuthToken(token);
+
+      dispatch(authSuccess(token, decoded.isAdmin, decoded.login, decoded.id));
+    }
   }
 };

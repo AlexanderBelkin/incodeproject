@@ -23,15 +23,17 @@ const style = {
 class Auth extends Component {
   handleSubmit = authData => {
     const { onAuth } = this.props;
-    if (!authData.email) {
-      onAuth(authData.login, authData.email, authData.password);
-    } else {
-      onAuth(authData.login, authData.password);
-    }
+    onAuth(authData, !authData.email);
   };
 
   render() {
-    const { classes, authToggle, onAuthToggle, authLoading } = this.props;
+    const {
+      classes,
+      authToggle,
+      onAuthToggle,
+      authLoading,
+      authError,
+    } = this.props;
 
     if (authLoading) {
       return (
@@ -44,6 +46,7 @@ class Auth extends Component {
     return authToggle ? (
       <Card className={classes.card}>
         <LoginForm
+          authError={authError}
           onFormSubmit={this.handleSubmit}
           onAuthToggle={onAuthToggle}
         />
@@ -51,6 +54,7 @@ class Auth extends Component {
     ) : (
       <Card className={classes.card}>
         <RegisterForm
+          authError={authError}
           onFormSubmit={this.handleSubmit}
           onAuthToggle={onAuthToggle}
         />
@@ -67,7 +71,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onAuth: (login, password) => dispatch(actions.auth(login, password)),
+  onAuth: (authData, isRegister) =>
+    dispatch(actions.auth(authData, isRegister)),
   onAuthToggle: () => dispatch(actions.authToggle()),
 });
 

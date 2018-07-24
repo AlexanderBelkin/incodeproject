@@ -1,12 +1,13 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import isEmail from 'isemail';
 import { CardContent, ListItem, List, Button } from '@material-ui/core';
 
 import Input from '../form/Input';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const validateRegister = ({ login, email, password, confirmPassword }) => {
   const errors = {};
+  const emailPattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
   if (!login) {
     errors.login = 'Login is required';
@@ -16,7 +17,7 @@ const validateRegister = ({ login, email, password, confirmPassword }) => {
 
   if (!email) {
     errors.email = 'Email is required';
-  } else if (!isEmail.validate(email)) {
+  } else if (!emailPattern.test(email)) {
     errors.email = 'Please, write your email properly.';
   }
 
@@ -40,9 +41,11 @@ const RegisterForm = ({
   invalid,
   onFormSubmit,
   handleSubmit,
+  authError,
 }) => (
   <form onSubmit={handleSubmit(onFormSubmit)}>
     <CardContent>
+      {authError && <ErrorMessage error={authError.text} />}
       <List>
         <ListItem>
           <Field name="login" component={Input} label="Login" />
@@ -88,6 +91,5 @@ const RegisterForm = ({
 
 export default reduxForm({
   form: 'registerForm',
-  enableReinitialize: true,
   validate: validateRegister,
 })(RegisterForm);

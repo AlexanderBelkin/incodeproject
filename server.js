@@ -32,6 +32,15 @@ app.use(passport.initialize());
 // passport config
 require('./config/passport')(passport);
 
+// CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTION');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+  next();
+});
+
 // use routes
 app.use('/api/users', users);
 app.use('/api/profile', profile);

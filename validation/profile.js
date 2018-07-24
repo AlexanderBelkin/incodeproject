@@ -10,27 +10,27 @@ module.exports = function validateProfileInput(data) {
   const skills = !isEmpty(data.skills) ? data.skills : '';
 
   if (!Validator.isLength(name, { min: 2, max: 30 })) {
-    errors.name = 'Name must be between 2 and 30 characters';
+    errors.text = 'Name must be between 2 and 30 characters';
   }
 
   if (Validator.isEmpty(name)) {
-    errors.name = 'Name field is required';
+    errors.text = 'Name field is required';
   }
 
   if (Validator.isEmpty(email)) {
-    errors.email = 'Email field is required';
+    errors.text = 'Email field is required';
   }
 
   if (!Validator.isEmail(email)) {
-    errors.email = 'Email is invalid';
+    errors.text = 'Email is invalid';
   }
 
   if (Validator.isEmpty(birthDate)) {
-    errors.birthDate = 'Date of birth field is required';
+    errors.text = 'Date of birth field is required';
   }
 
   if (Validator.isEmpty(skills)) {
-    errors.skills = 'Skills field is required';
+    errors.text = 'Skills field is required';
   }
 
   return {
