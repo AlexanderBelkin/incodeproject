@@ -1,6 +1,5 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import isEmail from 'isemail';
 import { connect } from 'react-redux';
 import {
   Card,
@@ -35,10 +34,11 @@ const style = {
   },
 };
 
-const birthMask = /\d{2}-\d{2}-\d{4}/;
-
 const validateProfile = ({ name, email, birthDate }) => {
   const errors = {};
+
+  const birthMask = /\d{2}-\d{2}-\d{4}/;
+  const emailPattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
   if (!name) {
     errors.name = 'Name is required';
@@ -46,7 +46,7 @@ const validateProfile = ({ name, email, birthDate }) => {
 
   if (!email) {
     errors.email = 'Email is required';
-  } else if (!isEmail.validate(email)) {
+  } else if (!emailPattern.test(email)) {
     errors.email = 'Please, write your email properly.';
   }
 

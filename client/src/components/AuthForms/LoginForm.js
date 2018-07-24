@@ -4,6 +4,7 @@ import isEmail from 'isemail';
 import { CardContent, ListItem, List, Button } from '@material-ui/core';
 
 import Input from '../form/Input';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const validateLogin = ({ login, password }) => {
   const errors = {};
@@ -25,9 +26,16 @@ const validateLogin = ({ login, password }) => {
   return errors;
 };
 
-const LoginForm = ({ onAuthToggle, invalid, onFormSubmit, handleSubmit }) => (
+const LoginForm = ({
+  onAuthToggle,
+  invalid,
+  onFormSubmit,
+  handleSubmit,
+  authError,
+}) => (
   <form onSubmit={handleSubmit(onFormSubmit)}>
     <CardContent>
+      {authError && <ErrorMessage error={authError.text} />}
       <List>
         <ListItem>
           <Field name="login" component={Input} label="Login" />

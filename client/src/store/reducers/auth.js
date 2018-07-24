@@ -4,6 +4,7 @@ const initialState = {
   authToggle: false,
   token: null,
   userId: null,
+  login: null,
   isAdmin: false,
   loading: null,
   error: null,
@@ -14,6 +15,9 @@ const authStart = state => ({ ...state, error: null, loading: true });
 const authSuccess = (state, action) => ({
   ...state,
   token: action.token,
+  userId: action.userId,
+  isAdmin: action.isAdmin,
+  login: action.login,
   error: null,
   loading: false,
 });
@@ -27,6 +31,8 @@ const authFail = (state, action) => ({
 const authToggle = state => ({
   ...state,
   authToggle: !state.authToggle,
+  error: null,
+  loading: false,
 });
 
 const authLogout = state => ({
@@ -34,6 +40,7 @@ const authLogout = state => ({
   token: null,
   userId: null,
   isAdmin: false,
+  login: null,
 });
 
 const reducer = (state = initialState, action) => {

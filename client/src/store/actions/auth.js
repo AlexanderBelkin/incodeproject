@@ -1,13 +1,19 @@
+import jwtDecode from 'jwt-decode';
+
 import axios from '../../custom-axios';
 import * as actionTypes from './actionTypes';
+import setAuthToken from '../../utils/setAuthToken';
 
 export const authStart = () => ({
   type: actionTypes.AUTH_START,
 });
 
-export const authSuccess = token => ({
+export const authSuccess = (token, isAdmin, login, userId) => ({
   type: actionTypes.AUTH_SUCCESS,
   token,
+  isAdmin,
+  login,
+  userId,
 });
 
 export const authFail = error => ({
@@ -17,6 +23,8 @@ export const authFail = error => ({
 
 export const logout = () => {
   localStorage.removeItem('token');
+  // remove auth header for future requests
+  setAuthToken(false);
   return { type: actionTypes.AUTH_LOGOUT };
 };
 
@@ -33,8 +41,17 @@ export const auth = (authData, isRegister) => dispatch => {
   axios
     .post(url, authData)
     .then(response => {
-      localStorage.setItem('token', response.data.token);
-      dispatch(authSuccess(response.data.token));
+      const { token } = response.data;
+
+      // save token to local storage
+      localStorage.setItem('token', token);
+      // set token to Auth header
+      setAuthToken(token);
+
+      // decode token to get user data
+      const decoded = jwtDecode(token);
+
+      dispatch(authSuccess(token, decoded.isAdmin, decoded.login, decoded.id));
     })
     .catch(error => {
       dispatch(authFail(error.response.data));
@@ -50,6 +67,22 @@ export const authCheckState = () => dispatch => {
   if (!token) {
     dispatch(logout());
   } else {
-    dispatch(authSuccess(token));
+    // save token to local storage
+    localStorage.setItem('token', token);
+
+    // decode token to get user data
+    const decoded = jwtDecode(token);
+
+    // check for expired token
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      // lougout user
+      dispatch(logout());
+    } else {
+      // set token to Auth header
+      setAuthToken(token);
+
+      dispatch(authSuccess(token, decoded.isAdmin, decoded.login, decoded.id));
+    }
   }
 };

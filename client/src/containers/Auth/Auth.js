@@ -27,7 +27,13 @@ class Auth extends Component {
   };
 
   render() {
-    const { classes, authToggle, onAuthToggle, authLoading } = this.props;
+    const {
+      classes,
+      authToggle,
+      onAuthToggle,
+      authLoading,
+      authError,
+    } = this.props;
 
     if (authLoading) {
       return (
@@ -40,6 +46,7 @@ class Auth extends Component {
     return authToggle ? (
       <Card className={classes.card}>
         <LoginForm
+          authError={authError}
           onFormSubmit={this.handleSubmit}
           onAuthToggle={onAuthToggle}
         />
@@ -47,6 +54,7 @@ class Auth extends Component {
     ) : (
       <Card className={classes.card}>
         <RegisterForm
+          authError={authError}
           onFormSubmit={this.handleSubmit}
           onAuthToggle={onAuthToggle}
         />
