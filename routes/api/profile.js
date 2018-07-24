@@ -16,28 +16,41 @@ router.get('/test', (req, res) => {
 });
 
 // @route GET api/profile
-// @desc Get current users profile
+// @desc Get all users profile
 // @access Private
 router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const errors = {};
-
-    Profile.findOne({ user: req.user.id })
-      .then(profile => {
-        if (!profile) {
-          errors.text = 'There is no profile for this user';
-          return res.status(404).json(errors);
-        }
-
-        res.json(profile);
-
-        return null;
-      })
-      .catch(err => res.status(404).json(err));
+    Profile.find()
+      .then(users => res.json(users))
+      .catch(() => res.status(404).json({ error: 'No users found' }));
   },
 );
+
+// @route GET api/profile
+// @desc Get current users profile
+// @access Private
+// router.get(
+//   '/',
+//   passport.authenticate('jwt', { session: false }),
+//   (req, res) => {
+//     const errors = {};
+
+//     Profile.findOne({ user: req.user.id })
+//       .then(profile => {
+//         if (!profile) {
+//           errors.text = 'There is no profile for this user';
+//           return res.status(404).json(errors);
+//         }
+
+//         res.json(profile);
+
+//         return null;
+//       })
+//       .catch(err => res.status(404).json(err));
+//   },
+// );
 
 // @route POST api/profile
 // @desc Create ot edit user profile

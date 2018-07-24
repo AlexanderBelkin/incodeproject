@@ -31,7 +31,7 @@ const TaskView = ({ classes, tasks, userId, isAdmin, onChangeTaskStatus }) => (
             <TaskItem
               isAdmin={isAdmin}
               onChangeTaskStatus={onChangeTaskStatus}
-              key={task.id}
+              key={task._id}
               task={task}
             />
           ) : null,

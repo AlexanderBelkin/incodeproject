@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../custom-axios';
 import * as actionTypes from './actionTypes';
 
 // Multiple users
@@ -19,7 +19,7 @@ export const fetchUsersStart = () => ({
 export const fetchUsers = () => dispatch => {
   dispatch(fetchUsersStart());
   axios
-    .get('/Users.json')
+    .get('profile')
     .then(res => {
       dispatch(fetchUsersSuccess(res.data));
     })
@@ -46,7 +46,7 @@ export const fetchUserStart = () => ({
 export const fetchUser = () => dispatch => {
   dispatch(fetchUserStart());
   axios
-    .get('/User.json')
+    .get('/profile')
     .then(res => {
       dispatch(fetchUserSuccess(res.data));
     })

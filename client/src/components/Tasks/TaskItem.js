@@ -28,7 +28,7 @@ const TaskItem = ({ task, classes, onChangeTaskStatus, isAdmin }) => (
       <Typography variant="title" className="mb-15">
         <Link
           style={{ textDecoration: 'none', color: '#222' }}
-          to={`/task/${task.id}`}>
+          to={`/task/${task._id}`}>
           {task.title}
         </Link>
       </Typography>
@@ -42,7 +42,7 @@ const TaskItem = ({ task, classes, onChangeTaskStatus, isAdmin }) => (
           <Button
             className="button"
             disabled={!isAdmin && type === 'Done'} // TODO: disabled if isn't user task
-            onClick={() => onChangeTaskStatus(task.id, type)}
+            onClick={() => onChangeTaskStatus(task._id, type)}
             variant={type === task.status ? 'contained' : 'text'}
             key={type}>
             {type}

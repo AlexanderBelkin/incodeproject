@@ -34,8 +34,8 @@ const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
 class TaskDetailed extends Component {
   componentDidMount = () => {
-    const { onFetchTask } = this.props;
-    onFetchTask();
+    const { onFetchTask, match } = this.props;
+    onFetchTask(match.params.id);
   };
 
   render() {
@@ -101,7 +101,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchTask: () => dispatch(actions.fetchTask()),
+  onFetchTask: id => dispatch(actions.fetchTask(id)),
   onChangeTaskStatus: (taskId, newStatus) =>
     dispatch(actions.changeTaskStatus(taskId, newStatus)),
 });

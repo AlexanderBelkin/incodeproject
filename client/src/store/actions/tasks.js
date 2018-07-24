@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../custom-axios';
 import * as actionTypes from './actionTypes';
 
 export const fetchTasksSuccess = tasks => ({
@@ -18,7 +18,7 @@ export const fetchTasksStart = () => ({
 export const fetchTasks = () => dispatch => {
   dispatch(fetchTasksStart());
   axios
-    .get('/TaskList.json')
+    .get('tasks')
     .then(res => {
       dispatch(fetchTasksSuccess(res.data));
     })
@@ -41,10 +41,10 @@ export const fetchTaskStart = () => ({
   type: actionTypes.FETCH_TASK_START,
 });
 
-export const fetchTask = () => dispatch => {
+export const fetchTask = id => dispatch => {
   dispatch(fetchTaskStart());
   axios
-    .get('/Task.json')
+    .get(`/tasks/${id}`)
     .then(res => {
       dispatch(fetchTaskSuccess(res.data));
     })

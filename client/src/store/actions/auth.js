@@ -37,7 +37,6 @@ export const auth = (authData, isRegister) => dispatch => {
     url = 'users/register';
   }
 
-  axios.post(URL, authData);
   axios
     .post(url, authData)
     .then(response => {
