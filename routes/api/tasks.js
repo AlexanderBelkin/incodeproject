@@ -26,7 +26,7 @@ router.get(
     Task.find()
       .sort({ date: -1 })
       .then(tasks => res.json(tasks))
-      .catch(() => res.status(404).json({ noTasksFound: 'No tasks found' }));
+      .catch(() => res.status(404).json({ error: 'No tasks found' }));
   },
 );
 
@@ -39,7 +39,7 @@ router.get(
   (req, res) => {
     Task.findById(req.params.id)
       .then(task => res.json(task))
-      .catch(() => res.status(404).json({ noTaskFound: 'No task found' }));
+      .catch(() => res.status(404).json({ error: 'No task found' }));
   },
 );
 
@@ -53,7 +53,7 @@ router.get(
     Task.find({ user: req.params.user_id })
       .sort({ date: -1 })
       .then(tasks => res.json(tasks))
-      .catch(() => res.status(404).json({ noTasksFound: 'No tasks found' }));
+      .catch(() => res.status(404).json({ error: 'No tasks found' }));
   },
 );
 
@@ -117,7 +117,7 @@ router.post(
       .then(task => {
         const newComment = {
           text: req.body.text,
-          name: req.body.avatar,
+          login: req.body.login,
           user: req.user.id,
         };
 

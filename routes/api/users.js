@@ -34,42 +34,52 @@ router.post('/register', (req, res) => {
 
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
-      errors.email = 'Email already exists';
+      errors.text = 'Email already exists';
       return res.status(400).json(errors);
     }
 
-    const newUser = new User({
-      login: req.body.login,
-      email: req.body.email,
-      password: req.body.password,
-    });
+    User.findOne({ login: req.body.login }).then(user => {
+      if (user) {
+        errors.text = 'Login already exists';
+        return res.status(400).json(errors);
+      }
+      const newUser = new User({
+        login: req.body.login,
+        email: req.body.email,
+        password: req.body.password,
+      });
 
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(newUser.password, salt, (error, hash) => {
-        if (err) throw err;
-        newUser.password = hash;
-        newUser
-          .save()
-          .then(resUser => {
-            // create jwt payload
-            const payload = { id: resUser.id, login: resUser.login };
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (error, hash) => {
+          if (err) throw err;
+          newUser.password = hash;
+          newUser
+            .save()
+            .then(resUser => {
+              // create jwt payload
+              const payload = {
+                id: resUser.id,
+                login: resUser.login,
+                isAdmin: resUser.isAdmin,
+              };
 
-            // sign token
-            jwt.sign(
-              payload,
-              keys.secretOrKey,
-              { expiresIn: 3600 },
-              (err, token) => {
-                res.json({
-                  success: true,
-                  token: `Bearer ${token}`,
-                });
-              },
-            );
+              // sign token
+              jwt.sign(
+                payload,
+                keys.secretOrKey,
+                { expiresIn: 3600 },
+                (err, token) => {
+                  res.json({
+                    success: true,
+                    token: `Bearer ${token}`,
+                  });
+                },
+              );
 
-            return null;
-          })
-          .catch(e => console.log(e));
+              return null;
+            })
+            .catch(e => console.log(e));
+        });
       });
     });
   });
@@ -94,7 +104,7 @@ router.post('/login', (req, res) => {
       User.findOne({ email: req.body.login }).then(user => {
         // check for user
         if (!user) {
-          errors.login = 'User not found';
+          errors.text = 'User not found';
           return res.status(404).json(errors);
         }
 
@@ -104,7 +114,11 @@ router.post('/login', (req, res) => {
             // User matched
 
             // create jwt payload
-            const payload = { id: user.id, name: user.name };
+            const payload = {
+              id: user.id,
+              login: user.login,
+              isAdmin: user.isAdmin,
+            };
 
             // sign token
             jwt.sign(
@@ -122,7 +136,7 @@ router.post('/login', (req, res) => {
             return null;
           }
 
-          errors.password = 'Password incorrect';
+          errors.text = 'Password incorrect';
           return res.status(400).json(errors);
         });
         return null;
@@ -136,7 +150,11 @@ router.post('/login', (req, res) => {
         // User matched
 
         // create jwt payload
-        const payload = { id: user.id, name: user.name };
+        const payload = {
+          id: user.id,
+          login: user.login,
+          isAdmin: user.isAdmin,
+        };
 
         // sign token
         jwt.sign(
@@ -154,7 +172,7 @@ router.post('/login', (req, res) => {
         return null;
       }
 
-      errors.password = 'Password incorrect';
+      errors.text = 'Password incorrect';
       return res.status(400).json(errors);
     });
     return null;
