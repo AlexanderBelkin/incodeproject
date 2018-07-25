@@ -26,7 +26,7 @@ const style = {
   },
 };
 
-const Header = ({ classes, isAuthenticated, onLogout }) => (
+const Header = ({ classes, isAuthenticated, onLogout, userId }) => (
   <div>
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
@@ -50,7 +50,7 @@ const Header = ({ classes, isAuthenticated, onLogout }) => (
                 <Person className={classes.linkBtn} />
               </IconButton>
             </Link>
-            <Link to="/tasks">
+            <Link to={`/tasks/${userId}`}>
               <IconButton>
                 <List className={classes.linkBtn} />
               </IconButton>

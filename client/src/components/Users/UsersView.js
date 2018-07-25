@@ -25,7 +25,7 @@ const UsersView = ({ classes, users, isChatOpened, onOpenChat }) => (
     <Grid item xs={12}>
       {users.map(user => (
         <UserItem
-          key={user.id}
+          key={user._id}
           user={user}
           isChatOpened={isChatOpened}
           onOpenChat={onOpenChat}>

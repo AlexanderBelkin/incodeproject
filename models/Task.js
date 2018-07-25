@@ -3,9 +3,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const TaskSchema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'users',
+  performerId: {
+    type: String,
   },
   title: {
     type: String,
@@ -29,7 +28,7 @@ const TaskSchema = new Schema({
         type: String,
         required: true,
       },
-      name: {
+      login: {
         type: String,
       },
       date: {

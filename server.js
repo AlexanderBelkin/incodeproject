@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 
 const users = require('./routes/api/users');
-const profile = require('./routes/api/profile');
 const tasks = require('./routes/api/tasks');
 
 const app = express();
@@ -36,14 +35,16 @@ require('./config/passport')(passport);
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTION');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  );
 
   next();
 });
 
 // use routes
 app.use('/api/users', users);
-app.use('/api/profile', profile);
 app.use('/api/tasks', tasks);
 
 const port = process.env.PORT || 5000;

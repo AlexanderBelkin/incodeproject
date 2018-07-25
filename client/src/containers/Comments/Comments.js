@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { reset, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import {
   Card,
   CardHeader,
@@ -30,12 +31,12 @@ const style = {
 
 class Comments extends Component {
   handleAddComment = comment => {
-    const { userId, onAddTaskComment } = this.props;
+    const { userId, onAddTaskComment, match } = this.props;
     comment.userName = userId;
     const date = new Date();
     const dateFormat = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
     comment.date = dateFormat;
-    onAddTaskComment(comment);
+    onAddTaskComment(comment.text, match.params.id);
   };
 
   render() {
@@ -51,7 +52,10 @@ class Comments extends Component {
         {comments
           ? comments.map(comment => (
               <Card key={comment.date}>
-                <CardHeader title={comment.userName} subheader={comment.date} />
+                <CardHeader
+                  title={comment.login}
+                  subheader={moment(comment.date).format('HH:mm, DD.MM.YYYY')}
+                />
                 <CardContent>{comment.text}</CardContent>
               </Card>
             ))
@@ -92,7 +96,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onAddTaskComment: comment => dispatch(actions.addTaskComment(comment)),
+  onAddTaskComment: (comment, id) =>
+    dispatch(actions.addTaskComment(comment, id)),
 });
 
 export default connect(

@@ -26,7 +26,7 @@ router.get(
     Task.find()
       .sort({ date: -1 })
       .then(tasks => res.json(tasks))
-      .catch(() => res.status(404).json({ noTasksFound: 'No tasks found' }));
+      .catch(() => res.status(404).json({ error: 'No tasks found' }));
   },
 );
 
@@ -39,7 +39,7 @@ router.get(
   (req, res) => {
     Task.findById(req.params.id)
       .then(task => res.json(task))
-      .catch(() => res.status(404).json({ noTaskFound: 'No task found' }));
+      .catch(() => res.status(404).json({ error: 'No task found' }));
   },
 );
 
@@ -50,10 +50,10 @@ router.get(
   '/user/:user_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Task.find({ user: req.params.user_id })
+    Task.find({ performerId: req.params.user_id })
       .sort({ date: -1 })
       .then(tasks => res.json(tasks))
-      .catch(() => res.status(404).json({ noTasksFound: 'No tasks found' }));
+      .catch(() => res.status(404).json({ error: 'No tasks found' }));
   },
 );
 
@@ -83,18 +83,16 @@ router.post(
   },
 );
 
-// @route POST api/tasks/:id
+// @route PUT api/tasks/:id
 // @desc Update task
 // @access Private
 router.put(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Task.findByIdAndUpdate(
-      req.params.id,
-      { status: req.body.status },
-      { new: true },
-    ).then(task => res.json(task));
+    Task.findByIdAndUpdate(req.params.id, req.body, { new: true })
+      .then(task => res.json(task))
+      .catch(() => res.status(404).json({ text: 'Task not found' }));
   },
 );
 
@@ -117,12 +115,12 @@ router.post(
       .then(task => {
         const newComment = {
           text: req.body.text,
-          name: req.body.avatar,
+          login: req.user.login,
           user: req.user.id,
         };
 
         // add to comment array
-        task.comments.unshift(newComment);
+        task.comments.push(newComment);
 
         // save
         task.save().then(task => res.json(task));

@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import * as actions from '../../store/actions/index';
 import Comments from '../Comments/Comments';
+import SelectItem from '../../components/form/SelectItem';
 
 const style = {
   container: {
@@ -34,18 +35,30 @@ const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
 class TaskDetailed extends Component {
   componentDidMount = () => {
-    const { onFetchTask } = this.props;
-    onFetchTask();
+    const { onFetchTask, onFetchUsers, match } = this.props;
+    onFetchTask(match.params.id);
+    onFetchUsers();
+  };
+
+  handleChangeTask = type => {
+    const { task, onChangeTask } = this.props;
+
+    const newTask = { ...task };
+    newTask.status = type;
+
+    onChangeTask(newTask);
+  };
+
+  handleSelectChange = e => {
+    const { task, onChangeTask } = this.props;
+
+    const newTask = { ...task };
+    newTask.performerId = e.target.value;
+    onChangeTask(newTask);
   };
 
   render() {
-    const {
-      classes,
-      task,
-      isAdmin,
-      onChangeTaskStatus,
-      taskLoading,
-    } = this.props;
+    const { classes, task, isAdmin, taskLoading, match, users } = this.props;
 
     if (taskLoading) {
       return (
@@ -66,17 +79,23 @@ class TaskDetailed extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Card key={task.id} className={classes.card}>
+          <Card className={classes.card}>
             <CardContent>
               <Typography variant="headline" className="mb-15">
                 {task.description}
               </Typography>
+              <SelectItem
+                task={task}
+                users={users}
+                onSelectChange={this.handleSelectChange}
+                selectName="Performer"
+              />
               <CardActions>
                 {statusTypes.map(type => (
                   <Button
                     className="button"
                     disabled={!isAdmin && type === 'Done'}
-                    onClick={() => onChangeTaskStatus(task.id, type)}
+                    onClick={() => this.handleChangeTask(type)}
                     variant={type === task.status ? 'contained' : 'text'}
                     key={type}>
                     {type}
@@ -87,7 +106,7 @@ class TaskDetailed extends Component {
           </Card>
         </Grid>
         <Grid item xs={12}>
-          <Comments comments={task.comments} />
+          <Comments match={match} comments={task.comments} />
         </Grid>
       </Grid>
     );
@@ -98,12 +117,13 @@ const mapStateToProps = state => ({
   isAdmin: state.auth.isAdmin,
   task: state.tasks.currentTask,
   taskLoading: state.tasks.loading,
+  users: state.users.users,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchTask: () => dispatch(actions.fetchTask()),
-  onChangeTaskStatus: (taskId, newStatus) =>
-    dispatch(actions.changeTaskStatus(taskId, newStatus)),
+  onFetchTask: id => dispatch(actions.fetchTask(id)),
+  onChangeTask: task => dispatch(actions.changeTask(task)),
+  onFetchUsers: () => dispatch(actions.fetchUsers()),
 });
 
 export default connect(
