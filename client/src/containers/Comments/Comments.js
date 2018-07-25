@@ -54,7 +54,7 @@ class Comments extends Component {
               <Card key={comment.date}>
                 <CardHeader
                   title={comment.login}
-                  subheader={moment(comment.date).format('MMMM Do YYYY')}
+                  subheader={moment(comment.date).format('HH:mm, DD.MM.YYYY')}
                 />
                 <CardContent>{comment.text}</CardContent>
               </Card>

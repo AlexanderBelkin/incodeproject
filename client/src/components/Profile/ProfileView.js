@@ -11,6 +11,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 import { Mail, Edit, Person, DateRange, School } from '@material-ui/icons';
+import moment from 'moment';
 
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
@@ -73,7 +74,7 @@ const ProfileView = ({ classes, onEditUserInit, user, userError }) => {
                 <DateRange />
               </ListItemIcon>
               <ListItemText
-                primary={user.birthDate}
+                primary={moment(user.birthDate).format('DD.MM.YYYY')}
                 secondary="Date of birth"
               />
             </ListItem>

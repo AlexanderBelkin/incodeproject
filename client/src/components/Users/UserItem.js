@@ -6,6 +6,7 @@ import {
   CardHeader,
   withStyles,
 } from '@material-ui/core';
+import moment from 'moment';
 
 const style = {
   card: {
@@ -24,7 +25,12 @@ const style = {
 
 const UserItem = ({ user, classes, onOpenChat }) => (
   <Card className={classes.card} onClick={() => onOpenChat(user)}>
-    <CardHeader title={user.name} subheader={user.birthDate} />
+    <CardHeader
+      title={user.name}
+      subheader={`Date of birth: ${moment(user.birthDate).format(
+        'DD.MM.YYYY',
+      )}`}
+    />
     <CardContent>
       <Typography variant="subheading">Email: {user.email}</Typography>
       <Typography variant="subheading">

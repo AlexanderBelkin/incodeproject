@@ -120,7 +120,7 @@ router.post(
         };
 
         // add to comment array
-        task.comments.unshift(newComment);
+        task.comments.push(newComment);
 
         // save
         task.save().then(task => res.json(task));

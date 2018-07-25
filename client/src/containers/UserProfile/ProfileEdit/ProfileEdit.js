@@ -17,6 +17,7 @@ import {
   Done,
   School,
 } from '@material-ui/icons';
+import moment from 'moment';
 
 import Input from '../../../components/form/Input';
 
@@ -52,7 +53,7 @@ const validateProfile = ({ name, email, birthDate }) => {
 
   if (!birthDate) {
     errors.birthDate = 'Please, provide your date of birth';
-  } else if (!birthMask.test(birthDate)) {
+  } else if (!moment(birthDate).isValid()) {
     errors.birthDate = 'Please, write your date of birth properly';
   }
 
@@ -82,27 +83,14 @@ const ProfileEdit = ({
       <CardContent>
         <List>
           <ListItem>
-            <Field
-              name="name"
-              value={user.name}
-              component={Input}
-              label="Name"
-              Icon={Person}
-            />
+            <Field name="name" component={Input} label="Name" Icon={Person} />
           </ListItem>
           <ListItem>
-            <Field
-              name="email"
-              value={user.email}
-              component={Input}
-              label="Email"
-              Icon={Mail}
-            />
+            <Field name="email" component={Input} label="Email" Icon={Mail} />
           </ListItem>
           <ListItem>
             <Field
               name="birthDate"
-              value={user.birthDate}
               component={Input}
               label="Date of birth"
               Icon={DateRange}
@@ -111,7 +99,6 @@ const ProfileEdit = ({
           <ListItem>
             <Field
               name="skills"
-              value={user.skills ? user.skills.join(', ') : ''}
               component={Input}
               label="Enter your skills"
               Icon={School}
@@ -127,7 +114,7 @@ const mapStateToProps = (state, ownProps) => ({
   initialValues: {
     name: ownProps.user.name,
     email: ownProps.user.email,
-    birthDate: ownProps.user.birthDate,
+    birthDate: moment(ownProps.user.birthDate).format('DD.MM.YYYY'),
     skills: ownProps.user.skills ? ownProps.user.skills.join(', ') : '',
   },
 });
