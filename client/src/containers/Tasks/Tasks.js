@@ -7,8 +7,13 @@ import TasksView from '../../components/Tasks/TasksView';
 
 class Tasks extends Component {
   componentDidMount = () => {
-    const { onFetchTasks } = this.props;
-    onFetchTasks();
+    const { onFetchTasks, onFetchUsers, match } = this.props;
+    if (match && match.params.id) {
+      onFetchTasks(match.params.id);
+    } else {
+      onFetchTasks();
+    }
+    onFetchUsers();
   };
 
   handleChangeTask = (task, type) => {
@@ -20,8 +25,16 @@ class Tasks extends Component {
     onChangeTask(newTask);
   };
 
+  handleSelectChange = (e, task) => {
+    const { onChangeTask } = this.props;
+
+    const newTask = { ...task };
+    newTask.performerId = e.target.value;
+    onChangeTask(newTask);
+  };
+
   render() {
-    const { tasks, tasksLoading, userId, showAll, isAdmin } = this.props;
+    const { tasks, tasksLoading, userId, showAll, isAdmin, users } = this.props;
 
     if (tasksLoading) {
       return (
@@ -35,6 +48,8 @@ class Tasks extends Component {
       <TasksView
         isAdmin={isAdmin}
         onChangeTask={this.handleChangeTask}
+        onSelectChange={this.handleSelectChange}
+        users={users}
         userId={showAll ? null : userId}
         tasks={tasks}
       />
@@ -47,11 +62,13 @@ const mapStateToProps = state => ({
   tasks: state.tasks.tasks,
   tasksLoading: state.tasks.loading,
   isAdmin: state.auth.isAdmin,
+  users: state.users.users,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchTasks: () => dispatch(actions.fetchTasks()),
+  onFetchTasks: userId => dispatch(actions.fetchTasks(userId)),
   onChangeTask: task => dispatch(actions.changeTask(task)),
+  onFetchUsers: () => dispatch(actions.fetchUsers()),
 });
 
 export default connect(

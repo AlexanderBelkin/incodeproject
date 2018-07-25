@@ -9,6 +9,8 @@ import {
   withStyles,
 } from '@material-ui/core';
 
+import SelectItem from '../form/SelectItem';
+
 const style = {
   card: {
     maxWidth: '960px',
@@ -22,7 +24,14 @@ const style = {
 
 const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
-const TaskItem = ({ task, classes, onChangeTask, isAdmin }) => (
+const TaskItem = ({
+  task,
+  classes,
+  onChangeTask,
+  isAdmin,
+  onSelectChange,
+  users,
+}) => (
   <Card className={classes.card}>
     <CardContent>
       <Typography variant="title" className="mb-15">
@@ -37,6 +46,12 @@ const TaskItem = ({ task, classes, onChangeTask, isAdmin }) => (
           ? `${task.description.slice(0, 100)}...`
           : task.description}
       </Typography>
+      <SelectItem
+        task={task}
+        users={users}
+        onSelectChange={e => onSelectChange(e, task)}
+        selectName="Performer"
+      />
       <CardActions>
         {statusTypes.map(type => (
           <Button

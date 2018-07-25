@@ -15,14 +15,25 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: true,
+    select: false,
   },
-  date: {
+  registerDate: {
     type: Date,
     default: Date.now,
+    select: false,
   },
   isAdmin: {
     type: Boolean,
     default: false,
+  },
+  name: {
+    type: String,
+  },
+  birthDate: {
+    type: Date,
+  },
+  skills: {
+    type: [String],
   },
 });
 

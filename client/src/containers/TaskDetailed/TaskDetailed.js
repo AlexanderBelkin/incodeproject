@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import * as actions from '../../store/actions/index';
 import Comments from '../Comments/Comments';
+import SelectItem from '../../components/form/SelectItem';
 
 const style = {
   container: {
@@ -34,8 +35,9 @@ const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
 class TaskDetailed extends Component {
   componentDidMount = () => {
-    const { onFetchTask, match } = this.props;
+    const { onFetchTask, onFetchUsers, match } = this.props;
     onFetchTask(match.params.id);
+    onFetchUsers();
   };
 
   handleChangeTask = type => {
@@ -47,8 +49,16 @@ class TaskDetailed extends Component {
     onChangeTask(newTask);
   };
 
+  handleSelectChange = e => {
+    const { task, onChangeTask } = this.props;
+
+    const newTask = { ...task };
+    newTask.performerId = e.target.value;
+    onChangeTask(newTask);
+  };
+
   render() {
-    const { classes, task, isAdmin, taskLoading, match } = this.props;
+    const { classes, task, isAdmin, taskLoading, match, users } = this.props;
 
     if (taskLoading) {
       return (
@@ -74,6 +84,12 @@ class TaskDetailed extends Component {
               <Typography variant="headline" className="mb-15">
                 {task.description}
               </Typography>
+              <SelectItem
+                task={task}
+                users={users}
+                onSelectChange={this.handleSelectChange}
+                selectName="Performer"
+              />
               <CardActions>
                 {statusTypes.map(type => (
                   <Button
@@ -101,11 +117,13 @@ const mapStateToProps = state => ({
   isAdmin: state.auth.isAdmin,
   task: state.tasks.currentTask,
   taskLoading: state.tasks.loading,
+  users: state.users.users,
 });
 
 const mapDispatchToProps = dispatch => ({
   onFetchTask: id => dispatch(actions.fetchTask(id)),
   onChangeTask: task => dispatch(actions.changeTask(task)),
+  onFetchUsers: () => dispatch(actions.fetchUsers()),
 });
 
 export default connect(

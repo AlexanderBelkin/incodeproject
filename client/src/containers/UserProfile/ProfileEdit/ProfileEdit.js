@@ -37,8 +37,6 @@ const style = {
 
 const validateProfile = ({ name, email, birthDate }) => {
   const errors = {};
-
-  const birthMask = /\d{2}-\d{2}-\d{4}/;
   const emailPattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
   if (!name) {
@@ -60,13 +58,7 @@ const validateProfile = ({ name, email, birthDate }) => {
   return errors;
 };
 
-const ProfileEdit = ({
-  classes,
-  user,
-  onEditCancel,
-  onEditUser,
-  handleSubmit,
-}) => (
+const ProfileEdit = ({ classes, onEditCancel, onEditUser, handleSubmit }) => (
   <Card className={classes.card}>
     <form onSubmit={handleSubmit(onEditUser)}>
       <div className={classes.controls}>
@@ -114,7 +106,9 @@ const mapStateToProps = (state, ownProps) => ({
   initialValues: {
     name: ownProps.user.name,
     email: ownProps.user.email,
-    birthDate: moment(ownProps.user.birthDate).format('DD.MM.YYYY'),
+    birthDate: ownProps.user.birthDate
+      ? moment(ownProps.user.birthDate).format('DD.MM.YYYY')
+      : '',
     skills: ownProps.user.skills ? ownProps.user.skills.join(', ') : '',
   },
 });

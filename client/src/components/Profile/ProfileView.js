@@ -7,7 +7,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Button,
   withStyles,
 } from '@material-ui/core';
 import { Mail, Edit, Person, DateRange, School } from '@material-ui/icons';
@@ -38,13 +37,6 @@ const ProfileView = ({ classes, onEditUserInit, user, userError }) => {
     output = (
       <Card className={classes.card} style={{ textAlign: 'center' }}>
         <ErrorMessage error={userError.text} />
-        <Button
-          onClick={onEditUserInit}
-          variant="contained"
-          color="primary"
-          style={{ margin: '25px 0' }}>
-          Create profile
-        </Button>
       </Card>
     );
   } else {
@@ -61,31 +53,47 @@ const ProfileView = ({ classes, onEditUserInit, user, userError }) => {
               <ListItemIcon>
                 <Person />
               </ListItemIcon>
-              <ListItemText primary={user.name} secondary="Name" />
+              {user.name ? (
+                <ListItemText primary={user.name} secondary="Name" />
+              ) : (
+                <ListItemText secondary="Please add your name" />
+              )}
             </ListItem>
             <ListItem>
               <ListItemIcon>
                 <Mail />
               </ListItemIcon>
-              <ListItemText primary={user.email} secondary="Email" />
+              {user.email ? (
+                <ListItemText primary={user.email} secondary="Email" />
+              ) : (
+                <ListItemText secondary="Please add your email" />
+              )}
             </ListItem>
             <ListItem>
               <ListItemIcon>
                 <DateRange />
               </ListItemIcon>
-              <ListItemText
-                primary={moment(user.birthDate).format('DD.MM.YYYY')}
-                secondary="Date of birth"
-              />
+              {user.birthDate ? (
+                <ListItemText
+                  primary={moment(user.birthDate).format('DD.MM.YYYY')}
+                  secondary="Date of birth"
+                />
+              ) : (
+                <ListItemText secondary="Please add your Birthday date" />
+              )}
             </ListItem>
             <ListItem>
               <ListItemIcon>
                 <School />
               </ListItemIcon>
-              <ListItemText
-                primary={reformat(user.skills)}
-                secondary="List of skills"
-              />
+              {user.skills && user.skills.length > 0 ? (
+                <ListItemText
+                  primary={reformat(user.skills)}
+                  secondary="List of skills"
+                />
+              ) : (
+                <ListItemText secondary="Please add your skills" />
+              )}
             </ListItem>
           </List>
         </CardContent>

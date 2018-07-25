@@ -26,15 +26,19 @@ const style = {
 const UserItem = ({ user, classes, onOpenChat }) => (
   <Card className={classes.card} onClick={() => onOpenChat(user)}>
     <CardHeader
-      title={user.name}
-      subheader={`Date of birth: ${moment(user.birthDate).format(
-        'DD.MM.YYYY',
-      )}`}
+      title={user.name ? user.name : user.login}
+      subheader={
+        user.birthDate
+          ? `Date of birth: ${moment(user.birthDate).format('DD.MM.YYYY')}`
+          : null
+      }
     />
     <CardContent>
       <Typography variant="subheading">Email: {user.email}</Typography>
       <Typography variant="subheading">
-        Skills: {user.skills ? user.skills.join(', ') : ''}
+        {user.skills && user.skills.length > 0
+          ? `Skills: ${user.skills.join(', ')}`
+          : "User didn't add skills yet"}
       </Typography>
     </CardContent>
   </Card>

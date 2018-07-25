@@ -7,6 +7,7 @@ const router = express.Router();
 // Load validation
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
+const validateProfileInput = require('../../validation/profile');
 
 // Loda user model
 const User = require('../../models/User');
@@ -85,7 +86,7 @@ router.post('/register', (req, res) => {
   });
 });
 
-// @route GET api/users/login
+// @route POST api/users/login
 // @desc Login user / Returning JWT token
 // @access public
 router.post('/login', (req, res) => {
@@ -96,104 +97,121 @@ router.post('/login', (req, res) => {
     return res.status(400).json(errors);
   }
 
+  const field = req.body.login.indexOf('@') > -1 ? 'email' : 'login';
+
   // Find user by login
-  User.findOne({ login: req.body.login }).then(user => {
-    // check for user
-    if (!user) {
-      // Find user by email
-      User.findOne({ email: req.body.login }).then(user => {
-        // check for user
-        if (!user) {
-          errors.text = 'User not found';
-          return res.status(404).json(errors);
-        }
-
-        // check password
-        bcrypt.compare(req.body.password, user.password).then(isMatch => {
-          if (isMatch) {
-            // User matched
-
-            // create jwt payload
-            const payload = {
-              id: user.id,
-              login: user.login,
-              isAdmin: user.isAdmin,
-            };
-
-            // sign token
-            jwt.sign(
-              payload,
-              keys.secretOrKey,
-              { expiresIn: 3600 },
-              (err, token) => {
-                res.json({
-                  success: true,
-                  token: `Bearer ${token}`,
-                });
-              },
-            );
-
-            return null;
-          }
-
-          errors.text = 'Password incorrect';
-          return res.status(400).json(errors);
-        });
-        return null;
-      });
-
-      return null;
-    }
-    // check password
-    bcrypt.compare(req.body.password, user.password).then(isMatch => {
-      if (isMatch) {
-        // User matched
-
-        // create jwt payload
-        const payload = {
-          id: user.id,
-          login: user.login,
-          isAdmin: user.isAdmin,
-        };
-
-        // sign token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          { expiresIn: 3600 },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: `Bearer ${token}`,
-            });
-          },
-        );
-
-        return null;
+  User.findOne({ [field]: req.body.login })
+    .select('+password')
+    .then(user => {
+      // check for user
+      if (!user) {
+        errors.text = 'User not found';
+        return res.status(404).json(errors);
       }
 
-      errors.text = 'Password incorrect';
-      return res.status(400).json(errors);
+      // check password
+      bcrypt.compare(req.body.password, user.password).then(isMatch => {
+        if (isMatch) {
+          // User matched
+
+          // create jwt payload
+          const payload = {
+            id: user.id,
+            login: user.login,
+            isAdmin: user.isAdmin,
+          };
+
+          // sign token
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            { expiresIn: 3600 },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: `Bearer ${token}`,
+              });
+            },
+          );
+
+          return null;
+        }
+
+        errors.text = 'Password incorrect';
+        return res.status(400).json(errors);
+      });
+      return null;
     });
-    return null;
-  });
 
   return null;
 });
 
+// @route GET api/users
+// @desc Get all users
+// @access Private
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    User.find()
+      .then(users => res.json(users))
+      .catch(() => res.status(404).json({ error: 'No users found' }));
+  },
+);
+
 // @route GET api/users/current
-// @desc Return current user
+// @desc Get current user profile
 // @access Private
 router.get(
   '/current',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    res.json({
-      id: req.user.id,
-      login: req.user.login,
-      email: req.user.email,
-      isAdmin: req.user.isAdmin,
-    });
+    const errors = {};
+
+    User.findById(req.user._id)
+      .then(user => {
+        if (!user) {
+          errors.text = 'There is no user found';
+          return res.status(404).json(errors);
+        }
+
+        res.json(user);
+
+        return null;
+      })
+      .catch(err => res.status(404).json(err));
+  },
+);
+
+// @route PUT api/users/profile
+// @desc Create or update user profile
+// @access Private
+router.put(
+  '/profile',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateProfileInput(req.body);
+
+    // check validation
+    if (!isValid) {
+      // return any arrors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    // get fields
+    const profileFields = {};
+
+    if (req.body.name) profileFields.name = req.body.name;
+    if (req.body.email) profileFields.email = req.body.email;
+    if (req.body.birthDate) profileFields.birthDate = req.body.birthDate;
+    // skills - split into array
+    if (typeof req.body.skills !== 'undefined') {
+      profileFields.skills = req.body.skills.split(', ');
+    }
+
+    User.findByIdAndUpdate(req.user.id, { $set: profileFields }, { new: true })
+      .then(user => res.json(user))
+      .catch(() => res.status(404).json({ userNotFound: 'User not found' }));
   },
 );
 

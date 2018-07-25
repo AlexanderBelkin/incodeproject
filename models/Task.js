@@ -3,9 +3,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const TaskSchema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'users',
+  performerId: {
+    type: String,
   },
   title: {
     type: String,

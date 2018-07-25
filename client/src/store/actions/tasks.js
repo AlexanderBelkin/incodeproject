@@ -15,10 +15,14 @@ export const fetchTasksStart = () => ({
   type: actionTypes.FETCH_TASKS_START,
 });
 
-export const fetchTasks = () => dispatch => {
+export const fetchTasks = userId => dispatch => {
   dispatch(fetchTasksStart());
+  let url = 'tasks';
+  if (userId) {
+    url = `tasks/user/${userId}`;
+  }
   axios
-    .get('tasks')
+    .get(url)
     .then(res => {
       dispatch(fetchTasksSuccess(res.data));
     })

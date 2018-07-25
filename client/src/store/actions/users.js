@@ -19,7 +19,7 @@ export const fetchUsersStart = () => ({
 export const fetchUsers = () => dispatch => {
   dispatch(fetchUsersStart());
   axios
-    .get('profile/all')
+    .get('users')
     .then(res => {
       dispatch(fetchUsersSuccess(res.data));
     })
@@ -46,7 +46,7 @@ export const fetchUserStart = () => ({
 export const fetchUser = () => dispatch => {
   dispatch(fetchUserStart());
   axios
-    .get('/profile')
+    .get('/users/current')
     .then(res => {
       dispatch(fetchUserSuccess(res.data));
     })
@@ -80,7 +80,7 @@ export const editUserSuccess = user => ({
 export const editUser = userData => dispatch => {
   dispatch(editUserStart());
   axios
-    .post('/profile', userData)
+    .put('/users/profile', userData)
     .then(res => {
       dispatch(editUserSuccess(res.data));
     })

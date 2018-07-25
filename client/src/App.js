@@ -17,7 +17,7 @@ class App extends Component {
   };
 
   render() {
-    const { isAuthenticated, onLogout } = this.props;
+    const { isAuthenticated, onLogout, userId } = this.props;
     let routes = (
       <Switch>
         <Route path="/auth" component={Auth} />
@@ -29,7 +29,8 @@ class App extends Component {
       routes = (
         <Switch>
           <Route path="/profile" component={UserProfile} />
-          <Route path="/tasks" component={Tasks} />
+          <Route exact path="/tasks" component={Tasks} />
+          <Route path="/tasks/:id" component={Tasks} />
           <Route path="/task/:id" component={TaskDetailed} />
           <Route exact path="/" component={DashBoard} />
           <Redirect to="/" />
@@ -39,7 +40,11 @@ class App extends Component {
 
     return (
       <Fragment>
-        <Header isAuthenticated={isAuthenticated} onLogout={onLogout} />
+        <Header
+          isAuthenticated={isAuthenticated}
+          onLogout={onLogout}
+          userId={userId}
+        />
         {routes}
       </Fragment>
     );
@@ -48,6 +53,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.token !== null,
+  userId: state.auth.userId,
 });
 
 const mapDispatchToProps = dispatch => ({

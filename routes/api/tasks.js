@@ -50,7 +50,7 @@ router.get(
   '/user/:user_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Task.find({ user: req.params.user_id })
+    Task.find({ performerId: req.params.user_id })
       .sort({ date: -1 })
       .then(tasks => res.json(tasks))
       .catch(() => res.status(404).json({ error: 'No tasks found' }));
