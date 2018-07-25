@@ -47,6 +47,7 @@ const TaskItem = ({
           : task.description}
       </Typography>
       <SelectItem
+        isAdmin={isAdmin}
         task={task}
         users={users}
         onSelectChange={e => onSelectChange(e, task)}

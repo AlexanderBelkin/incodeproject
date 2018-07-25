@@ -1,15 +1,15 @@
 import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 
-const SelectItem = ({ task, users, onSelectChange, selectName, isAdmin }) => (
-  <FormControl>
-    <InputLabel htmlFor={selectName}>{selectName}</InputLabel>
+const SelectField = ({ input, label, children, users, ...custom }) => (
+  <FormControl style={{ width: '100%' }}>
+    <InputLabel htmlFor={label}>{label}</InputLabel>
     <Select
-      id={selectName}
-      value={task.performerId ? task.performerId : ''}
-      onChange={onSelectChange}
-      style={{ minWidth: '200px', marginBottom: '20px' }}
-      disabled={!isAdmin}>
+      {...input}
+      onChange={event => input.onChange(event.target.value)}
+      id={label}
+      fullWidth
+      {...custom}>
       <MenuItem value="">
         <em>Noone</em>
       </MenuItem>
@@ -27,4 +27,4 @@ const SelectItem = ({ task, users, onSelectChange, selectName, isAdmin }) => (
   </FormControl>
 );
 
-export default SelectItem;
+export default SelectField;

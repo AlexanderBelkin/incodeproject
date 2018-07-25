@@ -75,8 +75,7 @@ router.post(
     const newTask = new Task({
       title: req.body.title,
       description: req.body.description,
-      status: req.body.status,
-      user: req.user.id,
+      performerId: req.body.performerId,
     });
 
     newTask.save().then(task => res.json(task));

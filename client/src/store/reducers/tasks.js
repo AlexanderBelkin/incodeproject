@@ -45,28 +45,6 @@ const changeTaskSuccess = (state, action) => {
   };
 };
 
-// TODO: change the way of changing task status
-const changeTaskStatus = (state, action) => {
-  const newTasks = state.tasks.map(task => {
-    if (task.id === action.taskId)
-      return Object.assign({}, task, { status: action.newStatus });
-    return task;
-  });
-
-  let newCurrentTask = state.currentTask;
-
-  if (state.currentTask.id === action.taskId) {
-    newCurrentTask = Object.assign({}, state.currentTask, {
-      status: action.newStatus,
-    });
-  }
-  return {
-    ...state,
-    tasks: newTasks,
-    currentTask: newCurrentTask,
-  };
-};
-
 const fetchTaskStart = state => ({
   ...state,
   loading: true,
@@ -78,6 +56,23 @@ const fetchTaskFail = state => ({
 });
 
 const fetchTaskSuccess = (state, action) => ({
+  ...state,
+  loading: false,
+  currentTask: action.currentTask,
+});
+
+const createTaskStart = state => ({
+  ...state,
+  loading: true,
+});
+
+const createTaskFail = (state, action) => ({
+  ...state,
+  loading: false,
+  error: action.error,
+});
+
+const createTaskSuccess = (state, action) => ({
   ...state,
   loading: false,
   currentTask: action.currentTask,
@@ -126,8 +121,14 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_TASK_FAIL: {
       return fetchTaskFail(state, action);
     }
-    case actionTypes.CHANGE_TASK_STATUS: {
-      return changeTaskStatus(state, action);
+    case actionTypes.CREATE_TASK_START: {
+      return createTaskStart(state, action);
+    }
+    case actionTypes.CREATE_TASK_FAIL: {
+      return createTaskFail(state, action);
+    }
+    case actionTypes.CREATE_TASK_SUCCESS: {
+      return createTaskSuccess(state, action);
     }
     case actionTypes.ADD_TASK_COMMENT_START: {
       return addTaskCommentStart(state, action);

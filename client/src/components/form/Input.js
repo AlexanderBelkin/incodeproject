@@ -5,6 +5,7 @@ const Input = ({
   input,
   type,
   style,
+  rows,
   multiline,
   meta: { touched, error },
   Icon,
@@ -16,6 +17,7 @@ const Input = ({
     type={type}
     style={style}
     multiline={multiline}
+    rows={rows}
     helperText={touched && error}
     error={error && touched}
     InputProps={{

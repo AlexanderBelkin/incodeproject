@@ -85,6 +85,7 @@ class TaskDetailed extends Component {
                 {task.description}
               </Typography>
               <SelectItem
+                isAdmin={isAdmin}
                 task={task}
                 users={users}
                 onSelectChange={this.handleSelectChange}

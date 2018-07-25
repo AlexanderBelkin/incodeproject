@@ -9,6 +9,7 @@ import TaskDetailed from './containers/TaskDetailed/TaskDetailed';
 import * as actions from './store/actions/index';
 import DashBoard from './containers/DashBoard/DashBoard';
 import Auth from './containers/Auth/Auth';
+import TaskCreateForm from './containers/TaskCreateForm/TaskCreateForm';
 
 class App extends Component {
   componentDidUpdate = () => {
@@ -17,7 +18,7 @@ class App extends Component {
   };
 
   render() {
-    const { isAuthenticated, onLogout, userId } = this.props;
+    const { isAuthenticated, onLogout, userId, isAdmin } = this.props;
     let routes = (
       <Switch>
         <Route path="/auth" component={Auth} />
@@ -33,6 +34,7 @@ class App extends Component {
           <Route path="/tasks/:id" component={Tasks} />
           <Route path="/task/:id" component={TaskDetailed} />
           <Route exact path="/" component={DashBoard} />
+          {isAdmin && <Route path="/new-task" component={TaskCreateForm} />}
           <Redirect to="/" />
         </Switch>
       );
@@ -44,6 +46,7 @@ class App extends Component {
           isAuthenticated={isAuthenticated}
           onLogout={onLogout}
           userId={userId}
+          isAdmin={isAdmin}
         />
         {routes}
       </Fragment>
@@ -54,6 +57,7 @@ class App extends Component {
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.token !== null,
   userId: state.auth.userId,
+  isAdmin: state.auth.isAdmin,
 });
 
 const mapDispatchToProps = dispatch => ({

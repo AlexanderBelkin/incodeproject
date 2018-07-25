@@ -26,7 +26,7 @@ const style = {
   },
 };
 
-const Header = ({ classes, isAuthenticated, onLogout, userId }) => (
+const Header = ({ classes, isAuthenticated, onLogout, userId, isAdmin }) => (
   <div>
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
@@ -43,23 +43,31 @@ const Header = ({ classes, isAuthenticated, onLogout, userId }) => (
             Task Manager
           </Typography>
         )}
-        {isAuthenticated ? (
+        {isAuthenticated && (
           <Fragment>
             <Link to="/profile">
               <IconButton>
                 <Person className={classes.linkBtn} />
               </IconButton>
             </Link>
-            <Link to={`/tasks/${userId}`}>
-              <IconButton>
-                <List className={classes.linkBtn} />
-              </IconButton>
-            </Link>
+            {isAdmin ? (
+              <Link to="/new-task">
+                <IconButton>
+                  <List className={classes.linkBtn} />
+                </IconButton>
+              </Link>
+            ) : (
+              <Link to={`/tasks/${userId}`}>
+                <IconButton>
+                  <List className={classes.linkBtn} />
+                </IconButton>
+              </Link>
+            )}
             <IconButton onClick={onLogout}>
               <Reply className={classes.linkBtn} />
             </IconButton>
           </Fragment>
-        ) : null}
+        )}
       </Toolbar>
     </AppBar>
   </div>

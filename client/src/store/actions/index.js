@@ -3,7 +3,7 @@ export {
   fetchTask,
   changeTask,
   addTaskComment,
-  changeTaskStatus,
+  createTask,
 } from './tasks';
 export { auth, authToggle, authCheckState, logout } from './auth';
 export {

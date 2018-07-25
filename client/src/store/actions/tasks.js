@@ -57,12 +57,6 @@ export const fetchTask = id => dispatch => {
     });
 };
 
-export const changeTaskStatus = (taskId, newStatus) => ({
-  type: actionTypes.CHANGE_TASK_STATUS,
-  taskId,
-  newStatus,
-});
-
 export const changeTaskStart = () => ({
   type: actionTypes.CHANGE_TASK_START,
 });
@@ -116,5 +110,32 @@ export const addTaskComment = (text, id) => dispatch => {
     })
     .catch(error => {
       dispatch(addTaskCommentFail(error.response.error));
+    });
+};
+
+export const createTaskStart = () => ({
+  type: actionTypes.CREATE_TASK_START,
+});
+
+export const createTaskFail = error => ({
+  type: actionTypes.CREATE_TASK_FAIL,
+  error,
+});
+
+export const createTaskSuccess = currentTask => ({
+  type: actionTypes.CREATE_TASK_SUCCESS,
+  currentTask,
+});
+
+export const createTask = task => dispatch => {
+  dispatch(createTaskStart());
+
+  axios
+    .post('tasks', task)
+    .then(res => {
+      dispatch(createTaskSuccess(res.data));
+    })
+    .catch(error => {
+      dispatch(createTaskFail(error.response.error));
     });
 };
