@@ -155,7 +155,7 @@ router.get(
   (req, res) => {
     User.find()
       .then(users => res.json(users))
-      .catch(() => res.status(404).json({ error: 'No users found' }));
+      .catch(() => res.status(404).json({ text: 'No users found' }));
   },
 );
 
@@ -211,7 +211,7 @@ router.put(
 
     User.findByIdAndUpdate(req.user.id, { $set: profileFields }, { new: true })
       .then(user => res.json(user))
-      .catch(() => res.status(404).json({ userNotFound: 'User not found' }));
+      .catch(() => res.status(404).json({ text: 'User not found' }));
   },
 );
 

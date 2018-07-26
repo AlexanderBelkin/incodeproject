@@ -15,7 +15,7 @@ const style = {
   },
 };
 
-const UsersView = ({ classes, users, isChatOpened, onOpenChat }) => (
+const UsersView = ({ classes, users }) => (
   <Grid container justify="center" className={classes.container}>
     <Grid item xs={12}>
       <Typography color="primary" variant="headline" className={classes.header}>
@@ -24,11 +24,7 @@ const UsersView = ({ classes, users, isChatOpened, onOpenChat }) => (
     </Grid>
     <Grid item xs={12}>
       {users.map(user => (
-        <UserItem
-          key={user._id}
-          user={user}
-          isChatOpened={isChatOpened}
-          onOpenChat={onOpenChat}>
+        <UserItem key={user._id} user={user}>
           {user.name}
         </UserItem>
       ))}

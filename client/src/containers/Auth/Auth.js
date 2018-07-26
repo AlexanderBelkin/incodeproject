@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { Card, CircularProgress, withStyles } from '@material-ui/core';
 
 import * as actions from '../../store/actions/index';
@@ -32,8 +33,12 @@ class Auth extends Component {
       authToggle,
       onAuthToggle,
       authLoading,
+      isAuthenticated,
       authError,
+      location,
     } = this.props;
+
+    const { from } = location.state || { from: { pathname: '/' } };
 
     if (authLoading) {
       return (
@@ -41,6 +46,10 @@ class Auth extends Component {
           <CircularProgress size={50} />
         </div>
       );
+    }
+
+    if (isAuthenticated) {
+      return <Redirect to={from} />;
     }
 
     return authToggle ? (

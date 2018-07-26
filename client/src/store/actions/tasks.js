@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import axios from '../../custom-axios';
 import * as actionTypes from './actionTypes';
 
@@ -53,15 +54,10 @@ export const fetchTask = id => dispatch => {
       dispatch(fetchTaskSuccess(res.data));
     })
     .catch(error => {
+      dispatch(push('/'));
       dispatch(fetchTaskFail(error.response.data));
     });
 };
-
-export const changeTaskStatus = (taskId, newStatus) => ({
-  type: actionTypes.CHANGE_TASK_STATUS,
-  taskId,
-  newStatus,
-});
 
 export const changeTaskStart = () => ({
   type: actionTypes.CHANGE_TASK_START,
@@ -116,5 +112,61 @@ export const addTaskComment = (text, id) => dispatch => {
     })
     .catch(error => {
       dispatch(addTaskCommentFail(error.response.error));
+    });
+};
+
+export const createTaskStart = () => ({
+  type: actionTypes.CREATE_TASK_START,
+});
+
+export const createTaskFail = error => ({
+  type: actionTypes.CREATE_TASK_FAIL,
+  error,
+});
+
+export const createTaskSuccess = currentTask => ({
+  type: actionTypes.CREATE_TASK_SUCCESS,
+  currentTask,
+});
+
+export const createTask = task => dispatch => {
+  dispatch(createTaskStart());
+
+  axios
+    .post('tasks', task)
+    .then(res => {
+      dispatch(createTaskSuccess(res.data));
+      dispatch(push(`/task/${res.data._id}`));
+    })
+    .catch(error => {
+      dispatch(createTaskFail(error.response.error));
+    });
+};
+
+export const removeTaskStart = () => ({
+  type: actionTypes.REMOVE_TASK_START,
+});
+
+export const removeTaskFail = error => ({
+  type: actionTypes.REMOVE_TASK_FAIL,
+  error,
+});
+
+export const removeTaskSuccess = taskId => ({
+  type: actionTypes.REMOVE_TASK_SUCCESS,
+  taskId,
+});
+
+export const removeTask = taskId => dispatch => {
+  dispatch(removeTaskStart());
+
+  axios
+    .delete(`tasks/${taskId}`)
+    .then(() => {
+      dispatch(removeTaskSuccess(taskId));
+      dispatch(push('/'));
+    })
+    .catch(error => {
+      dispatch(removeTaskFail(error.response.error));
     });
 };

@@ -22,19 +22,23 @@ const TaskView = ({
   isAdmin,
   onChangeTask,
   onSelectChange,
+  onRemoveTask,
+  userId,
   users,
 }) => (
   <Grid container justify="center" className={classes.container}>
     <Grid item xs={12}>
       <Typography color="primary" variant="headline" className={classes.header}>
-        Task List
+        {tasks.length > 0 ? 'Task List' : 'There is no tasks yet'}
       </Typography>
     </Grid>
     <Grid item xs={12}>
       {tasks.map(task => (
         <TaskItem
+          onRemoveTask={onRemoveTask}
           isAdmin={isAdmin}
           users={users}
+          userId={userId}
           onSelectChange={onSelectChange}
           onChangeTask={onChangeTask}
           key={task._id}

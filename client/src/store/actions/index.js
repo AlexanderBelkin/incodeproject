@@ -3,7 +3,8 @@ export {
   fetchTask,
   changeTask,
   addTaskComment,
-  changeTaskStatus,
+  createTask,
+  removeTask,
 } from './tasks';
 export { auth, authToggle, authCheckState, logout } from './auth';
 export {
@@ -14,3 +15,4 @@ export {
   fetchUsers,
 } from './users';
 export { openChat, closeChat, fetchChatRoom, sendMessage } from './chat';
+export { changeDashBoardTab } from './dashboard';

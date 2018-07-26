@@ -8,8 +8,10 @@ import {
   CardActions,
   Button,
   CircularProgress,
+  IconButton,
   withStyles,
 } from '@material-ui/core';
+import { Delete } from '@material-ui/icons';
 import * as actions from '../../store/actions/index';
 import Comments from '../Comments/Comments';
 import SelectItem from '../../components/form/SelectItem';
@@ -28,17 +30,31 @@ const style = {
   card: {
     maxWidth: '960px',
     margin: '0 auto 15px',
+    position: 'relative',
   },
 };
 
 const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
+const isDisabled = (userId, performerId, isAdmin, type) => {
+  if (isAdmin) {
+    return false;
+  }
+  if (!isAdmin && type === 'Done') {
+    return true;
+  }
+  if (performerId === userId) {
+    return false;
+  }
+  return true;
+};
+
 class TaskDetailed extends Component {
-  componentDidMount = () => {
+  componentDidMount() {
     const { onFetchTask, onFetchUsers, match } = this.props;
     onFetchTask(match.params.id);
     onFetchUsers();
-  };
+  }
 
   handleChangeTask = type => {
     const { task, onChangeTask } = this.props;
@@ -58,7 +74,16 @@ class TaskDetailed extends Component {
   };
 
   render() {
-    const { classes, task, isAdmin, taskLoading, match, users } = this.props;
+    const {
+      classes,
+      task,
+      isAdmin,
+      taskLoading,
+      match,
+      users,
+      userId,
+      onRemoveTask,
+    } = this.props;
 
     if (taskLoading) {
       return (
@@ -81,20 +106,37 @@ class TaskDetailed extends Component {
         <Grid item xs={12}>
           <Card className={classes.card}>
             <CardContent>
-              <Typography variant="headline" className="mb-15">
+              <Typography
+                variant="headline"
+                className="mb-15"
+                style={{ marginRight: '50px' }}>
                 {task.description}
               </Typography>
               <SelectItem
+                isAdmin={isAdmin}
                 task={task}
                 users={users}
                 onSelectChange={this.handleSelectChange}
                 selectName="Performer"
               />
+              {isAdmin && (
+                <IconButton
+                  style={{ position: 'absolute', top: '10px', right: '10px' }}
+                  color="secondary"
+                  onClick={() => onRemoveTask(task._id)}>
+                  <Delete />
+                </IconButton>
+              )}
               <CardActions>
                 {statusTypes.map(type => (
                   <Button
                     className="button"
-                    disabled={!isAdmin && type === 'Done'}
+                    disabled={isDisabled(
+                      userId,
+                      task.performerId,
+                      isAdmin,
+                      type,
+                    )}
                     onClick={() => this.handleChangeTask(type)}
                     variant={type === task.status ? 'contained' : 'text'}
                     key={type}>
@@ -115,6 +157,7 @@ class TaskDetailed extends Component {
 
 const mapStateToProps = state => ({
   isAdmin: state.auth.isAdmin,
+  userId: state.auth.userId,
   task: state.tasks.currentTask,
   taskLoading: state.tasks.loading,
   users: state.users.users,
@@ -124,6 +167,7 @@ const mapDispatchToProps = dispatch => ({
   onFetchTask: id => dispatch(actions.fetchTask(id)),
   onChangeTask: task => dispatch(actions.changeTask(task)),
   onFetchUsers: () => dispatch(actions.fetchUsers()),
+  onRemoveTask: taskId => dispatch(actions.removeTask(taskId)),
 });
 
 export default connect(

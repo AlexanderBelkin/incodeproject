@@ -28,22 +28,19 @@ const style = {
 };
 
 class DashBoard extends Component {
-  state = {
-    value: 'tasks',
-  };
-
   handleChange = (event, value) => {
-    this.setState({ value });
+    const { onChangeDashBoardTab } = this.props;
+    onChangeDashBoardTab(value);
   };
 
   render() {
-    const { value } = this.state;
     const {
       classes,
       isChatOpened,
       onCloseChat,
       fullScreen,
       chatUser,
+      value,
     } = this.props;
     return (
       <Fragment>
@@ -60,7 +57,7 @@ class DashBoard extends Component {
             </Tabs>
           </Grid>
           <Grid item xs={12}>
-            {value === 'tasks' && <Tasks showAll />}
+            {value === 'tasks' && <Tasks />}
             {value === 'users' && <Users />}
           </Grid>
         </Grid>
@@ -87,10 +84,12 @@ class DashBoard extends Component {
 const mapStateToProps = state => ({
   isChatOpened: state.chat.isOpened,
   chatUser: state.chat.user,
+  value: state.dashboard.value,
 });
 
 const mapDispatchToProps = dispatch => ({
   onCloseChat: () => dispatch(actions.closeChat()),
+  onChangeDashBoardTab: value => dispatch(actions.changeDashBoardTab(value)),
 });
 
 export default connect(

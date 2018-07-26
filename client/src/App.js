@@ -9,34 +9,22 @@ import TaskDetailed from './containers/TaskDetailed/TaskDetailed';
 import * as actions from './store/actions/index';
 import DashBoard from './containers/DashBoard/DashBoard';
 import Auth from './containers/Auth/Auth';
+import TaskCreateForm from './containers/TaskCreateForm/TaskCreateForm';
+import PrivateRoute from './utils/PrivateRoute';
 
 class App extends Component {
-  componentDidUpdate = () => {
+  componentDidMount() {
     const { onTryToAutoSignin } = this.props;
     onTryToAutoSignin();
-  };
+  }
+
+  componentDidUpdate() {
+    const { onTryToAutoSignin } = this.props;
+    onTryToAutoSignin();
+  }
 
   render() {
-    const { isAuthenticated, onLogout, userId } = this.props;
-    let routes = (
-      <Switch>
-        <Route path="/auth" component={Auth} />
-        <Redirect to="/auth" />
-      </Switch>
-    );
-
-    if (isAuthenticated) {
-      routes = (
-        <Switch>
-          <Route path="/profile" component={UserProfile} />
-          <Route exact path="/tasks" component={Tasks} />
-          <Route path="/tasks/:id" component={Tasks} />
-          <Route path="/task/:id" component={TaskDetailed} />
-          <Route exact path="/" component={DashBoard} />
-          <Redirect to="/" />
-        </Switch>
-      );
-    }
+    const { isAuthenticated, onLogout, userId, isAdmin, login } = this.props;
 
     return (
       <Fragment>
@@ -44,8 +32,41 @@ class App extends Component {
           isAuthenticated={isAuthenticated}
           onLogout={onLogout}
           userId={userId}
+          login={login}
+          isAdmin={isAdmin}
         />
-        {routes}
+        <Switch>
+          <Route path="/auth" component={Auth} />
+          <PrivateRoute
+            path="/profile"
+            component={UserProfile}
+            isAuthenticated={isAuthenticated}
+          />
+          <PrivateRoute
+            path="/task/:id"
+            component={TaskDetailed}
+            isAuthenticated={isAuthenticated}
+          />
+          <PrivateRoute
+            exact
+            path="/"
+            component={DashBoard}
+            isAuthenticated={isAuthenticated}
+          />
+          <PrivateRoute
+            path="/tasks/:id"
+            component={Tasks}
+            isAuthenticated={isAuthenticated}
+          />
+          {isAdmin && (
+            <PrivateRoute
+              path="/new-task"
+              component={TaskCreateForm}
+              isAuthenticated={isAuthenticated}
+            />
+          )}
+          {!isAuthenticated && <Redirect to="/auth" />}
+        </Switch>
       </Fragment>
     );
   }
@@ -54,6 +75,8 @@ class App extends Component {
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.token !== null,
   userId: state.auth.userId,
+  isAdmin: state.auth.isAdmin,
+  login: state.auth.login,
 });
 
 const mapDispatchToProps = dispatch => ({

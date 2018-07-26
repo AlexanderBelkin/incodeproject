@@ -34,7 +34,14 @@ class Tasks extends Component {
   };
 
   render() {
-    const { tasks, tasksLoading, userId, showAll, isAdmin, users } = this.props;
+    const {
+      tasks,
+      tasksLoading,
+      userId,
+      isAdmin,
+      users,
+      onRemoveTask,
+    } = this.props;
 
     if (tasksLoading) {
       return (
@@ -46,11 +53,12 @@ class Tasks extends Component {
 
     return (
       <TasksView
+        onRemoveTask={onRemoveTask}
         isAdmin={isAdmin}
         onChangeTask={this.handleChangeTask}
         onSelectChange={this.handleSelectChange}
         users={users}
-        userId={showAll ? null : userId}
+        userId={userId}
         tasks={tasks}
       />
     );
@@ -69,6 +77,7 @@ const mapDispatchToProps = dispatch => ({
   onFetchTasks: userId => dispatch(actions.fetchTasks(userId)),
   onChangeTask: task => dispatch(actions.changeTask(task)),
   onFetchUsers: () => dispatch(actions.fetchUsers()),
+  onRemoveTask: taskId => dispatch(actions.removeTask(taskId)),
 });
 
 export default connect(
