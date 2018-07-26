@@ -60,7 +60,7 @@ class DashBoard extends Component {
             </Tabs>
           </Grid>
           <Grid item xs={12}>
-            {value === 'tasks' && <Tasks showAll />}
+            {value === 'tasks' && <Tasks />}
             {value === 'users' && <Users />}
           </Grid>
         </Grid>

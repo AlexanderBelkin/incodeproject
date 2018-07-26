@@ -22,6 +22,7 @@ const TaskView = ({
   isAdmin,
   onChangeTask,
   onSelectChange,
+  userId,
   users,
 }) => (
   <Grid container justify="center" className={classes.container}>
@@ -35,6 +36,7 @@ const TaskView = ({
         <TaskItem
           isAdmin={isAdmin}
           users={users}
+          userId={userId}
           onSelectChange={onSelectChange}
           onChangeTask={onChangeTask}
           key={task._id}

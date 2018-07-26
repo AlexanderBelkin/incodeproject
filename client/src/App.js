@@ -12,10 +12,15 @@ import Auth from './containers/Auth/Auth';
 import TaskCreateForm from './containers/TaskCreateForm/TaskCreateForm';
 
 class App extends Component {
-  componentDidUpdate = () => {
+  componentDidMount() {
     const { onTryToAutoSignin } = this.props;
     onTryToAutoSignin();
-  };
+  }
+
+  componentDidUpdate() {
+    const { onTryToAutoSignin } = this.props;
+    onTryToAutoSignin();
+  }
 
   render() {
     const { isAuthenticated, onLogout, userId, isAdmin } = this.props;

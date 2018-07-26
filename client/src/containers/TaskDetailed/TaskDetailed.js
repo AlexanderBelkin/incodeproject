@@ -33,12 +33,25 @@ const style = {
 
 const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
+const isDisabled = (userId, performerId, isAdmin, type) => {
+  if (isAdmin) {
+    return false;
+  }
+  if (!isAdmin && type === 'Done') {
+    return true;
+  }
+  if (performerId === userId) {
+    return false;
+  }
+  return true;
+};
+
 class TaskDetailed extends Component {
-  componentDidMount = () => {
+  componentDidMount() {
     const { onFetchTask, onFetchUsers, match } = this.props;
     onFetchTask(match.params.id);
     onFetchUsers();
-  };
+  }
 
   handleChangeTask = type => {
     const { task, onChangeTask } = this.props;
@@ -58,7 +71,15 @@ class TaskDetailed extends Component {
   };
 
   render() {
-    const { classes, task, isAdmin, taskLoading, match, users } = this.props;
+    const {
+      classes,
+      task,
+      isAdmin,
+      taskLoading,
+      match,
+      users,
+      userId,
+    } = this.props;
 
     if (taskLoading) {
       return (
@@ -95,7 +116,12 @@ class TaskDetailed extends Component {
                 {statusTypes.map(type => (
                   <Button
                     className="button"
-                    disabled={!isAdmin && type === 'Done'}
+                    disabled={isDisabled(
+                      userId,
+                      task.performerId,
+                      isAdmin,
+                      type,
+                    )}
                     onClick={() => this.handleChangeTask(type)}
                     variant={type === task.status ? 'contained' : 'text'}
                     key={type}>
@@ -116,6 +142,7 @@ class TaskDetailed extends Component {
 
 const mapStateToProps = state => ({
   isAdmin: state.auth.isAdmin,
+  userId: state.auth.userId,
   task: state.tasks.currentTask,
   taskLoading: state.tasks.loading,
   users: state.users.users,

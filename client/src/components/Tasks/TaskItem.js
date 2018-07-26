@@ -22,6 +22,19 @@ const style = {
   },
 };
 
+const isDisabled = (userId, performerId, isAdmin, type) => {
+  if (isAdmin) {
+    return false;
+  }
+  if (!isAdmin && type === 'Done') {
+    return true;
+  }
+  if (performerId === userId) {
+    return false;
+  }
+  return true;
+};
+
 const statusTypes = ['To Do', 'In Progress', 'Peer Review', 'Done'];
 
 const TaskItem = ({
@@ -30,6 +43,7 @@ const TaskItem = ({
   onChangeTask,
   isAdmin,
   onSelectChange,
+  userId,
   users,
 }) => (
   <Card className={classes.card}>
@@ -57,7 +71,10 @@ const TaskItem = ({
         {statusTypes.map(type => (
           <Button
             className="button"
-            disabled={!isAdmin && type === 'Done'} // TODO: disabled if isn't user task
+            disabled={
+              isDisabled(userId, task.performerId, isAdmin, type)
+              // userId !== task.performerID && !isAdmin && type === 'Done'
+            } // TODO: disabled if isn't user task
             onClick={() => onChangeTask(task, type)}
             variant={type === task.status ? 'contained' : 'text'}
             key={type}>

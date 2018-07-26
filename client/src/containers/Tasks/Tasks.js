@@ -34,7 +34,7 @@ class Tasks extends Component {
   };
 
   render() {
-    const { tasks, tasksLoading, userId, showAll, isAdmin, users } = this.props;
+    const { tasks, tasksLoading, userId, isAdmin, users } = this.props;
 
     if (tasksLoading) {
       return (
@@ -50,7 +50,7 @@ class Tasks extends Component {
         onChangeTask={this.handleChangeTask}
         onSelectChange={this.handleSelectChange}
         users={users}
-        userId={showAll ? null : userId}
+        userId={userId}
         tasks={tasks}
       />
     );
