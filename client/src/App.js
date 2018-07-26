@@ -31,10 +31,13 @@ class App extends Component {
         <Switch>
           <Route path="/profile" component={UserProfile} />
           <Route exact path="/tasks" component={Tasks} />
-          <Route path="/tasks/:id" component={Tasks} />
           <Route path="/task/:id" component={TaskDetailed} />
           <Route exact path="/" component={DashBoard} />
-          {isAdmin && <Route path="/new-task" component={TaskCreateForm} />}
+          {isAdmin ? (
+            <Route path="/new-task" component={TaskCreateForm} />
+          ) : (
+            <Route path="/tasks/:id" component={Tasks} />
+          )}
           <Redirect to="/" />
         </Switch>
       );

@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   currentTask: {},
   error: null,
+  created: false,
 };
 
 const fetchTasksStart = state => ({
@@ -64,6 +65,7 @@ const fetchTaskSuccess = (state, action) => ({
 const createTaskStart = state => ({
   ...state,
   loading: true,
+  created: false,
 });
 
 const createTaskFail = (state, action) => ({
@@ -76,6 +78,7 @@ const createTaskSuccess = (state, action) => ({
   ...state,
   loading: false,
   currentTask: action.currentTask,
+  created: true,
 });
 
 const addTaskCommentStart = state => ({

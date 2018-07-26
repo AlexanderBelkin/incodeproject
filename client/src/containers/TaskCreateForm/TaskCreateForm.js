@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   Card,
@@ -57,7 +58,20 @@ class TaskCreateForm extends Component {
   };
 
   render() {
-    const { classes, users, handleSubmit, onCreateTask } = this.props;
+    const {
+      classes,
+      users,
+      handleSubmit,
+      onCreateTask,
+      taskCreated,
+      currentTask,
+      invalid,
+    } = this.props;
+
+    if (taskCreated) {
+      return <Redirect to={`/task/${currentTask._id}`} />;
+    }
+
     return (
       <Card className={classes.card}>
         <form onSubmit={handleSubmit(onCreateTask)}>
@@ -87,6 +101,7 @@ class TaskCreateForm extends Component {
             </List>
             <div style={{ width: '100%', textAlign: 'center' }}>
               <Button
+                disabled={invalid}
                 type="submit"
                 variant="contained"
                 color="primary"
@@ -110,6 +125,8 @@ class TaskCreateForm extends Component {
 
 const mapStateToProps = state => ({
   users: state.users.users,
+  taskCreated: state.tasks.created,
+  currentTask: state.tasks.currentTask,
 });
 
 const mapDispatchToProp = dispatch => ({

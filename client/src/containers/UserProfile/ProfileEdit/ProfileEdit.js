@@ -38,6 +38,7 @@ const style = {
 const validateProfile = ({ name, email, birthDate }) => {
   const errors = {};
   const emailPattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+  const datePattern = /^(\d{2})\.(\d{2})\.(\d{4})$/;
 
   if (!name) {
     errors.name = 'Name is required';
@@ -51,7 +52,7 @@ const validateProfile = ({ name, email, birthDate }) => {
 
   if (!birthDate) {
     errors.birthDate = 'Please, provide your date of birth';
-  } else if (!moment(birthDate).isValid()) {
+  } else if (!datePattern.test(birthDate)) {
     errors.birthDate = 'Please, write your date of birth properly';
   }
 
