@@ -14,3 +14,4 @@ export {
   fetchUsers,
 } from './users';
 export { openChat, closeChat, fetchChatRoom, sendMessage } from './chat';
+export { changeDashBoardTab } from './dashboard';

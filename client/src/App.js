@@ -12,11 +12,6 @@ import Auth from './containers/Auth/Auth';
 import TaskCreateForm from './containers/TaskCreateForm/TaskCreateForm';
 
 class App extends Component {
-  componentDidMount() {
-    const { onTryToAutoSignin } = this.props;
-    onTryToAutoSignin();
-  }
-
   componentDidUpdate() {
     const { onTryToAutoSignin } = this.props;
     onTryToAutoSignin();
@@ -35,7 +30,6 @@ class App extends Component {
       routes = (
         <Switch>
           <Route path="/profile" component={UserProfile} />
-          <Route exact path="/tasks" component={Tasks} />
           <Route path="/task/:id" component={TaskDetailed} />
           <Route exact path="/" component={DashBoard} />
           {isAdmin ? (
