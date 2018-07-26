@@ -40,7 +40,7 @@ class Comments extends Component {
   };
 
   render() {
-    const { classes, comments, handleSubmit } = this.props;
+    const { classes, comments, handleSubmit, pristine } = this.props;
     return (
       <div className={classes.comments}>
         <Typography
@@ -75,6 +75,7 @@ class Comments extends Component {
             multiline
           />
           <IconButton
+            disabled={pristine}
             style={{ position: 'absolute', top: '0', right: '0' }}
             type="submit"
             variant="fab"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import {
@@ -59,49 +59,69 @@ const validateProfile = ({ name, email, birthDate }) => {
   return errors;
 };
 
-const ProfileEdit = ({ classes, onEditCancel, onEditUser, handleSubmit }) => (
-  <Card className={classes.card}>
-    <form onSubmit={handleSubmit(onEditUser)}>
-      <div className={classes.controls}>
-        <IconButton
-          aria-label="Cancel"
-          color="secondary"
-          onClick={onEditCancel}>
-          <Cancel />
-        </IconButton>
-        <IconButton type="submit" aria-label="Edit" color="primary">
-          <Done />
-        </IconButton>
-      </div>
-      <CardContent>
-        <List>
-          <ListItem>
-            <Field name="name" component={Input} label="Name" Icon={Person} />
-          </ListItem>
-          <ListItem>
-            <Field name="email" component={Input} label="Email" Icon={Mail} />
-          </ListItem>
-          <ListItem>
-            <Field
-              name="birthDate"
-              component={Input}
-              label="Date of birth"
-              Icon={DateRange}
-            />
-          </ListItem>
-          <ListItem>
-            <Field
-              name="skills"
-              component={Input}
-              label="Enter your skills"
-              Icon={School}
-            />
-          </ListItem>
-        </List>
-      </CardContent>
-    </form>
-  </Card>
-);
+class ProfileEdit extends Component {
+  componentWillUnmount() {
+    const { onEditCancel } = this.props;
+    onEditCancel();
+  }
+
+  render() {
+    const { classes, onEditCancel, onEditUser, handleSubmit } = this.props;
+    return (
+      <Card className={classes.card}>
+        <form onSubmit={handleSubmit(onEditUser)}>
+          <div className={classes.controls}>
+            <IconButton
+              aria-label="Cancel"
+              color="secondary"
+              onClick={onEditCancel}>
+              <Cancel />
+            </IconButton>
+            <IconButton type="submit" aria-label="Edit" color="primary">
+              <Done />
+            </IconButton>
+          </div>
+          <CardContent>
+            <List>
+              <ListItem>
+                <Field
+                  name="name"
+                  component={Input}
+                  label="Name"
+                  Icon={Person}
+                />
+              </ListItem>
+              <ListItem>
+                <Field
+                  name="email"
+                  component={Input}
+                  label="Email"
+                  Icon={Mail}
+                />
+              </ListItem>
+              <ListItem>
+                <Field
+                  name="birthDate"
+                  component={Input}
+                  label="Date of birth"
+                  Icon={DateRange}
+                />
+              </ListItem>
+              <ListItem>
+                <Field
+                  name="skills"
+                  component={Input}
+                  label="Enter your skills"
+                  Icon={School}
+                />
+              </ListItem>
+            </List>
+          </CardContent>
+        </form>
+      </Card>
+    );
+  }
+}
 
 const mapStateToProps = (state, ownProps) => ({
   initialValues: {

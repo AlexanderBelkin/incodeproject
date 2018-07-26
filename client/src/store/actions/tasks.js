@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import axios from '../../custom-axios';
 import * as actionTypes from './actionTypes';
 
@@ -53,6 +54,7 @@ export const fetchTask = id => dispatch => {
       dispatch(fetchTaskSuccess(res.data));
     })
     .catch(error => {
+      dispatch(push('/'));
       dispatch(fetchTaskFail(error.response.data));
     });
 };
@@ -134,8 +136,37 @@ export const createTask = task => dispatch => {
     .post('tasks', task)
     .then(res => {
       dispatch(createTaskSuccess(res.data));
+      dispatch(push(`/task/${res.data._id}`));
     })
     .catch(error => {
       dispatch(createTaskFail(error.response.error));
+    });
+};
+
+export const removeTaskStart = () => ({
+  type: actionTypes.REMOVE_TASK_START,
+});
+
+export const removeTaskFail = error => ({
+  type: actionTypes.REMOVE_TASK_FAIL,
+  error,
+});
+
+export const removeTaskSuccess = taskId => ({
+  type: actionTypes.REMOVE_TASK_SUCCESS,
+  taskId,
+});
+
+export const removeTask = taskId => dispatch => {
+  dispatch(removeTaskStart());
+
+  axios
+    .delete(`tasks/${taskId}`)
+    .then(() => {
+      dispatch(removeTaskSuccess(taskId));
+      dispatch(push('/'));
+    })
+    .catch(error => {
+      dispatch(removeTaskFail(error.response.error));
     });
 };

@@ -95,6 +95,25 @@ const addTaskCommentSuccess = (state, action) => ({
   currentTask: action.currentTask,
 });
 
+const removeTaskStart = state => ({
+  ...state,
+});
+
+const removeTaskFail = (state, action) => ({
+  ...state,
+  error: action.error,
+});
+
+const removeTaskSuccess = (state, action) => {
+  const newTasks = state.tasks.filter(task => task._id !== action.taskId);
+
+  return {
+    ...state,
+    tasks: newTasks,
+    currentTask: {},
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_TASKS_START: {
@@ -141,6 +160,15 @@ const reducer = (state = initialState, action) => {
     }
     case actionTypes.ADD_TASK_COMMENT_SUCCESS: {
       return addTaskCommentSuccess(state, action);
+    }
+    case actionTypes.REMOVE_TASK_START: {
+      return removeTaskStart(state, action);
+    }
+    case actionTypes.REMOVE_TASK_FAIL: {
+      return removeTaskFail(state, action);
+    }
+    case actionTypes.REMOVE_TASK_SUCCESS: {
+      return removeTaskSuccess(state, action);
     }
     default:
       return state;

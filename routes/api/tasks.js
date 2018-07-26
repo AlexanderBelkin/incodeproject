@@ -26,7 +26,7 @@ router.get(
     Task.find()
       .sort({ date: -1 })
       .then(tasks => res.json(tasks))
-      .catch(() => res.status(404).json({ error: 'No tasks found' }));
+      .catch(() => res.status(404).json({ text: 'No tasks found' }));
   },
 );
 
@@ -38,8 +38,13 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Task.findById(req.params.id)
-      .then(task => res.json(task))
-      .catch(() => res.status(404).json({ error: 'No task found' }));
+      .then(task => {
+        if (!task) {
+          throw new Error('Task is null');
+        }
+        res.json(task);
+      })
+      .catch(() => res.status(404).json({ text: 'No task found' }));
   },
 );
 
@@ -53,7 +58,7 @@ router.get(
     Task.find({ performerId: req.params.user_id })
       .sort({ date: -1 })
       .then(tasks => res.json(tasks))
-      .catch(() => res.status(404).json({ error: 'No tasks found' }));
+      .catch(() => res.status(404).json({ text: 'No tasks found' }));
   },
 );
 
@@ -124,7 +129,25 @@ router.post(
         // save
         task.save().then(task => res.json(task));
       })
-      .catch(() => res.status(404).json({ taskNotFound: 'Task not found' }));
+      .catch(() => res.status(404).json({ text: 'Task not found' }));
+  },
+);
+
+// @route DELETE api/tasks/:id
+// @desc Remove task
+// @access Private
+router.delete(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    // check if user is admin
+    if (!req.user.isAdmin) {
+      return res.status(401).json({ text: 'User not authorized' });
+    }
+
+    Task.findByIdAndRemove(req.params.id)
+      .then(() => res.json({ success: true }))
+      .catch(() => res.status(404).json({ text: 'Post not found' }));
   },
 );
 

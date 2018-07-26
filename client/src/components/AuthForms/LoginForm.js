@@ -1,6 +1,5 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import isEmail from 'isemail';
 import { CardContent, ListItem, List, Button } from '@material-ui/core';
 
 import Input from '../form/Input';
@@ -11,12 +10,6 @@ const validateLogin = ({ login, password }) => {
 
   if (!login) {
     errors.login = 'Login is required';
-  } else if (login.length < 6) {
-    errors.login = 'Login must contain at least 6 characters';
-  } else if (login.includes('@')) {
-    if (!isEmail.validate(login)) {
-      errors.login = 'Please, write your email properly.';
-    }
   }
 
   if (!password) {

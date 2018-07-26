@@ -8,8 +8,10 @@ import {
   CardActions,
   Button,
   CircularProgress,
+  IconButton,
   withStyles,
 } from '@material-ui/core';
+import { Delete } from '@material-ui/icons';
 import * as actions from '../../store/actions/index';
 import Comments from '../Comments/Comments';
 import SelectItem from '../../components/form/SelectItem';
@@ -28,6 +30,7 @@ const style = {
   card: {
     maxWidth: '960px',
     margin: '0 auto 15px',
+    position: 'relative',
   },
 };
 
@@ -79,6 +82,7 @@ class TaskDetailed extends Component {
       match,
       users,
       userId,
+      onRemoveTask,
     } = this.props;
 
     if (taskLoading) {
@@ -102,7 +106,10 @@ class TaskDetailed extends Component {
         <Grid item xs={12}>
           <Card className={classes.card}>
             <CardContent>
-              <Typography variant="headline" className="mb-15">
+              <Typography
+                variant="headline"
+                className="mb-15"
+                style={{ marginRight: '50px' }}>
                 {task.description}
               </Typography>
               <SelectItem
@@ -112,6 +119,14 @@ class TaskDetailed extends Component {
                 onSelectChange={this.handleSelectChange}
                 selectName="Performer"
               />
+              {isAdmin && (
+                <IconButton
+                  style={{ position: 'absolute', top: '10px', right: '10px' }}
+                  color="secondary"
+                  onClick={() => onRemoveTask(task._id)}>
+                  <Delete />
+                </IconButton>
+              )}
               <CardActions>
                 {statusTypes.map(type => (
                   <Button
@@ -152,6 +167,7 @@ const mapDispatchToProps = dispatch => ({
   onFetchTask: id => dispatch(actions.fetchTask(id)),
   onChangeTask: task => dispatch(actions.changeTask(task)),
   onFetchUsers: () => dispatch(actions.fetchUsers()),
+  onRemoveTask: taskId => dispatch(actions.removeTask(taskId)),
 });
 
 export default connect(

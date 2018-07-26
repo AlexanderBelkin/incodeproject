@@ -11,8 +11,8 @@ const validateRegister = ({ login, email, password, confirmPassword }) => {
 
   if (!login) {
     errors.login = 'Login is required';
-  } else if (login.length < 6) {
-    errors.login = 'Login must contain at least 6 characters';
+  } else if (login.length < 4) {
+    errors.login = 'Login must contain at least 4 characters';
   }
 
   if (!email) {

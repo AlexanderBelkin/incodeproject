@@ -11,8 +11,8 @@ module.exports = function validateRegisterInput(data) {
     ? data.confirmPassword
     : '';
 
-  if (!Validator.isLength(login, { min: 2, max: 30 })) {
-    errors.text = 'Login must be between 2 and 30 characters';
+  if (!Validator.isLength(login, { min: 4, max: 30 })) {
+    errors.text = 'Login must be between 4 and 30 characters';
   }
 
   if (Validator.isEmpty(login)) {

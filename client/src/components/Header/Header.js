@@ -24,7 +24,14 @@ const style = {
   },
 };
 
-const Header = ({ classes, isAuthenticated, onLogout, userId, isAdmin }) => (
+const Header = ({
+  classes,
+  isAuthenticated,
+  onLogout,
+  userId,
+  isAdmin,
+  login,
+}) => (
   <div>
     <AppBar position="static" className="navbar">
       <Toolbar className={classes.toolbar}>
@@ -48,7 +55,7 @@ const Header = ({ classes, isAuthenticated, onLogout, userId, isAdmin }) => (
             <Link to="/profile">
               <Button className="rightButton">
                 <Person />
-                <span className="text">Profile</span>
+                <span className="text">{login}</span>
               </Button>
             </Link>
             {isAdmin ? (
