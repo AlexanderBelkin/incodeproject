@@ -16,7 +16,7 @@ const style = {
   },
 };
 
-const TaskView = ({
+const TasksView = ({
   classes,
   tasks,
   isAdmin,
@@ -49,4 +49,4 @@ const TaskView = ({
   </Grid>
 );
 
-export default withStyles(style)(TaskView);
+export default withStyles(style)(TasksView);
