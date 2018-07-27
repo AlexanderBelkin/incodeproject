@@ -72,7 +72,6 @@ class Comments extends Component {
             component={Input}
             label="Enter Comment Text"
             Icon={Message}
-            multiline
           />
           <IconButton
             disabled={pristine}

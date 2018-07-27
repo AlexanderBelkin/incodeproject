@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 import {
   Grid,
   Typography,
@@ -11,10 +12,11 @@ import {
   IconButton,
   withStyles,
 } from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
+import { Delete, Edit, Cancel, Done } from '@material-ui/icons';
 import * as actions from '../../store/actions/index';
 import Comments from '../Comments/Comments';
 import SelectItem from '../../components/form/SelectItem';
+import Input from '../../components/form/Input';
 
 const style = {
   container: {
@@ -49,6 +51,24 @@ const isDisabled = (userId, performerId, isAdmin, type) => {
   return true;
 };
 
+const validateTask = ({ title, description }) => {
+  const errors = {};
+
+  if (!title) {
+    errors.title = 'Title is required';
+  } else if (title.length < 4 || title.length > 50) {
+    errors.title = 'Title must be between 4 and 50 characters';
+  }
+
+  if (!description) {
+    errors.description = 'Description is required';
+  } else if (description.length < 10 || description.length > 300) {
+    errors.description = 'Title must be between 10 and 300 characters';
+  }
+
+  return errors;
+};
+
 class TaskDetailed extends Component {
   componentDidMount() {
     const { onFetchTask, onFetchUsers, match } = this.props;
@@ -56,7 +76,33 @@ class TaskDetailed extends Component {
     onFetchUsers();
   }
 
-  handleChangeTask = type => {
+  componentWillUnmount() {
+    const { onChangeTaskCancel } = this.props;
+    onChangeTaskCancel();
+  }
+
+  handleChangeTask = textField => {
+    const { task, onChangeTask, changing } = this.props;
+
+    const newTask = { ...task };
+
+    if (changing === 'description') {
+      newTask.description = textField.description;
+    } else if (changing === 'title') {
+      newTask.title = textField.title;
+    }
+
+    onChangeTask(newTask);
+  };
+
+  handleChangeCancel = () => {
+    const { reset, onChangeTaskCancel } = this.props;
+
+    reset();
+    onChangeTaskCancel();
+  };
+
+  handleChangeType = type => {
     const { task, onChangeTask } = this.props;
 
     const newTask = { ...task };
@@ -83,6 +129,11 @@ class TaskDetailed extends Component {
       users,
       userId,
       onRemoveTask,
+      onChangeTaskInit,
+      changing,
+      handleSubmit,
+      dirty,
+      invalid,
     } = this.props;
 
     if (taskLoading) {
@@ -93,25 +144,87 @@ class TaskDetailed extends Component {
       );
     }
 
+    let titleOutput = (
+      <Typography color="primary" variant="headline" className={classes.header}>
+        {task.title}
+        {isAdmin && (
+          <IconButton onClick={() => onChangeTaskInit('title')}>
+            <Edit />
+          </IconButton>
+        )}
+      </Typography>
+    );
+
+    let descriptionOutput = (
+      <Typography
+        variant="headline"
+        className="mb-15"
+        style={{ marginRight: '50px' }}>
+        {task.description}
+        {isAdmin && (
+          <IconButton onClick={() => onChangeTaskInit('description')}>
+            <Edit />
+          </IconButton>
+        )}
+      </Typography>
+    );
+
+    if (changing === 'title') {
+      titleOutput = (
+        <Typography
+          color="primary"
+          variant="headline"
+          className={classes.header}>
+          <form onSubmit={handleSubmit(this.handleChangeTask)}>
+            <Field name="title" component={Input} label="Title" />
+            <IconButton
+              disabled={!dirty || invalid}
+              color="primary"
+              type="submit">
+              <Done />
+            </IconButton>
+            <IconButton onClick={this.handleChangeCancel}>
+              <Cancel />
+            </IconButton>
+          </form>
+        </Typography>
+      );
+    }
+
+    if (changing === 'description') {
+      descriptionOutput = (
+        <form
+          onSubmit={handleSubmit(this.handleChangeTask)}
+          style={{ marginRight: '50px' }}>
+          <Field
+            name="description"
+            component={Input}
+            multiline
+            rows="3"
+            label="Description"
+          />
+          <IconButton
+            disabled={!dirty || invalid}
+            color="primary"
+            type="submit">
+            <Done />
+          </IconButton>
+          <IconButton onClick={this.handleChangeCancel}>
+            <Cancel />
+          </IconButton>
+        </form>
+      );
+    }
+
     return (
       <Grid container justify="center" className={classes.container}>
         <Grid item xs={12}>
-          <Typography
-            color="primary"
-            variant="headline"
-            className={classes.header}>
-            {task.title}
-          </Typography>
+          {titleOutput}
         </Grid>
         <Grid item xs={12}>
           <Card className={classes.card}>
             <CardContent>
-              <Typography
-                variant="headline"
-                className="mb-15"
-                style={{ marginRight: '50px' }}>
-                {task.description}
-              </Typography>
+              {descriptionOutput}
               <SelectItem
                 isAdmin={isAdmin}
                 task={task}
@@ -137,7 +250,7 @@ class TaskDetailed extends Component {
                       isAdmin,
                       type,
                     )}
-                    onClick={() => this.handleChangeTask(type)}
+                    onClick={() => this.handleChangeType(type)}
                     variant={type === task.status ? 'contained' : 'text'}
                     key={type}>
                     {type}
@@ -161,10 +274,17 @@ const mapStateToProps = state => ({
   task: state.tasks.currentTask,
   taskLoading: state.tasks.loading,
   users: state.users.users,
+  changing: state.tasks.changing,
+  initialValues: {
+    title: state.tasks.currentTask.title,
+    description: state.tasks.currentTask.description,
+  },
 });
 
 const mapDispatchToProps = dispatch => ({
   onFetchTask: id => dispatch(actions.fetchTask(id)),
+  onChangeTaskInit: changing => dispatch(actions.changeTaskInit(changing)),
+  onChangeTaskCancel: () => dispatch(actions.changeTaskCancel()),
   onChangeTask: task => dispatch(actions.changeTask(task)),
   onFetchUsers: () => dispatch(actions.fetchUsers()),
   onRemoveTask: taskId => dispatch(actions.removeTask(taskId)),
@@ -173,4 +293,10 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withStyles(style)(TaskDetailed));
+)(
+  reduxForm({
+    form: 'taskEdit',
+    enableReinitialize: true,
+    validate: validateTask,
+  })(withStyles(style)(TaskDetailed)),
+);

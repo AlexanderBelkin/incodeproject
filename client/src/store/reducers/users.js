@@ -12,6 +12,7 @@ const initialState = {
 const fetchUsersStart = state => ({
   ...state,
   loading: true,
+  error: null,
 });
 
 const fetchUsersFail = (state, action) => ({
@@ -30,6 +31,7 @@ const fetchUsersSuccess = (state, action) => ({
 const fetchUserStart = state => ({
   ...state,
   loading: true,
+  error: null,
 });
 
 const fetchUserFail = (state, action) => ({
@@ -63,13 +65,14 @@ const editUserFail = (state, action) => ({
 const editUserStart = state => ({
   ...state,
   loading: true,
+  error: null,
 });
 
 const editUserSuccess = (state, action) => ({
   ...state,
   isEditing: false,
   user: action.user,
-  error: false,
+  error: null,
   loading: false,
 });
 

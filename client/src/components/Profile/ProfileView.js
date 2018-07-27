@@ -75,7 +75,7 @@ const ProfileView = ({ classes, onEditUserInit, user, userError }) => {
               </ListItemIcon>
               {user.birthDate ? (
                 <ListItemText
-                  primary={moment(user.birthDate).format('DD.MM.YYYY')}
+                  primary={moment(user.birthDate).format('MM.DD.YYYY')}
                   secondary="Date of birth"
                 />
               ) : (

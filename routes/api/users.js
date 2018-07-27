@@ -22,7 +22,7 @@ router.get('/test', (req, res) => {
 });
 
 // @route POST api/users/register
-// @desc Register user
+// @desc Register user / Returning JWT token
 // @access public
 router.post('/register', (req, res) => {
   // validation
@@ -203,15 +203,19 @@ router.put(
 
     if (req.body.name) profileFields.name = req.body.name;
     if (req.body.email) profileFields.email = req.body.email;
-    if (req.body.birthDate) profileFields.birthDate = req.body.birthDate;
+    if (req.body.birthDate) {
+      profileFields.birthDate = new Date(req.body.birthDate);
+    }
     // skills - split into array
     if (typeof req.body.skills !== 'undefined') {
       profileFields.skills = req.body.skills.split(', ');
     }
 
-    User.findByIdAndUpdate(req.user.id, { $set: profileFields }, { new: true })
+    User.findByIdAndUpdate(req.user._id, { $set: profileFields }, { new: true })
       .then(user => res.json(user))
-      .catch(() => res.status(404).json({ text: 'User not found' }));
+      .catch(() => {
+        res.status(404).json({ text: 'User not found' });
+      });
   },
 );
 
