@@ -5,17 +5,29 @@ const initialState = {
   loading: false,
   currentTask: {},
   error: null,
+  changing: null,
   created: false,
 };
 
 const fetchTasksStart = state => ({
   ...state,
   loading: true,
+  error: null,
 });
 
 const fetchTasksFail = state => ({
   ...state,
   loading: false,
+});
+
+const changeTaskInit = (state, action) => ({
+  ...state,
+  changing: action.changing,
+});
+
+const changeTaskCancel = state => ({
+  ...state,
+  changing: null,
 });
 
 const fetchTasksSuccess = (state, action) => ({
@@ -26,6 +38,7 @@ const fetchTasksSuccess = (state, action) => ({
 
 const changeTaskStart = state => ({
   ...state,
+  error: null,
 });
 
 const changeTaskFail = (state, action) => ({
@@ -43,12 +56,14 @@ const changeTaskSuccess = (state, action) => {
     ...state,
     tasks: newTasks,
     currentTask: action.task,
+    changing: null,
   };
 };
 
 const fetchTaskStart = state => ({
   ...state,
   loading: true,
+  error: null,
 });
 
 const fetchTaskFail = state => ({
@@ -66,6 +81,7 @@ const createTaskStart = state => ({
   ...state,
   loading: true,
   created: false,
+  error: null,
 });
 
 const createTaskFail = (state, action) => ({
@@ -83,6 +99,7 @@ const createTaskSuccess = (state, action) => ({
 
 const addTaskCommentStart = state => ({
   ...state,
+  error: null,
 });
 
 const addTaskCommentFail = (state, action) => ({
@@ -97,6 +114,7 @@ const addTaskCommentSuccess = (state, action) => ({
 
 const removeTaskStart = state => ({
   ...state,
+  error: null,
 });
 
 const removeTaskFail = (state, action) => ({
@@ -124,6 +142,12 @@ const reducer = (state = initialState, action) => {
     }
     case actionTypes.FETCH_TASKS_FAIL: {
       return fetchTasksFail(state, action);
+    }
+    case actionTypes.CHANGE_TASK_INIT: {
+      return changeTaskInit(state, action);
+    }
+    case actionTypes.CHANGE_TASK_CANCEL: {
+      return changeTaskCancel(state, action);
     }
     case actionTypes.CHANGE_TASK_START: {
       return changeTaskStart(state, action);

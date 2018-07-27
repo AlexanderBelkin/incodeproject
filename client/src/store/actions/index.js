@@ -1,6 +1,8 @@
 export {
   fetchTasks,
   fetchTask,
+  changeTaskInit,
+  changeTaskCancel,
   changeTask,
   addTaskComment,
   createTask,

@@ -50,10 +50,21 @@ const validateProfile = ({ name, email, birthDate }) => {
     errors.email = 'Please, write your email properly.';
   }
 
+  const date = birthDate.split('.');
+
   if (!birthDate) {
     errors.birthDate = 'Please, provide your date of birth';
   } else if (!datePattern.test(birthDate)) {
-    errors.birthDate = 'Please, write your date of birth properly';
+    errors.birthDate = 'Please, write your date of birth in format mm.dd.yyyy';
+  } else if (
+    Number(date[0]) > 12 ||
+    Number(date[0]) < 1 ||
+    Number(date[1]) > 31 ||
+    Number(date[1]) < 1 ||
+    Number(date[2]) > 2001 ||
+    Number(date[2]) < 1900
+  ) {
+    errors.birthDate = 'Please, write your date of birth in format mm.dd.yyyy';
   }
 
   return errors;
@@ -66,7 +77,14 @@ class ProfileEdit extends Component {
   }
 
   render() {
-    const { classes, onEditCancel, onEditUser, handleSubmit } = this.props;
+    const {
+      classes,
+      onEditCancel,
+      onEditUser,
+      handleSubmit,
+      dirty,
+      invalid,
+    } = this.props;
     return (
       <Card className={classes.card}>
         <form onSubmit={handleSubmit(onEditUser)}>
@@ -77,7 +95,11 @@ class ProfileEdit extends Component {
               onClick={onEditCancel}>
               <Cancel />
             </IconButton>
-            <IconButton type="submit" aria-label="Edit" color="primary">
+            <IconButton
+              disabled={!dirty || invalid}
+              type="submit"
+              aria-label="Edit"
+              color="primary">
               <Done />
             </IconButton>
           </div>
@@ -128,7 +150,7 @@ const mapStateToProps = (state, ownProps) => ({
     name: ownProps.user.name,
     email: ownProps.user.email,
     birthDate: ownProps.user.birthDate
-      ? moment(ownProps.user.birthDate).format('DD.MM.YYYY')
+      ? moment(ownProps.user.birthDate).format('MM.DD.YYYY')
       : '',
     skills: ownProps.user.skills ? ownProps.user.skills.join(', ') : '',
   },

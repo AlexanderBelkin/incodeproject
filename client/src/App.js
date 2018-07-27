@@ -38,11 +38,13 @@ class App extends Component {
         <Switch>
           <Route path="/auth" component={Auth} />
           <PrivateRoute
+            exact
             path="/profile"
             component={UserProfile}
             isAuthenticated={isAuthenticated}
           />
           <PrivateRoute
+            exact
             path="/task/:id"
             component={TaskDetailed}
             isAuthenticated={isAuthenticated}
@@ -54,6 +56,7 @@ class App extends Component {
             isAuthenticated={isAuthenticated}
           />
           <PrivateRoute
+            exact
             path="/tasks/:id"
             component={Tasks}
             isAuthenticated={isAuthenticated}

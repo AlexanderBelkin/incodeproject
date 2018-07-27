@@ -59,6 +59,15 @@ export const fetchTask = id => dispatch => {
     });
 };
 
+export const changeTaskInit = changing => ({
+  type: actionTypes.CHANGE_TASK_INIT,
+  changing,
+});
+
+export const changeTaskCancel = () => ({
+  type: actionTypes.CHANGE_TASK_CANCEL,
+});
+
 export const changeTaskStart = () => ({
   type: actionTypes.CHANGE_TASK_START,
 });
