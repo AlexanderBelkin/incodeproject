@@ -15,6 +15,7 @@ import {
 import { Message, Send } from '@material-ui/icons';
 
 import Input from '../../components/form/Input';
+import normalizeField from '../../utils/normalizeField';
 import * as actions from '../../store/actions/index';
 
 const style = {
@@ -72,6 +73,7 @@ class Comments extends Component {
             component={Input}
             label="Enter Comment Text"
             Icon={Message}
+            normalize={normalizeField}
           />
           <IconButton
             disabled={pristine}

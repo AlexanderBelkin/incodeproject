@@ -17,6 +17,7 @@ import * as actions from '../../store/actions/index';
 import Comments from '../Comments/Comments';
 import SelectItem from '../../components/form/SelectItem';
 import Input from '../../components/form/Input';
+import normalizeField from '../../utils/normalizeField';
 
 const style = {
   container: {
@@ -176,7 +177,12 @@ class TaskDetailed extends Component {
           variant="headline"
           className={classes.header}>
           <form onSubmit={handleSubmit(this.handleChangeTask)}>
-            <Field name="title" component={Input} label="Title" />
+            <Field
+              name="title"
+              component={Input}
+              label="Title"
+              normalize={normalizeField}
+            />
             <IconButton
               disabled={!dirty || invalid}
               color="primary"
@@ -202,6 +208,7 @@ class TaskDetailed extends Component {
             multiline
             rows="3"
             label="Description"
+            normalize={normalizeField}
           />
           <IconButton
             disabled={!dirty || invalid}

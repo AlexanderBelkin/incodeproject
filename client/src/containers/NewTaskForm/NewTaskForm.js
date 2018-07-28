@@ -14,6 +14,7 @@ import {
 import Input from '../../components/form/Input';
 import SelectField from '../../components/form/SelectField';
 import * as actions from '../../store/actions/index';
+import normalizeField from '../../utils/normalizeField';
 
 const style = {
   card: {
@@ -66,7 +67,12 @@ class TaskCreateForm extends Component {
             <Typography variant="headline">Create new task</Typography>
             <List>
               <ListItem>
-                <Field name="title" component={Input} label="Title" />
+                <Field
+                  name="title"
+                  component={Input}
+                  label="Title"
+                  normalize={normalizeField}
+                />
               </ListItem>
               <ListItem>
                 <Field
@@ -75,6 +81,7 @@ class TaskCreateForm extends Component {
                   name="description"
                   component={Input}
                   label="Description"
+                  normalize={normalizeField}
                 />
               </ListItem>
               <ListItem>

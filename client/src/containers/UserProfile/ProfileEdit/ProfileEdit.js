@@ -20,6 +20,8 @@ import {
 import moment from 'moment';
 
 import Input from '../../../components/form/Input';
+import normalizeField from '../../../utils/normalizeField';
+import normalizeDate from '../../../utils/normalizeDate';
 
 const style = {
   card: {
@@ -115,6 +117,7 @@ class ProfileEdit extends Component {
                   component={Input}
                   label="Name"
                   Icon={Person}
+                  normalize={normalizeField}
                 />
               </ListItem>
               <ListItem>
@@ -123,6 +126,7 @@ class ProfileEdit extends Component {
                   component={Input}
                   label="Email"
                   Icon={Mail}
+                  normalize={normalizeField}
                 />
               </ListItem>
               <ListItem>
@@ -131,6 +135,7 @@ class ProfileEdit extends Component {
                   component={Input}
                   label="Date of birth"
                   Icon={DateRange}
+                  normalize={normalizeDate}
                 />
               </ListItem>
               <ListItem>
@@ -139,6 +144,7 @@ class ProfileEdit extends Component {
                   component={Input}
                   label="Enter your skills"
                   Icon={School}
+                  normalize={normalizeField}
                 />
               </ListItem>
             </List>
