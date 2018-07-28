@@ -1,20 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import {
-  Tabs,
-  Tab,
-  Grid,
-  withStyles,
-  Dialog,
-  DialogTitle,
-  IconButton,
-  withMobileDialog,
-} from '@material-ui/core';
-import { List, Person, Close } from '@material-ui/icons';
+import { Tabs, Tab, Grid, withStyles } from '@material-ui/core';
+import { List, Person } from '@material-ui/icons';
 
 import Tasks from '../Tasks/Tasks';
 import Users from '../Users/Users';
-import Chat from '../Chat/Chat';
 import * as actions from '../../store/actions/index';
 
 const style = {
@@ -34,14 +24,7 @@ class DashBoard extends Component {
   };
 
   render() {
-    const {
-      classes,
-      isChatOpened,
-      onCloseChat,
-      fullScreen,
-      chatUser,
-      value,
-    } = this.props;
+    const { classes, value } = this.props;
     return (
       <Fragment>
         <Grid container justify="center" className={classes.container}>
@@ -61,38 +44,20 @@ class DashBoard extends Component {
             {value === 'users' && <Users />}
           </Grid>
         </Grid>
-        <Dialog
-          open={isChatOpened}
-          onClose={onCloseChat}
-          fullScreen={fullScreen}>
-          <DialogTitle>Chat with {chatUser.name}</DialogTitle>
-          {fullScreen ? (
-            <IconButton
-              onClick={onCloseChat}
-              component="span"
-              style={{ position: 'absolute', top: '5px', right: '5px' }}>
-              <Close />
-            </IconButton>
-          ) : null}
-          <Chat />
-        </Dialog>
       </Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isChatOpened: state.chat.isOpened,
-  chatUser: state.chat.user,
   value: state.dashboard.value,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onCloseChat: () => dispatch(actions.closeChat()),
   onChangeDashBoardTab: value => dispatch(actions.changeDashBoardTab(value)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withMobileDialog()(withStyles(style)(DashBoard)));
+)(withStyles(style)(DashBoard));

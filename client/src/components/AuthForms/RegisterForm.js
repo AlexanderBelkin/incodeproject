@@ -4,10 +4,11 @@ import { CardContent, ListItem, List, Button } from '@material-ui/core';
 
 import Input from '../form/Input';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import normalizeField from '../../utils/normalizeField';
 
 const validateRegister = ({ login, email, password, confirmPassword }) => {
   const errors = {};
-  const emailPattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+  const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   if (!login) {
     errors.login = 'Login is required';
@@ -24,7 +25,9 @@ const validateRegister = ({ login, email, password, confirmPassword }) => {
   if (!password) {
     errors.password = 'Password is required';
   } else if (password.length < 6) {
-    errors.password = 'Password must contain at least 6 charackters';
+    errors.password = 'Password must contain at least 6 characters';
+  } else if (password.indexOf(' ') > 0) {
+    errors.password = "Password mustn't contain spaces";
   }
 
   if (!confirmPassword) {
@@ -48,10 +51,20 @@ const RegisterForm = ({
       {authError && <ErrorMessage error={authError.text} />}
       <List>
         <ListItem>
-          <Field name="login" component={Input} label="Login" />
+          <Field
+            name="login"
+            component={Input}
+            label="Login"
+            normalize={normalizeField}
+          />
         </ListItem>
         <ListItem>
-          <Field name="email" component={Input} label="Email" />
+          <Field
+            name="email"
+            component={Input}
+            label="Email"
+            normalize={normalizeField}
+          />
         </ListItem>
         <ListItem>
           <Field
@@ -59,6 +72,7 @@ const RegisterForm = ({
             type="password"
             component={Input}
             label="Password"
+            normalize={normalizeField}
           />
         </ListItem>
         <ListItem>
@@ -67,6 +81,7 @@ const RegisterForm = ({
             type="password"
             component={Input}
             label="Confirm password"
+            normalize={normalizeField}
           />
         </ListItem>
       </List>

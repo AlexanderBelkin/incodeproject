@@ -9,7 +9,7 @@ import TaskDetailed from './containers/TaskDetailed/TaskDetailed';
 import * as actions from './store/actions/index';
 import DashBoard from './containers/DashBoard/DashBoard';
 import Auth from './containers/Auth/Auth';
-import TaskCreateForm from './containers/TaskCreateForm/TaskCreateForm';
+import NewTaskForm from './containers/NewTaskForm/NewTaskForm';
 import PrivateRoute from './utils/PrivateRoute';
 
 class App extends Component {
@@ -64,7 +64,7 @@ class App extends Component {
           {isAdmin && (
             <PrivateRoute
               path="/new-task"
-              component={TaskCreateForm}
+              component={NewTaskForm}
               isAuthenticated={isAuthenticated}
             />
           )}

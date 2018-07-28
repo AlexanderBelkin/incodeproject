@@ -4,6 +4,7 @@ import { CardContent, ListItem, List, Button } from '@material-ui/core';
 
 import Input from '../form/Input';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import normalizeField from '../../utils/normalizeField';
 
 const validateLogin = ({ login, password }) => {
   const errors = {};
@@ -31,7 +32,12 @@ const LoginForm = ({
       {authError && <ErrorMessage error={authError.text} />}
       <List>
         <ListItem>
-          <Field name="login" component={Input} label="Login" />
+          <Field
+            name="login"
+            component={Input}
+            label="Login"
+            normalize={normalizeField}
+          />
         </ListItem>
         <ListItem>
           <Field
@@ -39,6 +45,7 @@ const LoginForm = ({
             type="password"
             component={Input}
             label="Password"
+            normalize={normalizeField}
           />
         </ListItem>
       </List>

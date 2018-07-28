@@ -20,6 +20,8 @@ import {
 import moment from 'moment';
 
 import Input from '../../../components/form/Input';
+import normalizeField from '../../../utils/normalizeField';
+import normalizeDate from '../../../utils/normalizeDate';
 
 const style = {
   card: {
@@ -35,9 +37,9 @@ const style = {
   },
 };
 
-const validateProfile = ({ name, email, birthDate }) => {
+const validateProfile = ({ name, email, birthDate, skills }) => {
   const errors = {};
-  const emailPattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+  const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const datePattern = /^(\d{2})\.(\d{2})\.(\d{4})$/;
 
   if (!name) {
@@ -65,6 +67,10 @@ const validateProfile = ({ name, email, birthDate }) => {
     Number(date[2]) < 1900
   ) {
     errors.birthDate = 'Please, write your date of birth in format mm.dd.yyyy';
+  }
+
+  if (!skills) {
+    errors.skills = 'Skills is required';
   }
 
   return errors;
@@ -111,6 +117,7 @@ class ProfileEdit extends Component {
                   component={Input}
                   label="Name"
                   Icon={Person}
+                  normalize={normalizeField}
                 />
               </ListItem>
               <ListItem>
@@ -119,6 +126,7 @@ class ProfileEdit extends Component {
                   component={Input}
                   label="Email"
                   Icon={Mail}
+                  normalize={normalizeField}
                 />
               </ListItem>
               <ListItem>
@@ -127,6 +135,7 @@ class ProfileEdit extends Component {
                   component={Input}
                   label="Date of birth"
                   Icon={DateRange}
+                  normalize={normalizeDate}
                 />
               </ListItem>
               <ListItem>
@@ -135,6 +144,7 @@ class ProfileEdit extends Component {
                   component={Input}
                   label="Enter your skills"
                   Icon={School}
+                  normalize={normalizeField}
                 />
               </ListItem>
             </List>
