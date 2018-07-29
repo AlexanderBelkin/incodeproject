@@ -19,9 +19,9 @@ import {
 } from '@material-ui/icons';
 import moment from 'moment';
 
-import Input from '../../../components/form/Input';
-import normalizeField from '../../../utils/normalizeField';
-import normalizeDate from '../../../utils/normalizeDate';
+import Input from '../form/Input';
+import normalizeField from '../../utils/normalizeField';
+import normalizeDate from '../../utils/normalizeDate';
 
 const style = {
   card: {

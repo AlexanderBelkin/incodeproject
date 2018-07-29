@@ -28,8 +28,6 @@ const style = {
   },
 };
 
-const reformat = skills => (skills ? skills.join(', ') : '');
-
 const ProfileView = ({ classes, onEditUserInit, user, userError }) => {
   let output;
 
@@ -88,7 +86,7 @@ const ProfileView = ({ classes, onEditUserInit, user, userError }) => {
               </ListItemIcon>
               {user.skills && user.skills.length > 0 ? (
                 <ListItemText
-                  primary={reformat(user.skills)}
+                  primary={user.skills.join(', ')}
                   secondary="List of skills"
                 />
               ) : (

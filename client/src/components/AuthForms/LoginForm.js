@@ -11,6 +11,8 @@ const validateLogin = ({ login, password }) => {
 
   if (!login) {
     errors.login = 'Login is required';
+  } else if (login.indexOf(' ') > 0) {
+    errors.login = "Login mustn't contain spaces";
   }
 
   if (!password) {

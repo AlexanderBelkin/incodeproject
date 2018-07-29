@@ -36,7 +36,7 @@ class App extends Component {
           isAdmin={isAdmin}
         />
         <Switch>
-          <Route path="/auth" component={Auth} />
+          <Route exact path="/auth" component={Auth} />
           <PrivateRoute
             exact
             path="/profile"

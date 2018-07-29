@@ -22,10 +22,16 @@ const style = {
 };
 
 class Auth extends Component {
-  handleSubmit = authData => {
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(authData) {
     const { onAuth } = this.props;
     onAuth(authData, !authData.email);
-  };
+  }
 
   render() {
     const {

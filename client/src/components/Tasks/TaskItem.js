@@ -87,7 +87,9 @@ const TaskItem = ({
           <Button
             className="button"
             disabled={isDisabled(userId, task.performerId, isAdmin, type)}
-            onClick={() => onChangeTask(task, type)}
+            onClick={
+              type !== task.status ? () => onChangeTask(task, type) : null
+            }
             variant={type === task.status ? 'contained' : 'text'}
             key={type}>
             {type}

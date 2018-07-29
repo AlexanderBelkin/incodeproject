@@ -6,7 +6,14 @@ import * as actions from '../../store/actions/index';
 import TasksView from '../../components/Tasks/TasksView';
 
 class Tasks extends Component {
-  componentDidMount = () => {
+  constructor(props) {
+    super(props);
+
+    this.handleChangeTask = this.handleChangeTask.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+  }
+
+  componentDidMount() {
     const { onFetchTasks, onFetchUsers, match } = this.props;
     if (match && match.params.id) {
       onFetchTasks(match.params.id);
@@ -14,24 +21,26 @@ class Tasks extends Component {
       onFetchTasks();
     }
     onFetchUsers();
-  };
+  }
 
-  handleChangeTask = (task, type) => {
+  handleChangeTask(task, type) {
     const { onChangeTask } = this.props;
 
     const newTask = { ...task };
     newTask.status = type;
 
     onChangeTask(newTask);
-  };
+  }
 
-  handleSelectChange = (e, task) => {
+  handleSelectChange(e, task) {
     const { onChangeTask } = this.props;
 
-    const newTask = { ...task };
-    newTask.performerId = e.target.value;
-    onChangeTask(newTask);
-  };
+    if (e.target.value !== task.performerId) {
+      const newTask = { ...task };
+      newTask.performerId = e.target.value;
+      onChangeTask(newTask);
+    }
+  }
 
   render() {
     const {

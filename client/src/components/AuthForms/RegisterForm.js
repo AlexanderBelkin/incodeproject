@@ -14,6 +14,8 @@ const validateRegister = ({ login, email, password, confirmPassword }) => {
     errors.login = 'Login is required';
   } else if (login.length < 4) {
     errors.login = 'Login must contain at least 4 characters';
+  } else if (login.indexOf(' ') > 0) {
+    errors.login = "Login mustn't contain spaces";
   }
 
   if (!email) {
