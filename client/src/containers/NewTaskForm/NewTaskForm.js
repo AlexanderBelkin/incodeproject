@@ -46,16 +46,22 @@ const validateTask = ({ title, description }) => {
 };
 
 class TaskCreateForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleCancelClick = this.handleCancelClick.bind(this);
+  }
+
   componentDidMount() {
     const { onFetchUsers } = this.props;
     onFetchUsers();
   }
 
-  handleCancelClick = () => {
+  handleCancelClick() {
     const { history } = this.props;
 
     history.goBack();
-  };
+  }
 
   render() {
     const { classes, users, handleSubmit, onCreateTask, invalid } = this.props;

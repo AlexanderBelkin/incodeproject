@@ -6,10 +6,10 @@ import * as actions from '../../store/actions/index';
 import UsersView from '../../components/Users/UsersView';
 
 class Users extends Component {
-  componentDidMount = () => {
+  componentDidMount() {
     const { onFetchUsers } = this.props;
     onFetchUsers();
-  };
+  }
 
   render() {
     const { users, usersLoading } = this.props;

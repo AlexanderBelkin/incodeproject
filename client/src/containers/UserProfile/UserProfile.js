@@ -6,19 +6,25 @@ import { CircularProgress } from '@material-ui/core';
 
 import * as actions from '../../store/actions/index';
 import ProfileView from '../../components/Profile/ProfileView';
-import ProfileEdit from './ProfileEdit/ProfileEdit';
+import ProfileEdit from '../../components/Profile/ProfileEdit';
 
 class UserProfile extends Component {
-  componentDidMount = () => {
+  constructor(props) {
+    super(props);
+
+    this.handleEditUser = this.handleEditUser.bind(this);
+  }
+
+  componentDidMount() {
     const { onFetchUser } = this.props;
     onFetchUser();
-  };
+  }
 
-  handleEditUser = editedUser => {
+  handleEditUser(editedUser) {
     const { onEditUser } = this.props;
 
     onEditUser(editedUser);
-  };
+  }
 
   render() {
     const {

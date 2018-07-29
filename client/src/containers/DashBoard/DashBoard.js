@@ -18,10 +18,16 @@ const style = {
 };
 
 class DashBoard extends Component {
-  handleChange = (event, value) => {
+  constructor(props) {
+    super(props);
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event, value) {
     const { onChangeDashBoardTab } = this.props;
     onChangeDashBoardTab(value);
-  };
+  }
 
   render() {
     const { classes, value } = this.props;
